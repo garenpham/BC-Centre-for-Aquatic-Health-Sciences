@@ -1,5 +1,6 @@
 from app import app
-from flask import Flask, request, abort, flash, render_template, url_for, redirect, send_file, send_from_directory, safe_join
+from flask import Flask, request, abort, flash, render_template, url_for, redirect, send_file, send_from_directory, \
+    safe_join
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -7,7 +8,7 @@ from flask_wtf import FlaskForm
 # from is_safe_url import is_safe_url
 from .database_push import *
 from .database_pull import *
-#from .database_controller import *
+# from .database_controller import *
 import shutil
 import os
 import pandas as pd
@@ -30,7 +31,7 @@ login_manager.login_view = "login"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = 'secretkey' #os.environ['SECRET_KEY']
+app.config['SECRET_KEY'] = 'secretkey'  # os.environ['SECRET_KEY']
 app.config["FILE_UPLOADS"] = cwd + "/app/static/file_uploads"
 app.config["ALLOWED_FILE_EXTENSION"] = ["CSV", "HTML", "TXT"]
 app.config["MAX_FILESIZE"] = 100 * 1024 * 1024
@@ -41,12 +42,14 @@ def is_admin(func):
     """
     Decorator to check for admin role.
     """
+
     @wraps(func)
     def admin_decorator(*args, **kwargs):
         if current_user:
             if not current_user.role == 'admin':
                 abort(403)
             return func(*args, **kwargs)
+
     return admin_decorator
 
 
@@ -66,11 +69,11 @@ class User(db.Model, UserMixin):
 
 
 class RegisterForm(FlaskForm):
-    username = StringField(validators=[InputRequired(), Length (
-        min=4, max=20)], render_kw={"placeholder":"Username"})
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Username"})
 
-    password= PasswordField(validators=[InputRequired(), Length (
-        min=4, max=20)], render_kw={"placeholder":"Password"})
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField("Register")
 
@@ -85,11 +88,11 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField(validators=[InputRequired(), Length (
-        min=4, max=20)], render_kw={"placeholder":"Username"})
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Username"})
 
-    password= PasswordField(validators=[InputRequired(), Length (
-        min=4, max=20)], render_kw={"placeholder":"Password"})
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField("Login")
 
@@ -98,16 +101,19 @@ class LoginForm(FlaskForm):
 def home():
     return render_template("public/home.html")
 
+
 @app.route("/about", methods=["GET"])
 def about():
     return render_template("public/about.html")
+
+
 # @app.route("/index", methods=["GET"])
 # @login_required
 # def index():
 #     return render_template("public/index.html", current=current_user.username)
 
 
-@app.route("/login", methods=["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -127,7 +133,7 @@ def login():
     return render_template("public/login.html", form=form)
 
 
-@app.route("/logout", methods=["GET","POST"])
+@app.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():
     logout_user()
@@ -135,11 +141,11 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/register", methods=["GET","POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
     pin = 'CAHS2022'
-    
+
     if form.validate_on_submit():
         text = request.form['text']
         if text.upper() == pin.upper():
@@ -203,18 +209,18 @@ def zip_this(directory):
     """
     compress a directory for future downloads
     """
-    file = "zipped_filename.zip" # filename for compressed output
+    file = "zipped_filename.zip"  # filename for compressed output
 
     with ZipFile(file, 'w') as zip:
-       for path, directories, files in os.walk(directory):
-           for file in files:
-               file_name = os.path.join(path, file)
+        for path, directories, files in os.walk(directory):
+            for file in files:
+                file_name = os.path.join(path, file)
 
-               zip.write(file_name) # zip the file
+                zip.write(file_name)  # zip the file
     # dont really need this, just to see what we compressed
     print("Contents of the zip file:")
     with ZipFile(file, 'r') as zip:
-       zip.printdir()
+        zip.printdir()
 
 
 @app.route("/upload-file", methods=["GET", "POST"])
@@ -241,7 +247,7 @@ def upload_file():
                 if allow_file(file.filename):
                     sample_id = request.form['Sample ID']
                     secured_file = secure_filename(file.filename)
-                    if sample_id != None or sample_id != "":
+                    if sample_id is not None or sample_id != "":
                         if os.path.isdir(os.path.join(app.config["FILE_UPLOADS"], sample_id)):
                             file.save(os.path.join(app.config["FILE_UPLOADS"], sample_id, secured_file))
                             flash("File saved.")
@@ -272,7 +278,7 @@ def upload_file():
                         flash("File saved.")
                     return redirect(request.url)
 
-        ############Attempted download function partiall broken#####################
+        # ########### Attempted download function partiall broken #####################
         # if request.form.get('submit_button') == "download_file":
         #     print("download_button pushed")
         #     Primary_key = request.form.get('sample_id')
@@ -280,16 +286,18 @@ def upload_file():
         #         print("dir exists attempting zip")
         #         zip_this(os.path.join(app.config["FILE_UPLOADS"], Primary_key))
         #         try:
-        #             return send_from_directory(directory=app.config["FILE_UPLOADS"], path=f"{Primary_key}.zip", as_attachment=True)
+        #             return send_from_directory(directory=app.config["FILE_UPLOADS"], path=f"{Primary_key}.zip",
+        #             as_attachment=True)
         #         except FileNotFoundError:
         #             abort(404)
         #     return redirect(request.url)
 
-    list_files = [] #File listing implementation that really needs work.
+    list_files = []  # File listing implementation that really needs work.
     for folder in os.listdir(app.config["FILE_UPLOADS"]):
         files_contained = os.listdir(os.path.join(app.config["FILE_UPLOADS"], folder))
         list_files.append([folder, files_contained])
-    return render_template("public/upload_file.html",headers=["Sample ID's", "Files"], data=list_files, user_role = role)
+    return render_template("public/upload_file.html", headers=["Sample ID's", "Files"], data=list_files, user_role=role)
+
 
 # class ListStarted():
 #     def __init__(self):
@@ -318,7 +326,9 @@ def update_metadata():
             date_filtered = request.form.get('Date Filtered') or None
             volume_filtered = request.form.get('Volume Filtered (mL)') or None
             time_to_filter = request.form.get('Time to Filter (h:mm:ss)') or None
-            return_message, alert_type = update_sample_info(sample_id, CAHS_Submission_Number, sample_Type, sample_Location, fish_weight, fish_Length, material_swab, date_filtered, volume_filtered, time_to_filter)
+            return_message, alert_type = update_sample_info(sample_id, CAHS_Submission_Number, sample_Type,
+                                                            sample_Location, fish_weight, fish_Length, material_swab,
+                                                            date_filtered, volume_filtered, time_to_filter)
             flash(return_message, alert_type)
             return redirect(request.url)
 
@@ -334,19 +344,24 @@ def update_metadata():
             vol_water = request.form.get('Vol Water collected (mL)')
             location_id_submission = request.form.get('location_id')
             date_collected = request.form.get('Date Collected')
-            return_message, alert_type = update_submission_data(CAHS_Submission_Number_submission_data, Samplers, water_temp, oxygen_measurement, saturation_percent, num_fish_swabs, num_biofilm_swabs, num_water_samples_collected, vol_water, location_id_submission, date_collected)
+            return_message, alert_type = update_submission_data(CAHS_Submission_Number_submission_data, Samplers,
+                                                                water_temp, oxygen_measurement, saturation_percent,
+                                                                num_fish_swabs, num_biofilm_swabs,
+                                                                num_water_samples_collected, vol_water,
+                                                                location_id_submission, date_collected)
             flash(return_message, alert_type)
             return redirect(request.url)
 
         if request.form.get('submit_button') == "update_location":
             location_id = request.form.get('Location ID')
             location_name = request.form.get('Location Name')
-            #exists = check_location_data_exists(location_id)
+            # exists = check_location_data_exists(location_id)
             return_message, alert_type = update_location_data(location_id, location_name)
             flash(return_message, alert_type)
             return redirect(request.url)
-        
+
     return render_template("public/metadata.html")
+
 
 @app.route("/display_data", methods=["GET", "POST"])
 @login_required
@@ -354,29 +369,32 @@ def show_metadata():
     role = current_user.role
     if request.method == "GET":
         database_data, header_data = show_sample_info()
-        #print(header_data, database_data)
+        # print(header_data, database_data)
         # database_data, header_data = show_location_data()
-        return render_template("public/show_data.html",headers=header_data, data=database_data, user_role = role)
+        return render_template("public/show_data.html", headers=header_data, data=database_data, user_role=role)
     if request.method == "POST":
-        #for the different tabs
+        # for the different tabs
         if request.form.get('submit_button') == "sample_info":
             database_data, header_data = show_sample_info()
-            return render_template("public/show_data.html",headers=header_data, data=database_data, user_role = role)
+            return render_template("public/show_data.html", headers=header_data, data=database_data, user_role=role)
         if request.form.get('submit_button') == "location_data":
             database_data, header_data = show_location_data()
-            return render_template("public/show_data_location.html",headers=header_data, data=database_data, user_role = role)
+            return render_template("public/show_data_location.html", headers=header_data, data=database_data,
+                                   user_role=role)
         if request.form.get('submit_button') == "submission_data":
             database_data, header_data = show_submission_data()
-            return render_template("public/show_data_submission_data.html",headers=header_data, data=database_data, user_role = role)
+            return render_template("public/show_data_submission_data.html", headers=header_data, data=database_data,
+                                   user_role=role)
         if request.form.get('submit_button') == "sample_data":
             database_data, header_data = show_sample_data()
-            return render_template("public/show_data_sample_data.html",headers=header_data, data=database_data, user_role = role)
-        #Below is for the delete button
+            return render_template("public/show_data_sample_data.html", headers=header_data, data=database_data,
+                                   user_role=role)
+        # Below is for the delete button
         if request.form.get('submit_button') == "submit_deleteSample ID" and current_user.role == "admin":
             database_data, header_data = show_sample_info()
             Primary_key = request.form.get('sample_id')
             return_message, alert_type = delete_sample_data_data(Primary_key)
-            #This removes the folder as well on delete as we did not have time to add individual buttons
+            # This removes the folder as well on delete as we did not have time to add individual buttons
             try:
                 file_name_joined = os.path.join(app.config['FILE_UPLOADS'], Primary_key)
                 shutil.rmtree(file_name_joined)
@@ -386,29 +404,31 @@ def show_metadata():
                 print(error)
                 print("File path can not be removed")
             flash(return_message, alert_type)
-            return render_template("public/show_data.html",headers=header_data, data=database_data, user_role = role)
-            #location data
+            return render_template("public/show_data.html", headers=header_data, data=database_data, user_role=role)
+            # location data
         if request.form.get('submit_button') == "submit_delete_location" and current_user.role == "admin":
             database_data, header_data = show_location_data()
             Primary_key = request.form.get('location_id')
             return_message, alert_type = delete_location_data(Primary_key)
             flash(return_message, alert_type)
-            return render_template("public/show_data_location.html",headers=header_data, data=database_data, user_role = role)
-            #submission data
+            return render_template("public/show_data_location.html", headers=header_data, data=database_data,
+                                   user_role=role)
+            # submission data
         if request.form.get('submit_button') == "submit_delete_submission_data" and current_user.role == "admin":
             print('delete triggered')
             database_data, header_data = show_submission_data()
             Primary_key = request.form.get('sample_id')
             return_message, alert_type = delete_submission_data(Primary_key)
             flash(return_message, alert_type)
-            return render_template("public/show_data_submission_data.html",headers=header_data, data=database_data, user_role = role)
-            #sample data
+            return render_template("public/show_data_submission_data.html", headers=header_data, data=database_data,
+                                   user_role=role)
+            # sample data
         if request.form.get('submit_button') == "submit_delete_sample_data" and current_user.role == "admin":
             print('delete triggered')
             database_data, header_data = show_sample_data()
             Primary_key = request.form.get('sample_id')
             return_message, alert_type = delete_sample_data_data(Primary_key)
-            #This removes the folder as well on delete as we did not have time to add individual buttons
+            # This removes the folder as well on delete as we did not have time to add individual buttons
             try:
                 file_name_joined = os.path.join(app.config['FILE_UPLOADS'], Primary_key)
                 shutil.rmtree(file_name_joined)
@@ -418,26 +438,26 @@ def show_metadata():
                 print(error)
                 print("File path can not be removed")
             flash(return_message, alert_type)
-            return render_template("public/show_data_sample_data.html",headers=header_data, data=database_data, user_role = role)
-        #Below is for the edit button ******INCOMPLETE*********
+            return render_template("public/show_data_sample_data.html", headers=header_data, data=database_data,
+                                   user_role=role)
+        # Below is for the edit button ******INCOMPLETE*********
         if request.form.get('submit_button') == "submit_edit_location" and current_user.role == "admin":
             database_data, header_data = show_location_data()
             Primary_key = request.form.get('sample_id')
             # return_message, alert_type = edit_location_data(Primary_key)
-            flash(return_message, alert_type)
-            return render_template("public/show_data.html",headers=header_data, data=database_data, user_role = role)
+            # flash(return_message, alert_type)
+            return render_template("public/show_data.html", headers=header_data, data=database_data, user_role=role)
         if request.form.get('submit_button') == "submit_editSample ID" and current_user.role == "admin":
             database_data, header_data = show_sample_info()
             Primary_key = request.form.get('sample_id')
             # return_message, alert_type = edit_sample_data_data(Primary_key)
-            flash(return_message, alert_type)
-            return render_template("public/show_data.html",headers=header_data, data=database_data, user_role = role)
+            # flash(return_message, alert_type)
+            return render_template("public/show_data.html", headers=header_data, data=database_data, user_role=role)
 
 
 @app.route("/index")
 @login_required
 def downloads():
-
     directory = app.config["CLIENT_DOWNLOADS"]
     downloads = []
     for filename in os.listdir(directory):
@@ -476,4 +496,3 @@ def delete_file(file_name):
         print(error)
         print("File path can not be removed")
         return redirect(url_for('downloads'))
-
