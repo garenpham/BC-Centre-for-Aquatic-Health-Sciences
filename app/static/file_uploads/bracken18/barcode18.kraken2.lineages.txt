@@ -1,0 +1,1230 @@
+- Bacteria 61281 99.99% superkingdom 
+-- Proteobacteria 53389 87.12% phylum 
+--- Betaproteobacteria 29131 47.53% class 
+---- Burkholderiales 28979 47.29% order 
+----- Comamonadaceae 22440 36.62% family 
+------ Polaromonas 12933 21.10% genus 
+------- Polaromonas vacuolata 6820 11.13% species 
+------- Polaromonas naphthalenivorans 2393 3.90% species 
+------- Polaromonas hydrogenivorans 837 1.37% species 
+------- Polaromonas glacialis 178 0.29% species 
+------- Polaromonas eurypsychrophila 63 0.10% species 
+------- Polaromonas cryoconiti 2 0.00% species 
+------- Polaromonas aquatica 2 0.00% species 
+------ Variovorax 4584 7.48% genus 
+------- Variovorax soli 3821 6.23% species 
+------- Variovorax paradoxus 37 0.06% species 
+------- Variovorax robiniae 2 0.00% species 
+------- Variovorax ureilyticus 3 0.00% species 
+------- Variovorax boronicumulans 14 0.02% species 
+------- Variovorax defluvii 11 0.02% species 
+------- Variovorax humicola 4 0.01% species 
+------- Variovorax rhizosphaerae 1 0.00% species 
+------- Variovorax guangxiensis 1 0.00% species 
+------ Comamonas 2427 3.96% genus 
+------- Comamonas badia 2113 3.45% species 
+------- Comamonas terrigena 30 0.05% species 
+------- Comamonas terrae 109 0.18% species 
+------- Comamonas kerstersii 113 0.18% species 
+------- Comamonas aquatica 15 0.02% species 
+------- Comamonas koreensis 2 0.00% species 
+------- Comamonas denitrificans 10 0.02% species 
+------- Comamonas composti 9 0.01% species 
+------- Comamonas testosteroni 2 0.00% species 
+------- Comamonas humi 2 0.00% species 
+------ Acidovorax 484 0.79% genus 
+------- Acidovorax anthurii 398 0.65% species 
+------- Acidovorax facilis 22 0.04% species 
+------- Acidovorax lacteus 1 0.00% species 
+------- Acidovorax konjaci 14 0.02% species 
+------- Acidovorax citrulli 9 0.01% species 
+------- Acidovorax delafieldii 1 0.00% species 
+------- Acidovorax caeni 2 0.00% species 
+------ Simplicispira 71 0.12% genus 
+------- Simplicispira soli 27 0.04% species 
+------- Simplicispira psychrophila 3 0.00% species 
+------- Simplicispira hankyongi 2 0.00% species 
+------ Caenimonas 181 0.30% genus 
+------- Caenimonas koreensis 176 0.29% species 
+------- Caenimonas terrae 5 0.01% species 
+------ Giesbergeria 57 0.09% genus 
+------- Giesbergeria voronezhensis 48 0.08% species 
+------- Giesbergeria anulus 3 0.00% species 
+------- Giesbergeria kuznetsovii 2 0.00% species 
+------ Ottowia 117 0.19% genus 
+------- Ottowia thiooxydans 32 0.05% species 
+------- Ottowia flava 11 0.02% species 
+------ Ramlibacter 43 0.07% genus 
+------- Ramlibacter solisilvae 39 0.06% species 
+------- Ramlibacter tataouinensis 1 0.00% species 
+------ Hydrogenophaga 234 0.38% genus 
+------- Hydrogenophaga intermedia 111 0.18% species 
+------- Hydrogenophaga temperata 1 0.00% species 
+------- Hydrogenophaga flava 20 0.03% species 
+------- Hydrogenophaga caeni 46 0.08% species 
+------- Hydrogenophaga borbori 8 0.01% species 
+------- Hydrogenophaga luteola 16 0.03% species 
+------- Hydrogenophaga carboriunda 6 0.01% species 
+------- Hydrogenophaga crassostreae 3 0.00% species 
+------- Hydrogenophaga palleronii 2 0.00% species 
+------ Extensimonas 18 0.03% genus 
+------- Extensimonas vulgaris 18 0.03% species 
+------ Pelomonas 26 0.04% genus 
+------- Pelomonas saccharophila 26 0.04% species 
+------ Verminephrobacter 54 0.09% genus 
+------- Verminephrobacter eiseniae 14 0.02% species 
+------- Verminephrobacter aporrectodeae 40 0.07% species 
+------ Rhodoferax 67 0.11% genus 
+------- Rhodoferax fermentans 33 0.05% species 
+------- Rhodoferax ferrireducens 30 0.05% species 
+------- Rhodoferax antarcticus 4 0.01% species 
+------ Curvibacter 34 0.06% genus 
+------- Curvibacter fontanus 22 0.04% species 
+------- Curvibacter delicatus 12 0.02% species 
+------ Malikia 14 0.02% genus 
+------- Malikia spinosa 4 0.01% species 
+------ Alicycliphilus 6 0.01% genus 
+------- Alicycliphilus denitrificans 6 0.01% species 
+------ Melaminivora 2 0.00% genus 
+------- Melaminivora jejuensis 2 0.00% species 
+------ Brachymonas 13 0.02% genus 
+------- Brachymonas chironomi 13 0.02% species 
+------ Lampropedia 11 0.02% genus 
+------- Lampropedia cohaerens 5 0.01% species 
+------- Lampropedia hyalina 5 0.01% species 
+------ Macromonas 4 0.01% genus 
+------- Macromonas bipunctata 4 0.01% species 
+------ Limnohabitans 6 0.01% genus 
+------- Limnohabitans parvus 2 0.00% species 
+------- Limnohabitans australis 1 0.00% species 
+------ Pseudorhodoferax 4 0.01% genus 
+------- Pseudorhodoferax soli 4 0.01% species 
+------ Diaphorobacter 4 0.01% genus 
+------- Diaphorobacter aerolatus 4 0.01% species 
+------ Delftia 27 0.04% genus 
+------- Delftia acidovorans 17 0.03% species 
+------- Delftia deserti 7 0.01% species 
+------- Delftia tsuruhatensis 3 0.00% species 
+------ Xenophilus 4 0.01% genus 
+------- Xenophilus azovorans 4 0.01% species 
+------ Caldimonas 5 0.01% genus 
+------- Caldimonas taiwanensis 5 0.01% species 
+------ Zhizhongheella 8 0.01% genus 
+------- Zhizhongheella caldifontis 8 0.01% species 
+------ Schlegelella 2 0.00% genus 
+------- Schlegelella thermodepolymerans 2 0.00% species 
+----- Oxalobacteraceae 5099 8.32% family 
+------ Noviherbaspirillum 1065 1.74% genus 
+------- Noviherbaspirillum suwonense 461 0.75% species 
+------- Noviherbaspirillum canariense 410 0.67% species 
+------- Noviherbaspirillum agri 2 0.00% species 
+------- Noviherbaspirillum humi 27 0.04% species 
+------- Noviherbaspirillum soli 41 0.07% species 
+------- Noviherbaspirillum denitrificans 7 0.01% species 
+------- Noviherbaspirillum psychrotolerans 1 0.00% species 
+------ Massilia 3616 5.90% genus 
+------- Massilia aurea 2595 4.23% species 
+------- Massilia glaciei 40 0.07% species 
+------- Massilia pinisoli 24 0.04% species 
+------- Massilia brevitalea 51 0.08% species 
+------- Massilia buxea 24 0.04% species 
+------- Massilia haematophila 165 0.27% species 
+------- Massilia ginsengisoli 44 0.07% species 
+------- Massilia yuzhufengensis 71 0.12% species 
+------- Massilia alkalitolerans 41 0.07% species 
+------- Massilia putida 2 0.00% species 
+------- Massilia phosphatilytica 59 0.10% species 
+------- Massilia niabensis 21 0.03% species 
+------- Massilia tieshanensis 25 0.04% species 
+------- 'Massilia aquatica' Lu et al. 2020 12 0.02% species 
+------- Massilia eurypsychrophila 15 0.02% species 
+------- Massilia solisilvae 3 0.00% species 
+------- Massilia dura 1 0.00% species 
+------- Massilia niastensis 1 0.00% species 
+------- Massilia violacea 4 0.01% species 
+------- Massilia atriviolacea 1 0.00% species 
+------- Massilia terrae 4 0.01% species 
+------- Massilia eburnea 3 0.00% species 
+------- Massilia agilis 1 0.00% species 
+------- Massilia oculi 1 0.00% species 
+------- Massilia kyonggiensis 1 0.00% species 
+------ Undibacterium 59 0.10% genus 
+------- Undibacterium amnicola 42 0.07% species 
+------- Undibacterium parvum 2 0.00% species 
+------- Undibacterium terreum 3 0.00% species 
+------- Undibacterium squillarum 1 0.00% species 
+------- Undibacterium pigrum 2 0.00% species 
+------ Duganella 81 0.13% genus 
+------- Duganella zoogloeoides 71 0.12% species 
+------- Duganella pernnla 9 0.01% species 
+------- Duganella phyllosphaerae 1 0.00% species 
+------ Herbaspirillum 27 0.04% genus 
+------- Herbaspirillum chlorophenolicum 6 0.01% species 
+------- Herbaspirillum huttiense 14 0.02% species 
+------- Herbaspirillum rhizosphaerae 1 0.00% species 
+------- Herbaspirillum robiniae 4 0.01% species 
+------- Herbaspirillum rubrisubalbicans 2 0.00% species 
+------ Glaciimonas 19 0.03% genus 
+------- Glaciimonas frigoris 16 0.03% species 
+------- Glaciimonas immobilis 1 0.00% species 
+------- Glaciimonas singularis 1 0.00% species 
+------ Telluria 7 0.01% genus 
+------- Telluria chitinolytica 4 0.01% species 
+------- Telluria mixta 2 0.00% species 
+------ Oxalicibacterium 2 0.00% genus 
+------- Oxalicibacterium horti 1 0.00% species 
+------ Rugamonas 5 0.01% genus 
+------- Rugamonas rubra 5 0.01% species 
+------ Oxalobacter 5 0.01% genus 
+------- Oxalobacter formigenes 4 0.01% species 
+------- Oxalobacter vibrioformis 1 0.00% species 
+------ Herminiimonas 2 0.00% genus 
+------ Actimicrobium 17 0.03% genus 
+------- Actimicrobium antarcticum 17 0.03% species 
+------ Janthinobacterium 3 0.00% genus 
+------- Janthinobacterium rivuli 1 0.00% species 
+----- Burkholderiaceae 1061 1.73% family 
+------ Lautropia 623 1.02% genus 
+------ Caballeronia 34 0.06% genus 
+------- Caballeronia grimmiae 23 0.04% species 
+------- Caballeronia jiangsuensis 4 0.01% species 
+------- Caballeronia telluris 3 0.00% species 
+------- Caballeronia novacaledonica 1 0.00% species 
+------- Caballeronia zhejiangensis 2 0.00% species 
+------- Caballeronia udeis 1 0.00% species 
+------ Cupriavidus 86 0.14% genus 
+------- Cupriavidus basilensis 75 0.12% species 
+------- Cupriavidus metallidurans 6 0.01% species 
+------- Cupriavidus yeoncheonensis 3 0.00% species 
+------- Cupriavidus oxalaticus 2 0.00% species 
+------ Pandoraea 79 0.13% genus 
+------- Pandoraea norimbergensis 79 0.13% species 
+------ Hydromonas 145 0.24% genus 
+------- Hydromonas duriensis 145 0.24% species 
+------ Polynucleobacter 47 0.08% genus 
+------- Polynucleobacter acidiphobus 7 0.01% species 
+------ Burkholderia 8 0.01% genus 
+------- Burkholderia cepacia 5 0.01% species 
+------- Burkholderia pyrrocinia 1 0.00% species 
+------- Burkholderia mallei 2 0.00% species 
+------ Paraburkholderia 17 0.03% genus 
+------- Paraburkholderia oxyphila 2 0.00% species 
+------- Paraburkholderia ginsengiterrae 3 0.00% species 
+------- Paraburkholderia kirstenboschensis 8 0.01% species 
+------- Paraburkholderia xenovorans 1 0.00% species 
+------- Paraburkholderia phytofirmans 2 0.00% species 
+------ Mycoavidus 1 0.00% genus 
+------- Mycoavidus cysteinexigens 1 0.00% species 
+------ Ralstonia 1 0.00% genus 
+------- Ralstonia syzygii 1 0.00% species 
+------ Formosimonas 1 0.00% genus 
+------- Formosimonas limnophila 1 0.00% species 
+----- Aquabacterium 41 0.07% genus 
+------ Aquabacterium limnoticum 34 0.06% species 
+------ Aquabacterium olei 6 0.01% species 
+----- Alcaligenaceae 132 0.22% family 
+------ Achromobacter 75 0.12% genus 
+------- Achromobacter marplatensis 75 0.12% species 
+------ Brackiella 2 0.00% genus 
+------- Brackiella oedipodis 2 0.00% species 
+------ Pelistega 2 0.00% genus 
+------- Pelistega indica 2 0.00% species 
+------ Advenella 5 0.01% genus 
+------- Advenella incenata 5 0.01% species 
+------ Alcaligenes 7 0.01% genus 
+------- Alcaligenes faecalis 4 0.01% species 
+------- Alcaligenes pakistanensis 3 0.00% species 
+------ Parvibium 11 0.02% genus 
+------- Parvibium lacunae 11 0.02% species 
+------ Castellaniella 1 0.00% genus 
+------ Azohydromonas 5 0.01% genus 
+------- Azohydromonas lata 5 0.01% species 
+------ Pusillimonas (ex Stolz et al. 2005) 1 0.00% genus 
+------ Derxia 2 0.00% genus 
+------- Derxia lacustris 2 0.00% species 
+------ Oligella 1 0.00% genus 
+------- Oligella ureolytica 1 0.00% species 
+------ Basilea 1 0.00% genus 
+------- Basilea psittacipulmonis 1 0.00% species 
+----- Ideonella 1 0.00% genus 
+------ Ideonella paludis 1 0.00% species 
+----- Sutterellaceae 5 0.01% family 
+------ Turicimonas 1 0.00% genus 
+------- Turicimonas muris 1 0.00% species 
+------ Duodenibacillus 3 0.00% genus 
+------- Duodenibacillus massiliensis 3 0.00% species 
+------ Sutterella 1 0.00% genus 
+----- Rhizobacter 6 0.01% genus 
+------ Rhizobacter dauci 6 0.01% species 
+----- Thiomonas 2 0.00% genus 
+------ Thiomonas thermosulfata 1 0.00% species 
+----- Inhella 1 0.00% genus 
+------ Inhella fonticola 1 0.00% species 
+----- Methylibium 1 0.00% genus 
+------ Methylibium petroleiphilum 1 0.00% species 
+----- Rivibacter 4 0.01% genus 
+------ Rivibacter subsaxonicus 4 0.01% species 
+----- Thiobacter 1 0.00% genus 
+------ Thiobacter subterraneus 1 0.00% species 
+----- Leptothrix 2 0.00% genus 
+------ Leptothrix discophora 2 0.00% species 
+----- Sphaerotilus 1 0.00% genus 
+------ Sphaerotilus hippei 1 0.00% species 
+----- Mitsuaria 1 0.00% genus 
+------ Mitsuaria chitosanitabida 1 0.00% species 
+---- Rhodocyclales 61 0.10% order 
+----- Rhodocyclaceae 35 0.06% family 
+------ Aromatoleum 35 0.06% genus 
+------- Aromatoleum toluvorans 35 0.06% species 
+----- Zoogloeaceae 24 0.04% family 
+------ Zoogloea 24 0.04% genus 
+------- Zoogloea oryzae 23 0.04% species 
+---- Neisseriales 29 0.05% order 
+----- Neisseriaceae 18 0.03% family 
+------ Snodgrassella 12 0.02% genus 
+------- Snodgrassella alvi 12 0.02% species 
+------ Eikenella 1 0.00% genus 
+------- Eikenella corrodens 1 0.00% species 
+------ Vitreoscilla 2 0.00% genus 
+------- Vitreoscilla filiformis 2 0.00% species 
+------ Kingella 1 0.00% genus 
+------- Kingella potus 1 0.00% species 
+------ Crenobacter 1 0.00% genus 
+------- Crenobacter luteus 1 0.00% species 
+------ Neisseria 1 0.00% genus 
+------- Neisseria lactamica 1 0.00% species 
+----- Chromobacteriaceae 8 0.01% family 
+------ Silvimonas 6 0.01% genus 
+------ Paludibacterium 1 0.00% genus 
+------- Paludibacterium purpuratum 1 0.00% species 
+------ Chromobacterium 1 0.00% genus 
+---- Nitrosomonadales 17 0.03% order 
+----- Thiobacillaceae 3 0.00% family 
+------ Thiobacillus 3 0.00% genus 
+------- Thiobacillus thioparus 3 0.00% species 
+----- Sulfuricellaceae 5 0.01% family 
+------ Sulfuriferula 3 0.00% genus 
+------- Sulfuriferula plumbiphila 3 0.00% species 
+------ Sulfuricella 2 0.00% genus 
+------- Sulfuricella denitrificans 2 0.00% species 
+----- Spirillaceae 8 0.01% family 
+------ Spirillum 8 0.01% genus 
+------- Spirillum winogradskyi 5 0.01% species 
+------- Spirillum volutans 3 0.00% species 
+--- Alphaproteobacteria 15601 25.46% class 
+---- Hyphomicrobiales 2616 4.27% order 
+----- Hyphomicrobiaceae 2558 4.17% family 
+------ Hyphomicrobium 2144 3.50% genus 
+------- Hyphomicrobium sulfonivorans 639 1.04% species 
+------- Hyphomicrobium chloromethanicum 576 0.94% species 
+------- Hyphomicrobium hollandicum 9 0.01% species 
+------ Pedomicrobium 403 0.66% genus 
+------- Pedomicrobium manganicum 155 0.25% species 
+------- Pedomicrobium australicum 89 0.15% species 
+------- Pedomicrobium americanum 91 0.15% species 
+------- Pedomicrobium ferrugineum 6 0.01% species 
+------ Rhodoplanes 5 0.01% genus 
+------- Rhodoplanes serenus 5 0.01% species 
+----- Rhizobiaceae 10 0.02% family 
+------ Rhizobium 7 0.01% genus 
+------- Allorhizobium terrae 2 0.00% species 
+------- Rhizobium daejeonense 1 0.00% species 
+------- Rhizobium arsenicireducens 1 0.00% species 
+------- Rhizobium taibaishanense 2 0.00% species 
+------- Rhizobium lemnae 1 0.00% species 
+------ Agrobacterium 2 0.00% genus 
+------- Agrobacterium vitis 2 0.00% species 
+------ Pseudorhizobium 1 0.00% genus 
+------- Pseudorhizobium flavum 1 0.00% species 
+----- Methylobacteriaceae 9 0.01% family 
+------ Methylobacterium 9 0.01% genus 
+------- Methylobacterium marchantiae 4 0.01% species 
+------- Methylobacterium trifolii 1 0.00% species 
+----- Xanthobacteraceae 1 0.00% family 
+------ Azorhizobium 1 0.00% genus 
+------- Azorhizobium doebereinerae 1 0.00% species 
+----- Phyllobacteriaceae 7 0.01% family 
+------ Tianweitania 2 0.00% genus 
+------- Tianweitania sediminis 2 0.00% species 
+------ Mesorhizobium 3 0.00% genus 
+------- Mesorhizobium abyssinicae 1 0.00% species 
+------- Mesorhizobium amorphae 2 0.00% species 
+------ Hoeflea 1 0.00% genus 
+------- Hoeflea olei 1 0.00% species 
+------ Nitratireductor 1 0.00% genus 
+------- Nitratireductor lacus 1 0.00% species 
+----- Nordella 7 0.01% genus 
+------ Nordella oligomobilis 7 0.01% species 
+----- Rhodobiaceae 1 0.00% family 
+------ Rhodobium 1 0.00% genus 
+------- Rhodobium gokarnense 1 0.00% species 
+----- Bradyrhizobiaceae 1 0.00% family 
+------ Afipia 1 0.00% genus 
+----- Chelatococcaceae 1 0.00% family 
+------ Chelatococcus 1 0.00% genus 
+------- Chelatococcus sambhunathii 1 0.00% species 
+----- Methylocystaceae 1 0.00% family 
+------ Albibacter 1 0.00% genus 
+------- Albibacter helveticus 1 0.00% species 
+----- Stappiaceae 2 0.00% family 
+------ Pannonibacter 1 0.00% genus 
+------ Roseibium 1 0.00% genus 
+------- Roseibium album 1 0.00% species 
+----- Devosiaceae 1 0.00% family 
+------ Devosia 1 0.00% genus 
+------- Devosia humi 1 0.00% species 
+----- Aurantimonadaceae 1 0.00% family 
+----- Brucellaceae 1 0.00% family 
+------ Brucella 1 0.00% genus 
+----- Beijerinckiaceae 1 0.00% family 
+------ Beijerinckia 1 0.00% genus 
+------- Beijerinckia derxii 1 0.00% species 
+---- Sphingomonadales 2079 3.39% order 
+----- Sphingomonadaceae 2073 3.38% family 
+------ Sphingomonas 1783 2.91% genus 
+------- Sphingomonas montana 35 0.06% species 
+------- Sphingomonas guangdongensis 409 0.67% species 
+------- Sphingomonas koreensis 14 0.02% species 
+------- Sphingomonas aquatica 145 0.24% species 
+------- Sphingomonas insulae 15 0.02% species 
+------- Sphingomonas alpina 66 0.11% species 
+------- Sphingomonas ginsenosidimutans 27 0.04% species 
+------- Sphingomonas yunnanensis 157 0.26% species 
+------- Sphingomonas azotifigens 82 0.13% species 
+------- Sphingomonas chloroacetimidivorans 5 0.01% species 
+------- Sphingomonas silvisoli 4 0.01% species 
+------- Sphingomonas fennica 5 0.01% species 
+------- Sphingomonas paucimobilis 13 0.02% species 
+------- Sphingomonas palustris 2 0.00% species 
+------- Sphingomonas adhaesiva 10 0.02% species 
+------- Sphingomonas gei 10 0.02% species 
+------- Sphingomonas echinoides 5 0.01% species 
+------- 'Sphingomonas ginsengisoli' Hoang et al. 2012 69 0.11% species 
+------- Sphingomonas astaxanthinifaciens 18 0.03% species 
+------- Sphingomonas panacis 31 0.05% species 
+------- Sphingomonas carri 11 0.02% species 
+------- Sphingomonas yabuuchiae 22 0.04% species 
+------- Sphingomonas crocodyli 2 0.00% species 
+------- Sphingomonas mucosissima 44 0.07% species 
+------- Sphingomonas mesophila 9 0.01% species 
+------- Sphingomonas endophytica 24 0.04% species 
+------- Sphingomonas leidyi 1 0.00% species 
+------- Sphingomonas hylomeconis 8 0.01% species 
+------- Sphingomonas faeni 3 0.00% species 
+------- Sphingomonas abaci 5 0.01% species 
+------- Sphingomonas rubra 5 0.01% species 
+------- Sphingomonas kyeonggiensis 3 0.00% species 
+------- Sphingomonas oligoaromativorans 16 0.03% species 
+------- Sphingomonas faucium 4 0.01% species 
+------- Sphingomonas frigidaeris 21 0.03% species 
+------- Sphingomonas flava 8 0.01% species 
+------- Sphingomonas sanguinis 3 0.00% species 
+------- Sphingomonas changbaiensis 4 0.01% species 
+------- Sphingomonas prati 3 0.00% species 
+------- Sphingomonas oryziterrae 2 0.00% species 
+------- Sphingomonas soli 1 0.00% species 
+------- Sphingomonas olei 1 0.00% species 
+------- Sphingomonas crusticola 3 0.00% species 
+------- Sphingomonas naasensis 1 0.00% species 
+------- Sphingomonas haloaromaticamans 1 0.00% species 
+------- Sphingomonas molluscorum 1 0.00% species 
+------- Sphingomonas yantingensis 3 0.00% species 
+------- Sphingomonas aestuarii 4 0.01% species 
+------- Sphingomonas aerophila 4 0.01% species 
+------- Sphingomonas morindae 2 0.00% species 
+------- Sphingomonas desiccabilis 5 0.01% species 
+------- Sphingomonas phyllosphaerae 3 0.00% species 
+------- Sphingomonas carotinifaciens 1 0.00% species 
+------- Sphingomonas gimensis 2 0.00% species 
+------- Sphingomonas formosensis 1 0.00% species 
+------- Sphingomonas daechungensis 3 0.00% species 
+------- Sphingomonas montis 1 0.00% species 
+------- Sphingomonas dokdonensis 1 0.00% species 
+------- Sphingomonas arantia 1 0.00% species 
+------ Sphingobium 6 0.01% genus 
+------- Sphingobium tyrosinilyticum 3 0.00% species 
+------- Sphingobium xenophagum 2 0.00% species 
+------- Sphingobium wenxiniae 1 0.00% species 
+------ Sphingorhabdus 256 0.42% genus 
+------- Sphingorhabdus buctiana 2 0.00% species 
+------- Sphingorhabdus contaminans 6 0.01% species 
+------ Novosphingobium 7 0.01% genus 
+------- Novosphingobium taihuense 5 0.01% species 
+------- Novosphingobium fontis 1 0.00% species 
+------- Novosphingobium capsulatum 1 0.00% species 
+------ Rhizorhabdus 2 0.00% genus 
+------- Rhizorhabdus wittichii 2 0.00% species 
+------ Stakelama 3 0.00% genus 
+------- Stakelama pacifica 3 0.00% species 
+------ Parasphingorhabdus 2 0.00% genus 
+----- Erythrobacteraceae 3 0.00% family 
+------ Croceicoccus 1 0.00% genus 
+------- Croceicoccus estronivorus 1 0.00% species 
+------ Alteraurantiacibacter 1 0.00% genus 
+------- Alteraurantiacibacter buctensis 1 0.00% species 
+------ Erythrobacter 1 0.00% genus 
+------- Erythrobacter cryptus 1 0.00% species 
+---- Rhodospirillales 1971 3.22% order 
+----- Acetobacteraceae 1967 3.21% family 
+------ Roseomonas 829 1.35% genus 
+------- Roseomonas riguiloci 597 0.97% species 
+------- Roseomonas aeriglobus 98 0.16% species 
+------- Roseomonas pecuniae 24 0.04% species 
+------- Roseomonas rosea 64 0.10% species 
+------- Roseomonas oryzicola 1 0.00% species 
+------- Roseomonas aquatica 1 0.00% species 
+------- Roseomonas gilardii 2 0.00% species 
+------- Roseomonas suffusca 1 0.00% species 
+------- Roseomonas tokyonensis 1 0.00% species 
+------ Neokomagataea 633 1.03% genus 
+------ Acidisphaera 14 0.02% genus 
+------- Acidisphaera rubrifaciens 14 0.02% species 
+------ Belnapia 28 0.05% genus 
+------- Belnapia soli 12 0.02% species 
+------- Belnapia rosea 2 0.00% species 
+------ Acidisoma 217 0.35% genus 
+------- Acidisoma sibiricum 213 0.35% species 
+------- Acidisoma tundrae 4 0.01% species 
+------ Acidiphilium 10 0.02% genus 
+------- Acidiphilium cryptum 6 0.01% species 
+------ Caldovatus 8 0.01% genus 
+------- Caldovatus sediminis 8 0.01% species 
+------ Acetobacter 3 0.00% genus 
+------- Acetobacter nitrogenifigens 2 0.00% species 
+------ Komagataeibacter 4 0.01% genus 
+------- Komagataeibacter oboediens 3 0.00% species 
+------- Komagataeibacter europaeus 1 0.00% species 
+------ Asaia 1 0.00% genus 
+------ Acidocella 23 0.04% genus 
+------ Gluconacetobacter 2 0.00% genus 
+------ Sediminicoccus 17 0.03% genus 
+------- Sediminicoccus rosea 17 0.03% species 
+------ Swaminathania 18 0.03% genus 
+------- Swaminathania salitolerans 18 0.03% species 
+------ Rubritepida 1 0.00% genus 
+------- Rubritepida flocculans 1 0.00% species 
+------ Rhodovarius 1 0.00% genus 
+------- Rhodovarius lipocyclicus 1 0.00% species 
+------ Commensalibacter 2 0.00% genus 
+------- Commensalibacter intestini 2 0.00% species 
+------ Crenalkalicoccus 3 0.00% genus 
+------- Crenalkalicoccus roseus 3 0.00% species 
+------ Acidicaldus 3 0.00% genus 
+------- Acidicaldus organivorans 3 0.00% species 
+----- Rhodospirillaceae 2 0.00% family 
+------ Dongia 1 0.00% genus 
+------ Roseospirillum 1 0.00% genus 
+------- Roseospirillum parvum 1 0.00% species 
+---- Caulobacterales 7211 11.77% order 
+----- Caulobacteraceae 7211 11.77% family 
+------ Brevundimonas 7203 11.75% genus 
+------- Brevundimonas aveniformis 2731 4.46% species 
+------- Brevundimonas diminuta 691 1.13% species 
+------- Brevundimonas staleyi 4 0.01% species 
+------- Brevundimonas balnearis 31 0.05% species 
+------- Brevundimonas albigilva 144 0.23% species 
+------- Brevundimonas vesicularis 169 0.28% species 
+------- Brevundimonas viscosa 12 0.02% species 
+------- Brevundimonas kwangchunensis 295 0.48% species 
+------- Brevundimonas subvibrioides 54 0.09% species 
+------- Brevundimonas aurantiaca 13 0.02% species 
+------- Brevundimonas halotolerans 79 0.13% species 
+------- Brevundimonas terrae 66 0.11% species 
+------- Brevundimonas bacteroides 9 0.01% species 
+------- Brevundimonas nasdae 71 0.12% species 
+------- Brevundimonas alba 13 0.02% species 
+------- Brevundimonas basaltis 14 0.02% species 
+------- Brevundimonas bullata 11 0.02% species 
+------- Brevundimonas canariensis 9 0.01% species 
+------- Brevundimonas lutea 1 0.00% species 
+------- Brevundimonas humi 1 0.00% species 
+------ Phenylobacterium 1 0.00% genus 
+------- Phenylobacterium parvum 1 0.00% species 
+------ Caulobacter 2 0.00% genus 
+---- Rhodobacterales 1704 2.78% order 
+----- Rhodobacteraceae 1687 2.75% family 
+------ Paracoccus 1469 2.40% genus 
+------- Paracoccus yeei 2 0.00% species 
+------- Paracoccus luteus 494 0.81% species 
+------- Paracoccus stylophorae 97 0.16% species 
+------- Paracoccus sordidisoli 34 0.06% species 
+------- Paracoccus haeundaensis 33 0.05% species 
+------- Paracoccus pacificus 62 0.10% species 
+------- Paracoccus hibiscisoli 8 0.01% species 
+------- Paracoccus jeotgali 7 0.01% species 
+------- Paracoccus contaminans 6 0.01% species 
+------- Paracoccus fistulariae 28 0.05% species 
+------- Paracoccus caeni 14 0.02% species 
+------- Paracoccus methylutens 33 0.05% species 
+------- Paracoccus sphaerophysae 3 0.00% species 
+------- Paracoccus zeaxanthinifaciens 3 0.00% species 
+------- Paracoccus chinensis 13 0.02% species 
+------- Paracoccus marinus 1 0.00% species 
+------- Paracoccus liaowanqingii 5 0.01% species 
+------- Paracoccus denitrificans 3 0.00% species 
+------- Paracoccus aminophilus 4 0.01% species 
+------- Paracoccus indicus 8 0.01% species 
+------- Paracoccus carotinifaciens 2 0.00% species 
+------- Paracoccus niistensis 9 0.01% species 
+------- Paracoccus isoporae 1 0.00% species 
+------- Paracoccus seriniphilus 11 0.02% species 
+------- Paracoccus aquimaris 5 0.01% species 
+------- Paracoccus kocurii 2 0.00% species 
+------- Paracoccus kondratievae 5 0.01% species 
+------- Paracoccus versutus 1 0.00% species 
+------- Paracoccus alkenifer 1 0.00% species 
+------- Paracoccus aestuarii 1 0.00% species 
+------- Paracoccus thiocyanatus 11 0.02% species 
+------- Paracoccus ferrooxidans 1 0.00% species 
+------- Paracoccus subflavus 1 0.00% species 
+------- Paracoccus sanguinis 2 0.00% species 
+------- Paracoccus alimentarius 1 0.00% species 
+------- Paracoccus mangrovi 7 0.01% species 
+------- Paracoccus tibetensis 2 0.00% species 
+------- Paracoccus sediminis 1 0.00% species 
+------- Paracoccus oceanense 1 0.00% species 
+------- Paracoccus halophilus 2 0.00% species 
+------- Paracoccus cavernae 1 0.00% species 
+------ Rhodobacter 5 0.01% genus 
+------- Rhodobacter viridis 2 0.00% species 
+------- Rhodobacter azollae 2 0.00% species 
+------- Rhodobacter thermarum 1 0.00% species 
+------ Amylibacter 3 0.00% genus 
+------- Amylibacter marinus 3 0.00% species 
+------ Methylarcula 12 0.02% genus 
+------- Methylarcula terricola 12 0.02% species 
+------ Cypionkella 40 0.07% genus 
+------- Cypionkella aquatica 2 0.00% species 
+------ Pseudorhodobacter 64 0.10% genus 
+------- Pseudorhodobacter antarcticus 1 0.00% species 
+------- Pseudorhodobacter ferrugineus 60 0.10% species 
+------- Pseudorhodobacter ponti 3 0.00% species 
+------ Pseudooceanicola 3 0.00% genus 
+------- Pseudooceanicola nitratireducens 2 0.00% species 
+------- Pseudooceanicola antarcticus 1 0.00% species 
+------ Albirhodobacter 1 0.00% genus 
+------- Albirhodobacter marinus 1 0.00% species 
+------ Thioclava 2 0.00% genus 
+------- Thioclava arenosa 2 0.00% species 
+------ Oceanicella 2 0.00% genus 
+------- Oceanicella actignis 2 0.00% species 
+------ Chachezhania 1 0.00% genus 
+------- Chachezhania antarctica 1 0.00% species 
+------ Gemmobacter 2 0.00% genus 
+------- Gemmobacter fontiphilus 1 0.00% species 
+------ Oceaniglobus 1 0.00% genus 
+------- Oceaniglobus indicus 1 0.00% species 
+------ Albimonas 1 0.00% genus 
+------- Albimonas pacifica 1 0.00% species 
+------ Rhodovulum 3 0.00% genus 
+------- Rhodovulum marinum 2 0.00% species 
+------ Allgaiera 1 0.00% genus 
+------- Allgaiera indica 1 0.00% species 
+------ Parasedimentitalea 5 0.01% genus 
+------- Parasedimentitalea marina 5 0.01% species 
+------ Amaricoccus 1 0.00% genus 
+------- Amaricoccus kaplicensis 1 0.00% species 
+------ Cereibacter 1 0.00% genus 
+------- Cereibacter azotoformans 1 0.00% species 
+------ Marimonas 2 0.00% genus 
+------- Marimonas arenosa 2 0.00% species 
+------ Jhaorihella 1 0.00% genus 
+------- Jhaorihella thermophila 1 0.00% species 
+------ Psychromarinibacter 1 0.00% genus 
+------- Psychromarinibacter halotolerans 1 0.00% species 
+------ Aestuariicoccus 4 0.01% genus 
+------- Aestuariicoccus marinus 4 0.01% species 
+------ Marinosulfonomonas 1 0.00% genus 
+------- Marinosulfonomonas methylotropha 1 0.00% species 
+------ Pararhodobacter 1 0.00% genus 
+------- Pararhodobacter oceanensis 1 0.00% species 
+------ Fuscovulum 2 0.00% genus 
+------- Fuscovulum blasticum 2 0.00% species 
+------ Meinhardsimonia 1 0.00% genus 
+------- Meinhardsimonia xiamenensis 1 0.00% species 
+------ Frigidibacter 1 0.00% genus 
+------- Frigidibacter mobilis 1 0.00% species 
+------ Pontivivens 1 0.00% genus 
+------- Pontivivens insulae 1 0.00% species 
+----- Roseobacteraceae 8 0.01% family 
+------ Profundibacterium 1 0.00% genus 
+------- Profundibacterium mesophilum 1 0.00% species 
+------ Rubellimicrobium 4 0.01% genus 
+------- Rubellimicrobium roseum 4 0.01% species 
+------ Salipiger 1 0.00% genus 
+------- Salipiger abyssi 1 0.00% species 
+------ Thalassococcus 1 0.00% genus 
+------- Thalassococcus halodurans 1 0.00% species 
+---- Parvularculales 2 0.00% order 
+----- Parvularculaceae 2 0.00% family 
+------ Parvularcula 2 0.00% genus 
+------- Parvularcula dongshanensis 2 0.00% species 
+---- Maricaulales 1 0.00% order 
+----- Maricaulaceae 1 0.00% family 
+------ Glycocaulis 1 0.00% genus 
+------- Glycocaulis albus 1 0.00% species 
+---- Micropepsales 1 0.00% order 
+----- Micropepsaceae 1 0.00% family 
+------ Rhizomicrobium 1 0.00% genus 
+--- Gammaproteobacteria 8620 14.07% class 
+---- Legionellales 7906 12.90% order 
+----- Coxiellaceae 6794 11.09% family 
+------ Rickettsiella 6110 9.97% genus 
+------- Rickettsiella massiliensis 6110 9.97% species 
+------ Aquicella 682 1.11% genus 
+------- Aquicella siphonis 569 0.93% species 
+------- Aquicella lusitana 95 0.16% species 
+------ Coxiella 1 0.00% genus 
+------- Coxiella cheraxi 1 0.00% species 
+----- Legionellaceae 1112 1.81% family 
+------ Legionella 1112 1.81% genus 
+------- Legionella drancourtii 502 0.82% species 
+------- Legionella tucsonensis 116 0.19% species 
+------- Legionella israelensis 104 0.17% species 
+------- Legionella nautarum 88 0.14% species 
+------- Legionella moravica 32 0.05% species 
+------- Legionella sainthelensi 19 0.03% species 
+------- Legionella lytica 91 0.15% species 
+------- Legionella birminghamensis 2 0.00% species 
+------- Legionella taurinensis 2 0.00% species 
+------- Legionella oakridgensis 12 0.02% species 
+------- Legionella gratiana 19 0.03% species 
+------- Legionella thermalis 6 0.01% species 
+------- Legionella spiritensis 2 0.00% species 
+------- Legionella geestiana 10 0.02% species 
+------- Legionella busanensis 3 0.00% species 
+------- Legionella anisa 3 0.00% species 
+------- Legionella rowbothamii 1 0.00% species 
+------- Legionella cincinnatiensis 4 0.01% species 
+------- Legionella londiniensis 3 0.00% species 
+------- Legionella pneumophila 1 0.00% species 
+------- Legionella parisiensis 1 0.00% species 
+------- Legionella lansingensis 2 0.00% species 
+------- Legionella shakespearei 1 0.00% species 
+------- Legionella beliardensis 3 0.00% species 
+------- Legionella rubrilucens 1 0.00% species 
+------- Legionella massiliensis 1 0.00% species 
+------- Legionella gresilensis 1 0.00% species 
+---- Pseudomonadales 633 1.03% order 
+----- Pseudomonadaceae 633 1.03% family 
+------ Pseudomonas 617 1.01% genus 
+------- Pseudomonas moraviensis 20 0.03% species 
+------- Pseudomonas putida 21 0.03% species 
+------- Pseudomonas brassicacearum 19 0.03% species 
+------- Pseudomonas alcaligenes 20 0.03% species 
+------- Pseudomonas delhiensis 8 0.01% species 
+------- Pseudomonas kunmingensis 5 0.01% species 
+------- Pseudomonas caricapapayae 3 0.00% species 
+------- Pseudomonas balearica 1 0.00% species 
+------- Pseudomonas fluorescens 22 0.04% species 
+------- Pseudomonas borbori 19 0.03% species 
+------- Pseudomonas frederiksbergensis 7 0.01% species 
+------- Pseudomonas azotoformans 24 0.04% species 
+------- Pseudomonas asuensis 1 0.00% species 
+------- Pseudomonas taetrolens 7 0.01% species 
+------- Pseudomonas guangdongensis 1 0.00% species 
+------- Pseudomonas stutzeri 4 0.01% species 
+------- Pseudomonas pohangensis 5 0.01% species 
+------- Pseudomonas psychrophila 14 0.02% species 
+------- Pseudomonas aeruginosa 17 0.03% species 
+------- Pseudomonas tolaasii 11 0.02% species 
+------- Pseudomonas amygdali 12 0.02% species 
+------- Pseudomonas versuta 25 0.04% species 
+------- Pseudomonas nitritireducens 4 0.01% species 
+------- Pseudomonas populi 3 0.00% species 
+------- Pseudomonas mucidolens 2 0.00% species 
+------- Pseudomonas oleovorans 24 0.04% species 
+------- Pseudomonas oryzihabitans 3 0.00% species 
+------- Pseudomonas japonica 6 0.01% species 
+------- Pseudomonas pharmacofabricae 8 0.01% species 
+------- Pseudomonas indica 7 0.01% species 
+------- Pseudomonas panacis 7 0.01% species 
+------- Pseudomonas toyotomiensis 5 0.01% species 
+------- Pseudomonas syringae 5 0.01% species 
+------- Pseudomonas sihuiensis 3 0.00% species 
+------- Pseudomonas seleniipraecipitans 11 0.02% species 
+------- Pseudomonas batumici 1 0.00% species 
+------- Pseudomonas marginalis 14 0.02% species 
+------- Pseudomonas fluvialis 2 0.00% species 
+------- Pseudomonas savastanoi 6 0.01% species 
+------- Pseudomonas matsuisoli 1 0.00% species 
+------- Pseudomonas saponiphila 21 0.03% species 
+------- Pseudomonas hydrolytica 1 0.00% species 
+------- Pseudomonas mediterranea 12 0.02% species 
+------- Pseudomonas deceptionensis 1 0.00% species 
+------- Pseudomonas viridiflava 8 0.01% species 
+------- Pseudomonas indoloxydans 1 0.00% species 
+------- Pseudomonas agarici 1 0.00% species 
+------- Pseudomonas luteola 3 0.00% species 
+------- Pseudomonas straminea 7 0.01% species 
+------- Pseudomonas flexibilis 1 0.00% species 
+------- Pseudomonas corrugata 4 0.01% species 
+------- Pseudomonas orientalis 3 0.00% species 
+------- Pseudomonas fildesensis 1 0.00% species 
+------- Pseudomonas extremorientalis 8 0.01% species 
+------- Pseudomonas monteilii 1 0.00% species 
+------- Pseudomonas composti 3 0.00% species 
+------- Pseudomonas flavescens 2 0.00% species 
+------- Pseudomonas zeshuii 2 0.00% species 
+------- Pseudomonas palleroniana 1 0.00% species 
+------- Pseudomonas synxantha 1 0.00% species 
+------- Pseudomonas cremoricolorata 4 0.01% species 
+------- Pseudomonas canadensis 1 0.00% species 
+------- Pseudomonas mendocina 1 0.00% species 
+------ Halopseudomonas 16 0.03% genus 
+------- Halopseudomonas formosensis 4 0.01% species 
+------- Halopseudomonas oceani 1 0.00% species 
+------- Halopseudomonas pelagia 9 0.01% species 
+------- Halopseudomonas salegens 1 0.00% species 
+------- Halopseudomonas litoralis 1 0.00% species 
+---- Xanthomonadales 26 0.04% order 
+----- Xanthomonadaceae 25 0.04% family 
+------ Pseudoxanthomonas 10 0.02% genus 
+------- Pseudoxanthomonas sangjuensis 9 0.01% species 
+------- Pseudoxanthomonas japonensis 1 0.00% species 
+------ Arenimonas 2 0.00% genus 
+------- Arenimonas subflava 2 0.00% species 
+------ Lysobacter 1 0.00% genus 
+------- Lysobacter ruishenii 1 0.00% species 
+----- Rhodanobacteraceae 1 0.00% family 
+------ Rhodanobacter 1 0.00% genus 
+---- Chromatiales 3 0.00% order 
+----- Thioalkalispiraceae 1 0.00% family 
+------ Thioalkalispira 1 0.00% genus 
+------- Thioalkalispira microaerophila 1 0.00% species 
+----- Thioalkalibacteraceae 1 0.00% family 
+------ Thioalkalibacter 1 0.00% genus 
+------- Thioalkalibacter halophilus 1 0.00% species 
+----- Chromatiaceae 1 0.00% family 
+---- Pasteurellales 20 0.03% order 
+----- Pasteurellaceae 20 0.03% family 
+------ Avibacterium 20 0.03% genus 
+------- Avibacterium volantium 20 0.03% species 
+---- Oceanospirillales 2 0.00% order 
+----- Oceanospirillaceae 2 0.00% family 
+------ Bacterioplanoides 2 0.00% genus 
+------- Bacterioplanoides pacificum 2 0.00% species 
+---- Kangiellales 2 0.00% order 
+----- Kangiellaceae 2 0.00% family 
+------ Kangiella 2 0.00% genus 
+------- Kangiella marina 2 0.00% species 
+---- Enterobacterales 4 0.01% order 
+----- Enterobacteriaceae 3 0.00% family 
+------ Kluyvera 2 0.00% genus 
+------- Kluyvera ascorbata 2 0.00% species 
+------ Cedecea 1 0.00% genus 
+------- Cedecea lapagei 1 0.00% species 
+----- Pectobacteriaceae 1 0.00% family 
+------ Brenneria 1 0.00% genus 
+------- Brenneria rubrifaciens 1 0.00% species 
+---- Nevskiales 1 0.00% order 
+----- Sinobacteraceae 1 0.00% family 
+------ Hydrocarboniphaga 1 0.00% genus 
+------- Hydrocarboniphaga daqingensis 1 0.00% species 
+---- Thiotrichales 1 0.00% order 
+----- Fastidiosibacteraceae 1 0.00% family 
+------ Caedibacter 1 0.00% genus 
+------- Caedibacter taeniospiralis 1 0.00% species 
+---- Alteromonadales 1 0.00% order 
+----- Pseudoalteromonadaceae 1 0.00% family 
+------ Pseudoalteromonas 1 0.00% genus 
+------- Pseudoalteromonas agarivorans 1 0.00% species 
+--- Deltaproteobacteria 17 0.03% class 
+---- Desulfobacterales 12 0.02% order 
+----- Desulfobulbaceae 6 0.01% family 
+----- Desulfobacteraceae 3 0.00% family 
+----- Desulfocapsaceae 3 0.00% family 
+------ Desulfocapsa 3 0.00% genus 
+------- Desulfocapsa thiozymogenes 3 0.00% species 
+---- Desulfovibrionales 2 0.00% order 
+----- Desulfovibrionaceae 2 0.00% family 
+------ Solidesulfovibrio 1 0.00% genus 
+------- Solidesulfovibrio fructosivorans 1 0.00% species 
+------ Desulfovibrio 1 0.00% genus 
+---- Desulfurellales 1 0.00% order 
+----- Desulfurellaceae 1 0.00% family 
+------ Hippea 1 0.00% genus 
+------- Hippea alviniae 1 0.00% species 
+---- Desulfuromonadales 1 0.00% order 
+----- Desulfuromonadaceae 1 0.00% family 
+--- Epsilonproteobacteria 5 0.01% class 
+---- Campylobacterales 3 0.00% order 
+----- Campylobacteraceae 1 0.00% family 
+------ Sulfurospirillum 1 0.00% genus 
+------- Sulfurospirillum carboxydovorans 1 0.00% species 
+--- Hydrogenophilalia 1 0.00% class 
+---- Hydrogenophilales 1 0.00% order 
+----- Hydrogenophilaceae 1 0.00% family 
+------ Hydrogenophilus 1 0.00% genus 
+------- Hydrogenophilus thermoluteolus 1 0.00% species 
+-- Planctomycetes 2425 3.96% phylum 
+--- Planctomycetia 2425 3.96% class 
+---- Gemmatales 2412 3.94% order 
+----- Gemmataceae 2412 3.94% family 
+------ Limnoglobus 540 0.88% genus 
+------- Limnoglobus roseus 540 0.88% species 
+------ Fimbriiglobus 1539 2.51% genus 
+------- Fimbriiglobus ruber 1539 2.51% species 
+------ Gemmata 155 0.25% genus 
+------- Gemmata massiliana 105 0.17% species 
+------- Gemmata obscuriglobus 50 0.08% species 
+------ Telmatocola 29 0.05% genus 
+------- Telmatocola sphagniphila 29 0.05% species 
+------ Zavarzinella 57 0.09% genus 
+------- Zavarzinella formosa 57 0.09% species 
+------ Tuwongella 8 0.01% genus 
+------- Tuwongella immobilis 8 0.01% species 
+---- Isosphaerales 12 0.02% order 
+----- Isosphaeraceae 12 0.02% family 
+------ Tundrisphaera 8 0.01% genus 
+------- Tundrisphaera lichenicola 8 0.01% species 
+------ Singulisphaera 3 0.00% genus 
+------- Singulisphaera rosea 2 0.00% species 
+------- Singulisphaera acidiphila 1 0.00% species 
+-- Firmicutes 4403 7.18% phylum 
+--- Bacilli 4396 7.17% class 
+---- Bacillales 4380 7.15% order 
+----- Planococcaceae 3977 6.49% family 
+------ Sporosarcina 3631 5.92% genus 
+------- Sporosarcina globispora 1714 2.80% species 
+------- Sporosarcina soli 1001 1.63% species 
+------- Sporosarcina terrae 51 0.08% species 
+------- Sporosarcina siberiensis 5 0.01% species 
+------- Sporosarcina thermotolerans 42 0.07% species 
+------- Sporosarcina pasteurii 29 0.05% species 
+------- Sporosarcina luteola 9 0.01% species 
+------- Sporosarcina ureae 8 0.01% species 
+------- Sporosarcina contaminans 22 0.04% species 
+------- Sporosarcina psychrophila 2 0.00% species 
+------- Sporosarcina saromensis 2 0.00% species 
+------- Sporosarcina koreensis 2 0.00% species 
+------- Sporosarcina newyorkensis 3 0.00% species 
+------- Sporosarcina aquimarina 1 0.00% species 
+------ Planococcus 217 0.35% genus 
+------- Planococcus columbae 42 0.07% species 
+------- Planococcus versutus 14 0.02% species 
+------- Planococcus chinensis 4 0.01% species 
+------- Planococcus kocurii 5 0.01% species 
+------- Planococcus salinus 4 0.01% species 
+------- Planococcus antarcticus 1 0.00% species 
+------- Planococcus donghaensis 2 0.00% species 
+------- Planococcus citreus 1 0.00% species 
+------ Viridibacillus 7 0.01% genus 
+------- Viridibacillus neidei 7 0.01% species 
+------ Ureibacillus 8 0.01% genus 
+------- Ureibacillus manganicus 1 0.00% species 
+------- Ureibacillus terrenus 3 0.00% species 
+------- Ureibacillus acetophenoni 4 0.01% species 
+------ Solibacillus 11 0.02% genus 
+------- Solibacillus kalamii 11 0.02% species 
+------ Chryseomicrobium 3 0.00% genus 
+------- Chryseomicrobium palamuruense 1 0.00% species 
+------- Chryseomicrobium aureum 2 0.00% species 
+------ Caryophanon 6 0.01% genus 
+------- Caryophanon tenue 5 0.01% species 
+------- Caryophanon latum 1 0.00% species 
+------ Paenisporosarcina 13 0.02% genus 
+------- Paenisporosarcina macmurdoensis 6 0.01% species 
+------- Paenisporosarcina antarctica 4 0.01% species 
+------ Filibacter 5 0.01% genus 
+------- Filibacter limicola 5 0.01% species 
+----- Bacillaceae 324 0.53% family 
+------ Oceanobacillus 3 0.00% genus 
+------- Oceanobacillus jeddahense 2 0.00% species 
+------- Oceanobacillus neutriphilus 1 0.00% species 
+------ Halolactibacillus 20 0.03% genus 
+------- Halolactibacillus halophilus 11 0.02% species 
+------- Halolactibacillus miurensis 8 0.01% species 
+------ Ornithinibacillus 32 0.05% genus 
+------- Ornithinibacillus heyuanensis 32 0.05% species 
+------ Bacillus 38 0.06% genus 
+------- Bacillus pakistanensis 5 0.01% species 
+------- Bacillus tamaricis 17 0.03% species 
+------- Bacillus lacisalsi 2 0.00% species 
+------- Bacillus capparidis 1 0.00% species 
+------- Bacillus aquiflavi 8 0.01% species 
+------- Bacillus yapensis 2 0.00% species 
+------- Bacillus alveayuensis 1 0.00% species 
+------- [Brevibacterium] frigoritolerans 1 0.00% species 
+------- Bacillus badius 1 0.00% species 
+------ Anoxybacillus 19 0.03% genus 
+------- Anoxybacillus gonensis 4 0.01% species 
+------- Anoxybacillus tengchongensis 14 0.02% species 
+------- Anoxybacillus kestanbolensis 1 0.00% species 
+------ Geobacillus 10 0.02% genus 
+------- Geobacillus lituanicus 9 0.01% species 
+------- Geobacillus thermoleovorans 1 0.00% species 
+------ Fictibacillus 6 0.01% genus 
+------- Fictibacillus arsenicus 3 0.00% species 
+------- Fictibacillus solisalsi 3 0.00% species 
+------ Virgibacillus 12 0.02% genus 
+------- Virgibacillus salexigens 2 0.00% species 
+------- Virgibacillus sediminis 9 0.01% species 
+------- Virgibacillus kapii 1 0.00% species 
+------ Paucisalibacillus 4 0.01% genus 
+------- Paucisalibacillus globulus 4 0.01% species 
+------ Aquisalibacillus 54 0.09% genus 
+------- Aquisalibacillus elongatus 54 0.09% species 
+------ Amphibacillus 3 0.00% genus 
+------- Amphibacillus tropicus 2 0.00% species 
+------- Amphibacillus haojiensis 1 0.00% species 
+------ Metabacillus 3 0.00% genus 
+------- Metabacillus mangrovi 2 0.00% species 
+------- Metabacillus litoralis 1 0.00% species 
+------ Alkalihalobacillus 21 0.03% genus 
+------- Alkalihalobacillus halodurans 4 0.01% species 
+------- Alkalihalobacillus urbisdiaboli 1 0.00% species 
+------- Alkalihalobacillus alcalophilus 1 0.00% species 
+------- Alkalihalobacillus marmarensis 4 0.01% species 
+------- Alkalihalobacillus trypoxylicola 3 0.00% species 
+------- Alkalihalobacillus shacheensis 2 0.00% species 
+------- Alkalihalobacillus alkalisediminis 1 0.00% species 
+------- Alkalihalobacillus rhizosphaerae 1 0.00% species 
+------- Alkalihalobacillus lindianensis 1 0.00% species 
+------ Aureibacillus 11 0.02% genus 
+------- Aureibacillus halotolerans 11 0.02% species 
+------ Pelagirhabdus 6 0.01% genus 
+------- Pelagirhabdus fermentum 6 0.01% species 
+------ Siminovitchia 4 0.01% genus 
+------- Siminovitchia fordii 3 0.00% species 
+------- Siminovitchia composti 1 0.00% species 
+------ Thermolongibacillus 2 0.00% genus 
+------- Thermolongibacillus altinsuensis 2 0.00% species 
+------ Natronobacillus 1 0.00% genus 
+------- Natronobacillus azotifigens 1 0.00% species 
+------ Gottfriedia 2 0.00% genus 
+------- Gottfriedia acidiceleris 2 0.00% species 
+------ Caldalkalibacillus 3 0.00% genus 
+------- Caldalkalibacillus thermarum 3 0.00% species 
+------ Aeribacillus 1 0.00% genus 
+------- Aeribacillus pallidus 1 0.00% species 
+------ Peribacillus 9 0.01% genus 
+------- Peribacillus butanolivorans 7 0.01% species 
+------- Peribacillus simplex 1 0.00% species 
+------- Peribacillus huizhouensis 1 0.00% species 
+------ Salinibacillus 5 0.01% genus 
+------- Salinibacillus aidingensis 4 0.01% species 
+------- Salinibacillus kushneri 1 0.00% species 
+------ Cytobacillus 3 0.00% genus 
+------- Cytobacillus ciccensis 3 0.00% species 
+------ Alteribacillus 2 0.00% genus 
+------- Alteribacillus persepolensis 2 0.00% species 
+------ Piscibacillus 1 0.00% genus 
+------- Piscibacillus halophilus 1 0.00% species 
+------ Neobacillus 2 0.00% genus 
+------- Neobacillus fumarioli 1 0.00% species 
+------- Neobacillus notoginsengisoli 1 0.00% species 
+------ Alteribacter 1 0.00% genus 
+------- Alteribacter aurantiacus 1 0.00% species 
+------ Lysinibacillus 2 0.00% genus 
+------- Lysinibacillus odysseyi 1 0.00% species 
+------- Lysinibacillus telephonicus 1 0.00% species 
+------ Priestia 4 0.01% genus 
+------- Priestia paraflexa 3 0.00% species 
+------- Priestia qingshengii 1 0.00% species 
+------ Alkalicoccus 3 0.00% genus 
+------- Alkalicoccus chagannorensis 2 0.00% species 
+------- Alkalicoccus saliphilus 1 0.00% species 
+------ Salibacterium 2 0.00% genus 
+------- Salibacterium salarium 2 0.00% species 
+------ Anaerobacillus 4 0.01% genus 
+------- Anaerobacillus arseniciselenatis 2 0.00% species 
+------- Anaerobacillus alkalilacustris 1 0.00% species 
+------- Anaerobacillus alkaliphilus 1 0.00% species 
+------ Salirhabdus 5 0.01% genus 
+------- Salirhabdus euzebyi 5 0.01% species 
+------ Melghiribacillus 1 0.00% genus 
+------- Melghiribacillus thermohalophilus 1 0.00% species 
+------ Halobacillus 1 0.00% genus 
+------- Halobacillus kuroshimensis 1 0.00% species 
+------ Weizmannia 1 0.00% genus 
+------- Weizmannia coagulans 1 0.00% species 
+------ Halalkalibacillus 1 0.00% genus 
+------- Halalkalibacillus halophilus 1 0.00% species 
+------ Alkalibacillus 1 0.00% genus 
+------- Alkalibacillus salilacus 1 0.00% species 
+------ Parageobacillus 1 0.00% genus 
+------- Parageobacillus thermantarcticus 1 0.00% species 
+------ Marinococcus 1 0.00% genus 
+------- Marinococcus halotolerans 1 0.00% species 
+------ Psychrobacillus 1 0.00% genus 
+------ Mesobacillus 1 0.00% genus 
+------- Mesobacillus rigiliprofundi 1 0.00% species 
+------ Salisediminibacterium 1 0.00% genus 
+------- Salisediminibacterium beveridgei 1 0.00% species 
+------ Lottiidibacillus 1 0.00% genus 
+------- Lottiidibacillus patelloidae 1 0.00% species 
+----- Paenibacillaceae 15 0.02% family 
+------ Paenibacillus 12 0.02% genus 
+------- Paenibacillus yonginensis 2 0.00% species 
+------- Paenibacillus endophyticus 1 0.00% species 
+------- Paenibacillus mucilaginosus 2 0.00% species 
+------- Paenibacillus glacialis 2 0.00% species 
+------- Paenibacillus insulae 1 0.00% species 
+------- Paenibacillus kyungheensis 1 0.00% species 
+------- Paenibacillus physcomitrellae 1 0.00% species 
+------- Paenibacillus thermoaerophilus 1 0.00% species 
+------ Aneurinibacillus 1 0.00% genus 
+------- Aneurinibacillus aneurinilyticus 1 0.00% species 
+------ Cohnella 2 0.00% genus 
+------- Cohnella plantaginis 1 0.00% species 
+------- Cohnella candidum 1 0.00% species 
+----- Staphylococcaceae 9 0.01% family 
+------ Staphylococcus 5 0.01% genus 
+------- Staphylococcus piscifermentans 2 0.00% species 
+------- Staphylococcus haemolyticus 1 0.00% species 
+------ Salinicoccus 4 0.01% genus 
+------- Salinicoccus alkaliphilus 1 0.00% species 
+------- Salinicoccus iranensis 3 0.00% species 
+----- Exiguobacterium 2 0.00% genus 
+----- Sporolactobacillaceae 3 0.00% family 
+------ Pullulanibacillus 2 0.00% genus 
+------- Pullulanibacillus camelliae 2 0.00% species 
+------ Caenibacillus 1 0.00% genus 
+------- Caenibacillus caldisaponilyticus 1 0.00% species 
+----- Thermoactinomycetaceae 2 0.00% family 
+------ Marininema 2 0.00% genus 
+------- Marininema mesophilum 2 0.00% species 
+----- Gemella 1 0.00% genus 
+---- Lactobacillales 16 0.03% order 
+----- Lactobacillaceae 14 0.02% family 
+------ Lactobacillus 9 0.01% genus 
+------- Lactobacillus delbrueckii 9 0.01% species 
+------ Companilactobacillus 1 0.00% genus 
+------- Companilactobacillus nantensis 1 0.00% species 
+----- Enterococcaceae 2 0.00% family 
+------ Tetragenococcus 1 0.00% genus 
+------- Tetragenococcus solitarius 1 0.00% species 
+------ Enterococcus 1 0.00% genus 
+------- Enterococcus faecium 1 0.00% species 
+--- Clostridia 6 0.01% class 
+---- Thermoanaerobacterales 4 0.01% order 
+----- Thermoanaerobacteraceae 3 0.00% family 
+------ Moorella 3 0.00% genus 
+------- Moorella stamsii 3 0.00% species 
+----- Thermoanaerobacterales Family III. Incertae Sedis 1 0.00% family 
+------ Caldicellulosiruptor 1 0.00% genus 
+---- Eubacteriales 1 0.00% order 
+----- Peptococcaceae 1 0.00% family 
+------ Desulfofarcimen 1 0.00% genus 
+------- Desulfofarcimen intricatum 1 0.00% species 
+---- Halanaerobiales 1 0.00% order 
+----- Halobacteroidaceae 1 0.00% family 
+------ Fuchsiella 1 0.00% genus 
+-- Deinococcus-Thermus 871 1.42% phylum 
+--- Deinococci 871 1.42% class 
+---- Deinococcales 870 1.42% order 
+----- Deinococcaceae 870 1.42% family 
+------ Deinococcus 870 1.42% genus 
+------- Deinococcus ruber 316 0.52% species 
+------- Deinococcus aerophilus 123 0.20% species 
+------- Deinococcus budaensis 316 0.52% species 
+------- Deinococcus aquiradiocola 1 0.00% species 
+------- Deinococcus yunweiensis 4 0.01% species 
+------- Deinococcus maricopensis 37 0.06% species 
+------- Deinococcus frigens 6 0.01% species 
+------- Deinococcus metalli 1 0.00% species 
+------- Deinococcus lacus 15 0.02% species 
+------- Deinococcus taklimakanensis 6 0.01% species 
+------- Deinococcus radiophilus 1 0.00% species 
+------- Deinococcus indicus 1 0.00% species 
+------- Deinococcus fonticola 1 0.00% species 
+------- Deinococcus piscis 1 0.00% species 
+------- Deinococcus pimensis 1 0.00% species 
+---- Thermales 1 0.00% order 
+----- Thermaceae 1 0.00% family 
+-- Bacteroidetes 110 0.18% phylum 
+--- Cytophagia 74 0.12% class 
+---- Cytophagales 74 0.12% order 
+----- Spirosomaceae 64 0.10% family 
+------ Fibrella 64 0.10% genus 
+------- Fibrella aestuarina 64 0.10% species 
+----- Hymenobacteraceae 10 0.02% family 
+------ Pontibacter 1 0.00% genus 
+------- Pontibacter roseus 1 0.00% species 
+------ Hymenobacter 4 0.01% genus 
+------- Hymenobacter arcticus 4 0.01% species 
+------ Siccationidurans 5 0.01% genus 
+------- Siccationidurans metalli 5 0.01% species 
+--- Flavobacteriia 35 0.06% class 
+---- Flavobacteriales 35 0.06% order 
+----- Flavobacteriaceae 35 0.06% family 
+------ Flavobacterium 35 0.06% genus 
+------- Flavobacterium lacus 6 0.01% species 
+------- Flavobacterium sangjuense 26 0.04% species 
+------- Flavobacterium sasangense 1 0.00% species 
+--- Sphingobacteriia 1 0.00% class 
+---- Sphingobacteriales 1 0.00% order 
+----- Filobacteriaceae 1 0.00% family 
+------ Filobacterium 1 0.00% genus 
+------- Filobacterium rodentium 1 0.00% species 
+-- Cyanobacteria 67 0.11% phylum 
+--- Pleurocapsales 6 0.01% order 
+---- Dermocarpellaceae 6 0.01% family 
+----- Stanieria 6 0.01% genus 
+------ Stanieria cyanosphaera 6 0.01% species 
+--- Synechococcales 3 0.00% order 
+---- Aegeococcus 3 0.00% genus 
+--- Nostocales 52 0.08% order 
+---- Calotrichaceae 51 0.08% family 
+----- Dulcicalothrix 51 0.08% genus 
+------ Dulcicalothrix desertica 51 0.08% species 
+---- Symphyonemataceae 1 0.00% family 
+----- Loriellopsis 1 0.00% genus 
+------ Loriellopsis cavernicola 1 0.00% species 
+--- Oscillatoriales 6 0.01% order 
+---- Pseudoscillatoria 4 0.01% genus 
+----- Pseudoscillatoria coralii 4 0.01% species 
+---- Oscillatoriaceae 1 0.00% family 
+----- Oscillatoria 1 0.00% genus 
+------ Oscillatoria sancta 1 0.00% species 
+---- Microcoleaceae 1 0.00% family 
+----- Sodalinema 1 0.00% genus 
+------ Sodalinema komarekii 1 0.00% species 
+-- Actinobacteria 6 0.01% phylum 
+--- Actinomycetia 5 0.01% class 
+---- Streptomycetales 1 0.00% order 
+----- Streptomycetaceae 1 0.00% family 
+------ Streptomyces 1 0.00% genus 
+------- Streptomyces plicatus 1 0.00% species 
+---- Corynebacteriales 2 0.00% order 
+----- Gordoniaceae 1 0.00% family 
+------ Gordonia 1 0.00% genus 
+------- Gordonia jinhuaensis 1 0.00% species 
+----- Corynebacteriaceae 1 0.00% family 
+------ Corynebacterium 1 0.00% genus 
+------- Corynebacterium timonense 1 0.00% species 
+---- Glycomycetales 1 0.00% order 
+----- Glycomycetaceae 1 0.00% family 
+------ Stackebrandtia 1 0.00% genus 
+------- Stackebrandtia cavernae 1 0.00% species 
+--- Coriobacteriia 1 0.00% class 
+---- Coriobacteriales 1 0.00% order 
+----- Atopobiaceae 1 0.00% family 
+------ Lancefieldella 1 0.00% genus 
+-- Chloroflexi 1 0.00% phylum 
+--- Chloroflexia 1 0.00% class 
+-- Armatimonadetes 3 0.00% phylum 
+--- Fimbriimonadia 3 0.00% class 
+---- Fimbriimonadales 3 0.00% order 
+----- Fimbriimonadaceae 3 0.00% family 
+------ Fimbriimonas 3 0.00% genus 
+------- Fimbriimonas ginsengisoli 3 0.00% species 
+-- Fusobacteria 1 0.00% phylum 
+--- Fusobacteriia 1 0.00% class 
+---- Fusobacteriales 1 0.00% order 
+----- Fusobacteriaceae 1 0.00% family 
+------ Psychrilyobacter 1 0.00% genus 
+------- Psychrilyobacter atlanticus 1 0.00% species 
+-- Deferribacteres 1 0.00% phylum 
+--- Deferribacteres 1 0.00% class 
+---- Deferribacterales 1 0.00% order 
+----- Deferribacteraceae 1 0.00% family 
+------ Flexistipes 1 0.00% genus 
+------- Flexistipes sinusarabici 1 0.00% species 
+-- Tenericutes 1 0.00% phylum 
+--- Mollicutes 1 0.00% class 
+---- Mycoplasmatales 1 0.00% order 
+----- Mycoplasmataceae 1 0.00% family 
+- Unclassified 4 0.01% superkingdom 
+-- Unknown 4 0.01% species 

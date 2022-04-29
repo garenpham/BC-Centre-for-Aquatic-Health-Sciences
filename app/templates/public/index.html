@@ -1,0 +1,51 @@
+{% extends "public/templates/public_template.html" %} {% block title %} Download{%
+      endblock %} {% block main %}
+      
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1>Additional Files</h1>
+            <hr>
+            {% for file in downloads %}
+            <p>
+              <!-- <a class="btn" onclick="document.getElementById('01').style.display='block'">{{ file }}</a> -->
+              <a class="btn btn-secondary btn-lg">{{ file }}</a>
+              <a class="btn btn-outline-primary btn-lg" href="{{ '/index/download/' + file }}">Download</a>
+              {% if current_user.role == 'admin' %}
+              <a class="btn btn-lg btn-danger" href="{{ 'index/remove/' + file }}">Delete</a>
+              {% endif %}
+            </p>
+      
+            <!-- <div id="01" class="modal"> -->
+            <!--   <span onclick="document.getElementById('01').style.display='none'" class="close" title="Close Modal">&times;</span> -->
+            <!--   <form class="modal-content"> -->
+            <!--     <div class="container"> -->
+            <!--       <h1>{{ file }}</h1> -->
+            <!--       <p>Would you like to view or download the data?</p> -->
+            <!--       <div class="clearfix"> -->
+            <!--         <!-1- <button onclick="" type="button" class="viewbtn">View Data</button> -1-> -->
+            <!--         <a class="btn viewbtn" href="{{ request.url + '/data/' }}">View Data</a> -->
+            <!--         <!-1- <button onclick="" type="button" class="downbtn">Download</button> -1-> -->
+            <!--         <a class="btn downbtn" href="{{ request.url + '/download/' + file }}">Download</a> -->
+            <!--       </div> -->
+            <!--     </div> -->
+            <!--   </form> -->
+            <!-- </div> -->
+            {% endfor %}
+      
+          </div>
+        </div>
+      </div>
+      
+      <!-- <script defer> -->
+      <!-- let modal = document.getElementById('01'); -->
+      
+      <!-- window.onclick = function(event) { -->
+      <!--   if (event.target == modal) { -->
+      <!--     modal.style.display = "none"; -->
+      <!--   } -->
+      <!-- } -->
+      <!-- </script> -->
+      
+      {% endblock %}
+  

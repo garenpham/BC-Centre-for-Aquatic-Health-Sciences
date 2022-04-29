@@ -1,0 +1,104 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom_metadata.css') }}">
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>MetaData</h1>
+      <hr>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+            {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+      <form class="needs-validation" action="/metadata" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <h2>Enter Location:</h2>
+          <p>Creates a new location for the database.</p>
+          <div class="form-group">
+            <input type="number" step="1" min="0" name="Location ID" class="form-control" id="Location ID" placeholder="Location ID in Database" required>
+            <input type="text" name="Location Name" class="form-control" id="Location Name" placeholder="Location" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit_button" value="update_location" >Update or Add New Location Name</button>
+      </form>
+
+      <form class="needs-validation" action="/metadata" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <h2>Enter Submission Data</h2>
+          <p>Requires pre-existing Location ID number. CAHS Number is the primary key.</p>
+          <div class="form-group">
+            <input type="text" class="form-control" name="CAHS Submission Number Submission Data" id="CAHS Submission Number Submission Data" placeholder="CAHS Submission Number" required>
+            <input type="text" class="form-control" name="Samplers" id="Samplers" placeholder="Samplers">
+            <input type="number" step="any" class="form-control" name="Water Temperature (c)" id="Water Temperature (c)" placeholder="Water Temperature (c)">
+            <input type="number" step="any" min="0" class="form-control" name="Oxygen (mg/L)" id="Oxygen (mg/L)" placeholder="Oxygen (mg/L)">
+            <input type="number" step="any" min="0" class="form-control" name="Saturation (%)" id="Saturation (%)" placeholder="Saturation (%)">
+            <input type="number" step="1" min="0" class="form-control" name="# Fish Swabs" id="# Fish Swabs" placeholder="# Fish Swabs" required>
+            <input type="number" step="1" min="0" class="form-control" name="# Biofilm Swabs" id="# Biofilm Swabs" placeholder="# Biofilm Swabs" required>
+            <input type="number" step="1" min="0" class="form-control" name="# Water Samples Collected" id="# Water Samples Collected" placeholder="# Water Samples Collected" required>
+            <input type="number" step="1" min="0" class="form-control" name="Vol Water collected (mL)" id="Vol Water collected (mL)" placeholder="Vol Water collected (mL)" required>
+            <input type="number" step="1" min="0" class="form-control" name="location_id" id="location_id" placeholder="location_id" required>
+            <input type = "date" class="form-control" name="Date Collected" id="Date Collected" placeholder="Date Collected (yyyy-mm-dd)" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit_button" value="update_submission_data">Update or Add New Submission Data</button>
+      </form>
+      
+      <form class="needs-validation" action="/metadata" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <h2>Enter Sample Data</h2>
+          <p>Requirement to enter a valid CAHS Submission Number or the update will fail. Will later add detection for this and display an error.</p>
+          <div class="form-group">
+            <input type="text" class="form-control" name="Sample ID" id="Sample ID" placeholder="Sample_ID" required>
+            <input type="text" class="form-control" name="CAHS Submission Number" id="CAHS Submission Number" placeholder="CAHS Submission Number" required> 
+            <input type="text" class="form-control" name="Sample Type" id="Sample Type" placeholder="Sample Type" required>
+            <input type="text" class="form-control" name="Sample location" id="Sample location" placeholder="Sample location" required>
+            <input type="number" step="any" min="0" class="form-control" name="Fish Weight (g)" id="Fish Weight (g)" placeholder="Fish Weight (g)">
+            <input type="number" step="any" min="0" class="form-control" name="Fish Length (mm)" id="Fish Length (mm)" placeholder="Fish Length (mm)">
+            <input type="text" class="form-control" name="Material Swabbed for Biofilm" id="Material Swabbed for Biofilm" placeholder="Material Swabbed for Biofilm">
+            <input type = "date" class="form-control" name="Date Filtered" id="Date Filtered" placeholder="Date Filtered (yyyy-mm-dd)">
+            <input type="number" step="any" min="0" class="form-control" name="Volume Filtered (mL)" id="Volume Filtered (mL)" placeholder="Volume Filtered (mL)">
+            <input type="text" step="1" class="form-control" name="Time to Filter (h:mm:ss)" id="Time to Filter (h:mm:ss)" placeholder="Time to Filter (hh:mm:ss)">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit_button" value="update_sample_data">Update Sample Data</button>
+      </form>
+
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#location_modal" data-backdrop="false" >Update or Add New Location Name</button>
+        <div class="modal show" id="location_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="submit_button" value="update_location">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div> -->
