@@ -278,7 +278,7 @@ def upload_file():
                         flash("File saved.")
                     return redirect(request.url)
 
-        # ########### Attempted download function partiall broken #####################
+        # ########### Attempted download function partially broken #####################
         # if request.form.get('submit_button') == "download_file":
         #     print("download_button pushed")
         #     Primary_key = request.form.get('sample_id')
