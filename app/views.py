@@ -284,12 +284,15 @@ def zip_this(directory):
 @app.route("/upload-file", methods=["GET", "POST"])
 @login_required
 @is_admin
+
+# pylint: disable=too-many-branches
 def upload_file():
     """
     Defines the template for rendering the file upload page.
     """
 
     role = current_user.role
+    # pylint: disable=too-many-nested-blocks
     if request.method == "POST":
         if request.files:
             if "filesize" in request.cookies:
@@ -436,6 +439,7 @@ def update_metadata():
 
 @app.route("/display_data", methods=["GET", "POST"])
 @login_required
+# pylint: disable=too-many-branches, too-many-statements, too-many-return-statements
 def show_metadata():
     """
     Defines the template for rendering the database display page.
@@ -571,6 +575,8 @@ def show_metadata():
                 headers=header_data,
                 data=database_data,
                 user_role=role)
+
+    return None
 
 
 @app.route("/index")
