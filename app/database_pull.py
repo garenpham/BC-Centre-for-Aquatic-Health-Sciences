@@ -1,5 +1,5 @@
 """
-Defines DB pull functionality.
+Defines logic for pulling from the database.
 """
 
 import os
