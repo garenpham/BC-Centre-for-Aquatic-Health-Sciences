@@ -502,5 +502,14 @@ def delete_file(file_name):
 @login_required
 def show_viz():
     role = current_user.role
-    return render_template("public/visualization.html")
+
+    if request.form.get('submit_button') == "submit":
+        start_date = request.form.get("start-date")
+        end_date = request.form.get("end-date")
+        sample_type = request.form.get("sample-type")
+        if end_date >= start_date != '' and end_date != '':
+            return render_template("public/visualization.html", data="Good-date")
+        else:
+            return render_template("public/visualization.html", data="Bad-date")
+    return render_template("public/visualization.html", data=None)
 

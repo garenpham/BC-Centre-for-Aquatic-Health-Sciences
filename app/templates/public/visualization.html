@@ -1,5 +1,11 @@
-{% extends "public/templates/public_template.html" %}
 
+{% extends "public/templates/public_template.html" %}
+<style>
+form  { display: table;      }
+div   { display: table-row;  }
+label { display: table-cell; }
+input { display: table-cell; }
+</style>
 {% block title %}Home{% endblock %}
 
 {% block main %}
@@ -10,7 +16,7 @@
 <div class="container ">
   <div class="row">
     <div class="col">
-    <h1>Data</h1>
+    <h1>Visualization</h1>
     <hr>
         {% with messages = get_flashed_messages(with_categories=true) %}
             <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
@@ -24,28 +30,32 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-            <img id="placeholder">
-            <form action="/display_data" method="post">
-              <!--start date field-->
+            {% if data == "Bad-date" %}
+                <td>Please enter a valid date range</td>
+            {% endif %}
+            {% if data == "Good-date" %}
+                <img id="placeholder" src="../../static/img/biofilm_abund_graph.png" height="500" width="700">
+            {% endif %}
 
-                <div class="field-wrap">
-                    <div>
-                        <label for="start">Start Date</label>
-                        <input type="date" id="start" name="start-date">
-                    </div>
-                    <div>
-                        <label for="end">End Date</label>
-                        <input type="date" id="end" name="end-date">
-                    </div>
-                </div>
-              <!--end date field-->
+            <form action="/visualization" method="post">
                 <div>
+                <p>
+                    <label for="start">Start Date</label>
+                    <input type="date" id="start" name="start-date">
+                    <label for="end">End Date</label>
+                    <input type="date" id="end" name="end-date">
+
                     <label for="sample-type">Select sample type</label>
                     <select name="sample-type" id="sample-type">
+                        <option value="none">None</option>
                         <option value="biofilm">Biofilm</option>
                         <option value="fish">Fish</option>
                         <option value="water">Water</option>
                     </select>
+                </p>
+                </div>
+                <div>
+
                 </div>
 
               <button type="submit" class="btn btn-primary" name="submit_button" value="submit">Submit</button>
