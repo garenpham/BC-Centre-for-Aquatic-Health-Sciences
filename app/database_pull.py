@@ -1,12 +1,15 @@
-import mysql.connector
-import pandas as pd
+"""
+Defines DB pull functionality.
+"""
+
 import os
+import mysql.connector
 
 
 def mysql_database_connection():
     """MySQL Database Connection"""
     try:
-        db = mysql.connector.connect(
+        return mysql.connector.connect(
             host=os.environ['DB_HOST'],
             port=os.environ['DB_PORT'],
             user=os.environ['DB_USER'],
@@ -17,18 +20,18 @@ def mysql_database_connection():
     except mysql.connector.Error as err:
         print(f"error connecting to the database. please verify that MySQL is running.{err}")
         exit()
-    return db
 
 
 def show_location_data():
     """Shows location data by using a SELECT statement"""
     try:
-        db = mysql_database_connection()
-    except:
-        print(f"error connecting to the database. please verify that MySQL is running.")
+        database = mysql_database_connection()
+    # pylint: disable=broad-except
+    except BaseException:
+        print("error connecting to the database. please verify that MySQL is running.")
         exit()
 
-    cursor = db.cursor(buffered=True)
+    cursor = database.cursor(buffered=True)
     try:
         headers = []
         cursor.execute("SELECT * FROM location ;")
@@ -39,18 +42,19 @@ def show_location_data():
             headers.append(row[0])
         return result, headers
     except mysql.connector.Error as err:
-        print("Something went wrong pulling location data from database: {}".format(err))
+        print(f"Something went wrong pulling location data from database: {err}")
 
 
 def show_sample_info():
     """Shows sample info by using a SELECT statement"""
     try:
-        db = mysql_database_connection()
-    except:
-        print(f"error connecting to the database. please verify that MySQL is running.")
+        database = mysql_database_connection()
+    # pylint: disable=broad-except
+    except BaseException:
+        print("error connecting to the database. please verify that MySQL is running.")
         exit()
 
-    cursor = db.cursor(buffered=True)
+    cursor = database.cursor(buffered=True)
     try:
         headers = []
         cursor.execute("SELECT * FROM sample_data_view ;")
@@ -61,18 +65,19 @@ def show_sample_info():
             headers.append(row[0])
         return result, headers
     except mysql.connector.Error as err:
-        print("Something went wrong pulling sample info from database: {}".format(err))
+        print(f"Something went wrong pulling sample info from database: {err}")
 
 
 def show_submission_data():
     """Show Submission data by using a SELECT statement"""
     try:
-        db = mysql_database_connection()
-    except:
-        print(f"error connecting to the database. please verify that MySQL is running.")
+        database = mysql_database_connection()
+    # pylint: disable=broad-except
+    except BaseException:
+        print("error connecting to the database. please verify that MySQL is running.")
         exit()
 
-    cursor = db.cursor(buffered=True)
+    cursor = database.cursor(buffered=True)
     try:
         headers = []
         cursor.execute("SELECT * FROM submission_data ;")
@@ -83,18 +88,19 @@ def show_submission_data():
             headers.append(row[0])
         return result, headers
     except mysql.connector.Error as err:
-        print("Something went wrong pulling submission data from database: {}".format(err))
+        print(f"Something went wrong pulling submission data from database: {err}")
 
 
 def show_sample_data():
     """Show sample data by using the SELECT statement"""
     try:
-        db = mysql_database_connection()
-    except:
-        print(f"error connecting to the database. please verify that MySQL is running.")
+        database = mysql_database_connection()
+    # pylint: disable=broad-except
+    except BaseException:
+        print("error connecting to the database. please verify that MySQL is running.")
         exit()
 
-    cursor = db.cursor(buffered=True)
+    cursor = database.cursor(buffered=True)
     try:
         headers = []
         cursor.execute("SELECT * FROM sample_info ;")
@@ -105,4 +111,4 @@ def show_sample_data():
             headers.append(row[0])
         return result, headers
     except mysql.connector.Error as err:
-        print("Something went wrong pulling location data from database: {}".format(err))
+        print(f"Something went wrong pulling location data from database: {err}")
