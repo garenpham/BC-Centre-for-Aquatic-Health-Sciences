@@ -439,7 +439,10 @@ def update_metadata():
 
 @app.route("/display_data", methods=["GET", "POST"])
 @login_required
-# pylint: disable=too-many-branches, too-many-statements, too-many-return-statements
+
+# pylint: disable=too-many-statements
+# pylint: disable=too-many-return-statements
+# pylint: disable=too-many-branches
 def show_metadata():
     """
     Defines the template for rendering the database display page.
