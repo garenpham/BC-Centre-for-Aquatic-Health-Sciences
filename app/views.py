@@ -496,3 +496,11 @@ def delete_file(file_name):
         print(error)
         print("File path can not be removed")
         return redirect(url_for('downloads'))
+
+
+@app.route("/visualization", methods=["GET", "POST"])
+@login_required
+def show_viz():
+    role = current_user.role
+    return render_template("public/visualization.html")
+
