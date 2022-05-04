@@ -2,25 +2,9 @@
 Defines logic for pulling from the database.
 """
 
-import os
 import sys
 import mysql.connector
-
-
-def mysql_database_connection():
-    """MySQL Database Connection"""
-    try:
-        return mysql.connector.connect(
-            host=os.environ['DB_HOST'],
-            port=os.environ['DB_PORT'],
-            user=os.environ['DB_USER'],
-            passwd=os.environ['DB_PASS'],
-            auth_plugin=os.environ['DB_AUTH_PLUGIN'],
-            database=os.environ['DB'],
-        )
-    except mysql.connector.Error as err:
-        print(f"error connecting to the database. please verify that MySQL is running.{err}")
-        sys.exit()
+from .database_controller import mysql_database_connection
 
 
 def show_location_data():

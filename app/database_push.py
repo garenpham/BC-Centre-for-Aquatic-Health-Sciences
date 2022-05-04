@@ -5,23 +5,7 @@ Defines logic for pushing to the database.
 import os
 import sys
 import mysql.connector
-
-
-def mysql_database_connection():
-    """MySQL Database Connection"""
-    try:
-        database = mysql.connector.connect(
-            host=os.environ['database_HOST'],
-            port=os.environ['database_PORT'],
-            user=os.environ['database_USER'],
-            passwd=os.environ['database_PASS'],
-            auth_plugin=os.environ['database_AUTH_PLUGIN'],
-            database=os.environ['database'],
-        )
-    except mysql.connector.Error as err:
-        print(f"error connecting to the database. please verify that MySQL is running.{err}")
-        sys.exit()
-    return database
+from .database_controller import mysql_database_connection
 
 
 def upload_database(file_name, sample_id):
