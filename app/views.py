@@ -54,10 +54,9 @@ def is_admin(func):
 
     @wraps(func)
     def admin_decorator(*args, **kwargs):
-        if current_user:
-            if not current_user.role == 'admin':
-                abort(403)
-            return func(*args, **kwargs)
+        if not current_user or current_user.role != 'admin':
+            abort(403)
+        return func(*args, **kwargs)
 
     return admin_decorator
 
@@ -106,7 +105,8 @@ class RegisterForm(FlaskForm):
 
     submit = SubmitField("Register")
 
-    def validation_username(self, username):
+    @staticmethod
+    def validation_username(username):
         """Checks to see if there are existing username"""
         existing_user_username = User.query.filter_by(
             username=username.data).first()
@@ -165,8 +165,7 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(request.args.get('/') or url_for("about"))
-            else:
-                flash('Invalid Username/Password. Please Try again.')
+            flash('Invalid Username/Password. Please Try again.')
         else:
             flash('User not found.')
 
@@ -207,8 +206,8 @@ def register():
             db.session.commit()
 
             return redirect(url_for('login'))
-        else:
-            flash('Incorrect PIN, please re-enter')
+
+        flash('Incorrect PIN, please re-enter')
 
     return render_template("public/register.html", form=form)
 
@@ -336,12 +335,12 @@ def upload_file():
                     # print("Saved file to 'app/static/file_uploads'")
                     return redirect(request.url)
 
-                else:
-                    secured_file = secure_filename(file.filename)
-                    if os.path.isdir(os.path.join(app.config["CLIENT_DOWNLOADS"])):
-                        file.save(os.path.join(app.config["CLIENT_DOWNLOADS"], secured_file))
-                        flash("File saved.")
-                    return redirect(request.url)
+                secured_file = secure_filename(file.filename)
+                if os.path.isdir(os.path.join(app.config["CLIENT_DOWNLOADS"])):
+                    file.save(os.path.join(app.config["CLIENT_DOWNLOADS"], secured_file))
+                    flash("File saved.")
+
+                return redirect(request.url)
 
         # ########### Attempted download function partially broken #####################
         # if request.form.get('submit_button') == "download_file":
@@ -363,6 +362,7 @@ def upload_file():
     for folder in os.listdir(app.config["FILE_UPLOADS"]):
         files_contained = os.listdir(os.path.join(app.config["FILE_UPLOADS"], folder))
         list_files.append([folder, files_contained])
+
     return render_template("public/upload_file.html",
         headers=["Sample ID's", "Files"],
         data=list_files,
@@ -605,6 +605,7 @@ def download_file(file_name):
             as_attachment=True)
     except FileNotFoundError:
         abort(404)
+        return None
 
 
 @app.route("/index/remove/<file_name>")
