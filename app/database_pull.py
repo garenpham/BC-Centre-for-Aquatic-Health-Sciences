@@ -44,6 +44,7 @@ def show_location_data():
         return result, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
+        return None
 
 
 def show_sample_info():
@@ -67,6 +68,7 @@ def show_sample_info():
         return result, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling sample info from database: {err}")
+        return None
 
 
 def show_submission_data():
@@ -90,6 +92,7 @@ def show_submission_data():
         return result, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling submission data from database: {err}")
+        return None
 
 
 def show_sample_data():
@@ -113,3 +116,4 @@ def show_sample_data():
         return result, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
+        return None

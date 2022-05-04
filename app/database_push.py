@@ -71,7 +71,7 @@ def upload_database(file_name, sample_id):
         return f"Upload to database failed error: {err}"
 
 
-# pylint: disable=invalid-name
+# pylint: disable=too-many-arguments, too-many-locals, invalid-name
 def update_sample_info(sample_id, CAHS_Submission_Number, sample_Type, sample_Location, fish_weight,
                        fish_Length, material_swab, date_filtered, volume_filtered, time_to_filter):
     """
@@ -126,6 +126,7 @@ def update_sample_info(sample_id, CAHS_Submission_Number, sample_Type, sample_Lo
         return database_error, alert_type
 
 
+# pylint: disable=too-many-arguments, too-many-locals
 def update_submission_data(CAHS_Submission_Number_submission_data, Samplers, water_temp,
                            oxygen_measurement, saturation_percent, num_fish_swabs,
                            num_biofilm_swabs, num_water_samples_collected, vol_water,
