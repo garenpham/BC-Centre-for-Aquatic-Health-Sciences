@@ -3,6 +3,7 @@ Defines logic for pushing to the database.
 """
 
 import os
+import sys
 import mysql.connector
 
 
@@ -19,7 +20,7 @@ def mysql_database_connection():
         )
     except mysql.connector.Error as err:
         print(f"error connecting to the database. please verify that MySQL is running.{err}")
-        exit()
+        sys.exit()
     return database
 
 
@@ -40,7 +41,7 @@ def upload_database(file_name, sample_id):
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
 
@@ -82,7 +83,7 @@ def update_sample_info(sample_id, CAHS_Submission_Number, sample_Type, sample_Lo
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     print(sample_id, CAHS_Submission_Number, sample_Type, sample_Location, fish_weight, fish_Length,
@@ -135,7 +136,7 @@ def update_submission_data(CAHS_Submission_Number_submission_data, Samplers, wat
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -187,7 +188,7 @@ def check_location_data_exists(location_id):
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -206,7 +207,7 @@ def update_location_data(location_id, location_name):
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -250,7 +251,7 @@ def delete_location_data(location_id):
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -273,7 +274,7 @@ def delete_sample_data_data(sample_id):
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -298,7 +299,7 @@ def delete_submission_data(CAHS_Submission_Number):
     # pylint: disable=bare-except
     except:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:

@@ -3,6 +3,7 @@ Defines logic for pulling from the database.
 """
 
 import os
+import sys
 import mysql.connector
 
 
@@ -19,7 +20,7 @@ def mysql_database_connection():
         )
     except mysql.connector.Error as err:
         print(f"error connecting to the database. please verify that MySQL is running.{err}")
-        exit()
+        sys.exit()
 
 
 def show_location_data():
@@ -29,7 +30,7 @@ def show_location_data():
     # pylint: disable=broad-except
     except BaseException:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -52,7 +53,7 @@ def show_sample_info():
     # pylint: disable=broad-except
     except BaseException:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -75,7 +76,7 @@ def show_submission_data():
     # pylint: disable=broad-except
     except BaseException:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
@@ -98,7 +99,7 @@ def show_sample_data():
     # pylint: disable=broad-except
     except BaseException:
         print("error connecting to the database. please verify that MySQL is running.")
-        exit()
+        sys.exit()
 
     cursor = database.cursor(buffered=True)
     try:
