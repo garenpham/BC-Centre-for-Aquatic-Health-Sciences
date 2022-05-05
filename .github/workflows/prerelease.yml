@@ -1,4 +1,4 @@
-name: Release
+name: Pre-release
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - test
 
 jobs:
-  release:
+  prerelease:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -25,16 +25,17 @@ jobs:
       run: |
         echo "Head commit is \"${{ github.event.head_commit.message }}\""
         INCREMENT="feature"
-        if [ ${{ contains(github.event.head_commit.message, '[increment patch]') }} == true ]; then
-          echo "Found [increment patch], creating a patch release..."
+        if [ ${{ startsWith(github.event.head_commit.message, 'fix:') }} == true ]; then
+          echo "Found \"fix\", creating a patch release..."
           INCREMENT="bug"
-        elif [ ${{ contains(github.event.head_commit.message, '[increment minor]') }} == true ]; then
-          echo "Found [increment minor], creating a minor release..."
+        elif [ ${{ startsWith(github.event.head_commit.message, 'feat:') }} == true ]
+        || [ ${{ startsWith(github.event.head_commit.message, 'feat(') }} == true ]; then
+          echo "Found \"feat\", creating a minor release..."
           INCREMENT="feature"
-        elif [ ${{ contains(github.event.head_commit.message, '[increment major]') }} == true ]; then
-          echo "Found [increment major], creating a major release..."
+        elif [ ${{ startsWith(github.event.head_commit.message, 'BREAKING CHANGE:') }} == true ]; then
+          echo "Found \"BREAKING CHANGE\", creating a major release..."
           INCREMENT="major"
-        elif [ ${{ contains(github.event.head_commit.message, 'skip release') }} == true ]; then
+        elif [ ${{ startsWith(github.event.head_commit.message, '[skip release]') }} == true ]; then
           echo "Found [skip release], skipping release..."
           INCREMENT="skip"
         else
