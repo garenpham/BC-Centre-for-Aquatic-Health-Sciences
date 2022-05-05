@@ -18,8 +18,8 @@ elif [[ "$OSTYPE" == "msys" ]]; then
     # setx FLASK_ENV 'development'
 
     # Export Temporary Env. Variables (Windows)
-    # set FLASK_APP='run.py'
-    # set FLASK_ENV='development'
+    set FLASK_APP='run.py'
+    set FLASK_ENV='development'
 else
     echo "setup script did not run!"
 fi
