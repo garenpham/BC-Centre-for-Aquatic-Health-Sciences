@@ -9,9 +9,6 @@ if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
     # Export Temporary Env. Variables
     # export FLASK_APP='run.py'
     # export FLASK_ENV='development'
-
-    # Start Flask App
-    flask run
 elif [[ "$OSTYPE" == "msys" ]]; then
     # Export Permanent Env. Variables (Windows)
     # setx FLASK_APP 'run.py'
