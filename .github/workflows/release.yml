@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # required for get_previous_tag
+
+    - name: Get latest tag
+      id: get_latest_tag
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      with:
+        fallback: 0.0.0
+
+    - name: Determine Increment
+      id: determine_increment
+      run: |
+        INCREMENT="feature"
+        if [ ${{ contains(github.event.head_commit.message, '[increment patch]') }} == true ]; then
+          echo "Found [increment patch], creating a patch release..."
+          INCREMENT="bug"
+        elif [ ${{ contains(github.event.head_commit.message, '[increment minor]') }} == true ]; then
+          echo "Found [increment minor], creating a minor release..."
+          INCREMENT="feature"
+        elif [ ${{ contains(github.event.head_commit.message, '[increment major]') }} == true ]; then
+          echo "Found [increment major], creating a major release..."
+          INCREMENT="major"
+        elif [ ${{ contains(github.event.head_commit.message, 'skip release') }} == true ]; then
+          echo "Found [skip release], skipping release..."
+          INCREMENT="skip"
+        else
+          echo "No commit message flag found, using default increment ($INCREMENT)"
+        fi
+        echo "::set-output name=increment::$(echo "$INCREMENT")"
+
+    - name: Bump release version
+      id: bump_version
+      uses: christian-draeger/increment-semantic-version@1.0.2
+      with:
+        current-version: ${{ steps.get_latest_tag.outputs.tag }}
+        version-fragment: ${{ steps.determine_increment.outputs.increment }}
+
+    - name: "Build changelog"
+      id: build_changelog
+      uses: mikepenz/release-changelog-builder-action@v3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create new release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: "v${{ steps.bump_version.outputs.next-version }}"
+        tag_name: ${{ steps.bump_version.outputs.next-version }}
+        body: ${{steps.build_changelog.outputs.changelog}}
+        token: ${{ secrets.GITHUB_TOKEN }}
