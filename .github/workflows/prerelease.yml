@@ -44,11 +44,18 @@ jobs:
         echo "::set-output name=increment::$(echo "$INCREMENT")"
 
     - name: Bump release version
-      id: bump_version
+      id: bump_release_version
       uses: christian-draeger/increment-semantic-version@1.0.2
       with:
         current-version: ${{ steps.get_previous_tag.outputs.tag }}
         version-fragment: ${{ steps.determine_increment.outputs.increment }}
+
+    - name: Bump pre-release version
+      id: bump_prerelease_version
+      uses: christian-draeger/increment-semantic-version@1.0.2
+      with:
+        current-version: ${{ steps.bump_release_version.outputs.next-version }}
+        version-fragment: alpha
 
     - name: Generate changelog
       id: generate_changelog
@@ -57,8 +64,8 @@ jobs:
     - name: Create new release
       uses: actions/create-release@v1
       with:
-        tag_name: "${{ steps.bump_version.outputs.next-version }}-alpha"
-        release_name: "v${{ steps.bump_version.outputs.next-version }}-alpha"
+        tag_name: ${{ steps.bump_prerelease_version.outputs.next-version }}
+        release_name: "v${{ steps.bump_prerelease_version.outputs.next-version }}"
         body: ${{ steps.generate_changelog.outputs.changelog }}
         commitish: test
         prerelease: true
