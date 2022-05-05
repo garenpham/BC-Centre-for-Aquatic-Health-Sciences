@@ -635,3 +635,20 @@ def delete_file(file_name):
         print(error)
         print("File path can not be removed")
         return redirect(url_for('downloads'))
+
+
+@app.route("/visualization", methods=["GET", "POST"])
+@login_required
+def show_viz():
+    """
+    Displays the data visualization page and gets form submission info.
+    """
+    # role = current_user.role
+    if request.form.get('submit_button') == "submit":
+        start_date = request.form.get("start-date")
+        end_date = request.form.get("end-date")
+        # sample_type = request.form.get("sample-type")
+        if end_date >= start_date != '' and end_date != '':
+            return render_template("public/visualization.html", data="Good-date")
+        return render_template("public/visualization.html", data="Bad-date")
+    return render_template("public/visualization.html", data=None)
