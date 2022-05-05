@@ -28,7 +28,7 @@ jobs:
         if [ ${{ startsWith(github.event.head_commit.message, 'fix:') }} == true ]; then
           echo "Found \"fix\", creating a patch release..."
           INCREMENT="bug"
-        elif [ ${{ startsWith(github.event.head_commit.message, 'feat:') }} == true ]
+        elif [ ${{ startsWith(github.event.head_commit.message, 'feat:') }} == true ] \
         || [ ${{ startsWith(github.event.head_commit.message, 'feat(') }} == true ]; then
           echo "Found \"feat\", creating a minor release..."
           INCREMENT="feature"
