@@ -54,14 +54,14 @@
         </div>
         <button type="submit" class="btn btn-primary" name="submit_button" value="update_submission_data">Update or Add New Submission Data</button>
       </form>
-      
+
       <form class="needs-validation" action="/metadata" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <h2>Enter Sample Data</h2>
           <p>Requirement to enter a valid CAHS Submission Number or the update will fail. Will later add detection for this and display an error.</p>
           <div class="form-group">
             <input type="text" class="form-control" name="Sample ID" id="Sample ID" placeholder="Sample_ID" required>
-            <input type="text" class="form-control" name="CAHS Submission Number" id="CAHS Submission Number" placeholder="CAHS Submission Number" required> 
+            <input type="text" class="form-control" name="CAHS Submission Number" id="CAHS Submission Number" placeholder="CAHS Submission Number" required>
             <input type="text" class="form-control" name="Sample Type" id="Sample Type" placeholder="Sample Type" required>
             <input type="text" class="form-control" name="Sample location" id="Sample location" placeholder="Sample location" required>
             <input type="number" step="any" min="0" class="form-control" name="Fish Weight (g)" id="Fish Weight (g)" placeholder="Fish Weight (g)">
@@ -75,7 +75,9 @@
         <button type="submit" class="btn btn-primary" name="submit_button" value="update_sample_data">Update Sample Data</button>
       </form>
 
-
+      <form action="/upload-file" method="POST" enctype="multipart/form-data">
+        <input type="file" id="file" name="file" />
+      </form>
 
     </div>
   </div>

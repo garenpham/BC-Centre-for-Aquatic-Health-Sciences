@@ -41,10 +41,10 @@ login_manager.login_view = "login"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'secretkey'  # os.environ['SECRET_KEY']
-app.config["FILE_UPLOADS"] = cwd + "/app/static/file_uploads"
 app.config["ALLOWED_FILE_EXTENSION"] = ["CSV", "HTML", "TXT"]
 app.config["MAX_FILESIZE"] = 100 * 1024 * 1024
-app.config["CLIENT_DOWNLOADS"] = cwd + "/app/static/file_uploads/download_folder"
+app.config["FILE_UPLOADS"] = os.path.join(cwd, "../file_uploads")
+app.config["CLIENT_DOWNLOADS"] = os.path.join(cwd, "../file_uploads/download_folder")
 
 
 def is_admin(func):
