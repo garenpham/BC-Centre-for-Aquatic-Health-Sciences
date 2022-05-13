@@ -101,3 +101,58 @@ def show_sample_data():
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
         return None
+
+def get_abund_data(start_date, end_date, sample_type):
+    """Show abundance plot visualization"""
+    try:
+        database = mysql_database_connection()
+    # pylint: disable=broad-except
+    except BaseException:
+        print("error connecting to the database. please verify that MySQL is running.")
+        sys.exit()
+
+    cursor = database.cursor(buffered=True)
+    try:
+        sample_type_filter = f"AND sample_info.`Sample Type` = {sample_type}" if sample_type else ""
+        min_abund = 0.01
+        sample_id_filter = "'%'"
+
+        query = (
+            "WITH filtered_sample AS ("
+                "SELECT a.`Sample ID`, a.`name`, a.taxonomy_id, a.fraction_total_reads "
+                "FROM sample_data a "
+                "JOIN ("
+                    "SELECT `Sample ID`, `name`, taxonomy_id "
+                    "FROM sample_data "
+                    "GROUP BY `name` "
+                    f"HAVING MAX(fraction_total_reads) > {min_abund}"
+                ") b ON a.taxonomy_id = b.taxonomy_id "
+                f"WHERE a.`Sample ID` LIKE {sample_id_filter}"
+            "),"
+            "sample_info_data AS ("
+                "SELECT sample_info.`Sample ID` AS 'sample_ID', species.`name` AS 'genus', "
+                    "filtered_sample.fraction_total_reads*100 AS 'value', "
+                    f"DATE_FORMAT(sample_info.`Date Filtered`, '%b-%e-%y') AS 'date' "
+                "FROM sample_info "
+                "JOIN filtered_sample ON filtered_sample.`Sample ID` = sample_info.`Sample ID` "
+                "JOIN species ON species.taxonomy_id = filtered_sample.taxonomy_id "
+                f"WHERE sample_info.`Date Filtered` BETWEEN '{start_date}' AND '{end_date}' "
+                f"{sample_type_filter}"
+            ") "
+            "SELECT sample_info_data.sample_ID, sample_info_data.genus, sample_info_data.`value`, "
+            "sample_info_data.`date` "
+            "FROM sample_info_data "
+            "UNION "
+            "SELECT sample_info_data.sample_ID, 'Unclassified_Bacteria' AS 'genus', "
+            "100-SUM(sample_info_data.`value`) AS 'value', sample_info_data.`date` "
+            "FROM sample_info_data "
+            "GROUP BY sample_ID "
+            "ORDER BY genus, sample_ID "
+            ";"
+        )
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except mysql.connector.Error as err:
+        print(f"Something went wrong pulling abund data from database: {err}")
+        return None

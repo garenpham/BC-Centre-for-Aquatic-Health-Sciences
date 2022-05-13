@@ -2,6 +2,8 @@
 Defines view logic for the application server.
 """
 
+import csv
+import subprocess
 import shutil
 import os
 from functools import wraps
@@ -23,7 +25,7 @@ from app import app
 from .database_push import upload_database, update_sample_info, update_submission_data, \
     update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
 from .database_pull import show_location_data, show_sample_info, show_submission_data, \
-    show_sample_data
+    show_sample_data, get_abund_data
 
 # from is_safe_url import is_safe_url
 # from .database_controller import *
@@ -647,8 +649,23 @@ def show_viz():
     if request.form.get('submit_button') == "submit":
         start_date = request.form.get("start-date")
         end_date = request.form.get("end-date")
-        # sample_type = request.form.get("sample-type")
+        sample_type = None
+        if request.form.get("sample-type") != "All":
+            sample_type = request.form.get("sample-type")
+
         if end_date >= start_date != '' and end_date != '':
-            return render_template("public/visualization.html", data="Good-date")
-        return render_template("public/visualization.html", data="Bad-date")
-    return render_template("public/visualization.html", data=None)
+            current_working_dir = os.getcwd()
+            abund_data_result = get_abund_data(start_date, end_date, sample_type)
+
+            with open('app/r/rel_abund_long.csv', encoding="utf-8", mode='w') as csv_file:
+                csv_writer = csv.writer(csv_file)
+                csv_writer.writerow(['sample_ID', 'genus', 'value', 'date'])
+                csv_writer.writerows(abund_data_result)
+
+            subprocess.run(["/usr/bin/Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
+                check=True)
+
+            return render_template("public/visualization.html", data="Good-date",
+                viz1="data_abund_separate.png", viz2="data_abund_grouped.png")
+        return render_template("public/visualization.html", data="Bad-date", viz=None)
+    return render_template("public/visualization.html", data=None, viz=None)
