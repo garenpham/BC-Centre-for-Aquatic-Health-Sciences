@@ -1,0 +1,134 @@
+<style>
+.file {
+  padding: 1rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: thin solid silver;
+  border-bottom: thin solid silver;
+}
+
+.file + .file {
+  border-top: none;
+}
+
+.file-meta {
+  display: flex;
+}
+
+.file-icon {
+  color: gray;
+  font-size: 1.5rem;
+}
+
+.file-text {
+  margin-left: 0.5rem;
+}
+
+.file-name {
+  font-weight: bold;
+  display: block;
+}
+
+.file-description {
+  margin: 0.25rem 0 0 0;
+}
+
+.file-actions {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.file-action + .file-action {
+  margin-left: 0.5rem;
+}
+</style>
+
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}
+  Documents
+{% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom_modal.css') }}">
+
+<script type="module">
+  import { ModalController } from "{{ url_for('static', filename='js/modal_controller.js') }}"
+  import { Modal, ModalAction } from "{{ url_for('static', filename='js/modal.js') }}"
+  import { EditModal } from "{{ url_for('static', filename='js/modal_edit.js') }}"
+  import { ConfirmModal } from "{{ url_for('static', filename='js/modal_confirm.js') }}"
+
+  window.CAHS = {
+    openEditModal(fileName, fileTitle, fileDescription) {
+      ModalController.openModal(EditModal, {
+        title: `Edit '${fileName}'`,
+        fileName, fileTitle, fileDescription,
+      })
+    },
+    openDeleteModal(fileName, callback) {
+      ModalController.openModal(ConfirmModal, {
+        title: `Delete '${fileName}'?`,
+        body: 'You can\'t undo this action.',
+        actions: [
+          new ModalAction('Delete file', ['danger'], { callback }),
+          new ModalAction('Cancel', ['outline', 'secondary']),
+        ]
+      })
+    }
+  }
+</script>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Documents</h1>
+      <hr>
+
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+
+      <ul class="files">
+        {% for file_name, file_title, file_description in downloads %}
+          <li class="file">
+            <div class="file-meta">
+              <i class="file-icon bi-file-earmark"></i>
+              <div class="file-text">
+                <span class="file-name">{{ file_title }}</span>
+                {% if file_description %}
+                  <p class="file-description">{{ file_description }}</p>
+                {% endif %}
+              </div>
+            </div>
+            <div class="file-actions">
+              <a class="file-action btn btn-primary" href="/documents/download/{{ file_name }}">Download</a>
+              {% if current_user.role == 'admin' %}
+                <button
+                  class="file-action btn btn-outline-secondary"
+                  onclick="CAHS.openEditModal('{{ file_name }}', '{{ file_title }}', '{{ file_description }}')"
+                >Edit</button>
+                <button
+                  class="file-action btn btn-outline-danger"
+                  onclick="CAHS.openDeleteModal(
+                    '{{ file_name }}',
+                    () => window.location.href = '/documents/delete/{{ file_name }}'
+                  )"
+                >Delete</a>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

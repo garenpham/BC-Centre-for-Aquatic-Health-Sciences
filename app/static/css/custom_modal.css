@@ -1,0 +1,141 @@
+.custom-modal-wrap {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.custom-modal-wrap.-show {
+  display: block;
+}
+
+.custom-modal-overlay {
+  background: rgba(255, 255, 255, 0.75);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.custom-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: 640px;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 4rem 2rem 2rem;
+  border: thin solid silver;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.125);
+}
+
+.custom-modal.-enter {
+  animation: custom-modal-slide 0.5s;
+}
+
+.custom-modal.-exit {
+  animation: custom-modal-slide 0.25s reverse ease-out;
+}
+
+.custom-modal.-enter + .custom-modal-overlay {
+  animation: custom-modal-fade 0.125s;
+}
+
+.custom-modal.-exit + .custom-modal-overlay {
+  animation: custom-modal-fade 0.25s reverse ease-out;
+}
+
+.custom-modal-fieldgroup > label:first-of-type {
+  font-weight: bold;
+}
+
+.custom-modal label.btn {
+  display: block;
+  margin: 0;
+}
+
+.custom-modal-fieldrow {
+  display: flex;
+}
+
+.custom-modal-fieldrow .custom-modal-fieldgroup + .custom-modal-fieldgroup {
+  margin-left: 1rem;
+}
+
+.custom-modal form > .custom-modal-fieldgroup + .custom-modal-fieldgroup,
+.custom-modal-fieldrow + .custom-modal-fieldgroup {
+  margin-top: 1.5rem;
+}
+
+.custom-modal textarea {
+  width: 100%;
+  min-height: 8rem;
+}
+
+.custom-modal p:last-of-type {
+  margin: 0;
+}
+
+.custom-modal .file-input {
+  display: flex;
+  align-items: center;
+}
+
+.custom-modal .file-name {
+  margin-left: 0.5rem;
+}
+
+.custom-modal-actions {
+  margin-top: 2rem;
+  float: right;
+}
+
+.custom-modal-action + .custom-modal-action {
+  margin-left: 0.5rem;
+}
+
+.custom-modal-close {
+  color: gray;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.custom-modal [hidden] {
+  display: none;
+}
+
+.custom-modal .required {
+  color: red;
+}
+
+@keyframes custom-modal-slide {
+  from {
+    opacity: 0;
+    top: 25%;
+  }
+
+  to {
+    opacity: 1;
+    top: 50%;
+  }
+}
+
+@keyframes custom-modal-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

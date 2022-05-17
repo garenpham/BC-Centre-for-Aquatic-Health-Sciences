@@ -29,6 +29,12 @@
           <a class="nav-link" href="/about">About</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/documents">Documents</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/visualization">Visualization</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/display_data">Database</a>
         </li>
         {% if current_user.role == 'admin' %}
@@ -40,13 +46,7 @@
         </li>
         {% endif %}
         <li class="nav-item">
-          <a class="nav-link" href="/visualization">Visualization</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/index">Additional Files</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('logout')}}"> Logout</a>
+          <a class="nav-link" href="{{ url_for('logout') }}"> Logout</a>
         </li>
       </ul>
     </div>

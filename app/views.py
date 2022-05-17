@@ -26,7 +26,7 @@ from .database_push import upload_database, update_sample_info, update_submissio
     update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
 from .database_pull import show_location_data, show_sample_info, show_submission_data, \
     show_sample_data, get_location_list, get_sample_by_sample_id, get_abund_data
-
+from .file_metadata import locate_file_metadata, read_file_metadata, write_file_metadata
 
 # from is_safe_url import is_safe_url
 # from .database_controller import *
@@ -288,83 +288,76 @@ def zip_this(directory):
 @login_required
 @is_admin
 
-# pylint: disable=too-many-branches
+# pylint: disable=too-many-branches,too-many-return-statements
 def upload_file():
     """
     Defines the template for rendering the file upload page.
     """
 
-    role = current_user.role
-    # pylint: disable=too-many-nested-blocks
     if request.method == "POST":
-        if request.files:
-            if "filesize" in request.cookies:
+        if not request.files:
+            flash("Failed to upload file: `request.files` field is nullish", "danger")
+            return redirect(request.url)
 
-                if not allow_filesize(request.cookies["filesize"]):
-                    print("Filesize greater than global limit.")
-                    flash("Filesize greater than global limit.")
-                    return redirect(request.url)
+        if "file_size" not in request.form:
+            flash("Failed to upload file: No filesize provided", "danger")
+            return redirect(request.url)
 
-                file = request.files["file"]
+        if not allow_filesize(request.form["file_size"]):
+            flash("Failed to upload file: File size greater than global limit.", "danger")
+            return redirect(request.url)
 
-                if file.filename == "":
-                    print("Missing filename.")
-                    flash("Missing filename.")
-                    return redirect(request.url)
+        file = request.files["file"]
 
-                if allow_file(file.filename):
-                    sample_id = request.form['Sample ID']
-                    secured_file = secure_filename(file.filename)
-                    if sample_id is not None or sample_id != "":
-                        dir_path = os.path.join(app.config["FILE_UPLOADS"], sample_id)
-                        if os.path.isdir(dir_path):
-                            file_path = os.path.join(dir_path, secured_file)
-                            file.save(file_path)
-                            flash("File saved.")
-                            if "bracken_report" in secured_file:
-                                print("bracken_report triggered")
-                                return_message = upload_database(secured_file, sample_id)
-                                flash(f"{return_message}")
-                        else:
-                            try:
-                                os.makedirs(dir_path)
-                                file.save(os.path.join(dir_path, secured_file))
-                                flash("file Saved")
-                                if "bracken_report" in secured_file:
-                                    print("bracken_report triggered")
-                                    return_message = upload_database(secured_file, sample_id)
-                                    flash(f"{return_message}")
-                            except OSError as error:
-                                flash(f"Error saving file{error}")
-                    else:
-                        flash(f"Missing Sample ID. Unable to write to directory '{sample_id}' ")
-                    # print("Saved file to 'app/static/file_uploads'")
-                    return redirect(request.url)
+        if not file.filename:
+            flash("Failed to upload file: Missing filename", "danger")
+            return redirect(request.url)
 
-                secured_file = secure_filename(file.filename)
-                if os.path.isdir(os.path.join(app.config["CLIENT_DOWNLOADS"])):
-                    file.save(os.path.join(app.config["CLIENT_DOWNLOADS"], secured_file))
-                    flash("File saved.")
-
+        if request.form["file_type"] == "sample":
+            if not allow_file(file.filename):
+                flash("Failed to upload file: File extension is invalid", "danger")
                 return redirect(request.url)
 
-        # ########### Attempted download function partially broken #####################
-        # if request.form.get('submit_button') == "download_file":
-        #     print("download_button pushed")
-        #     primary_key = request.form.get('sample_id')
-        #     if os.path.isdir(os.path.join(app.config["FILE_UPLOADS"], primary_key)):
-        #         print("dir exists attempting zip")
-        #         zip_this(os.path.join(app.config["FILE_UPLOADS"], primary_key))
-        #         try:
-        #             return send_from_directory(
-        #                   directory=app.config["FILE_UPLOADS"],
-        #                   path=f"{primary_key}.zip",
-        #             as_attachment=True)
-        #         except FileNotFoundError:
-        #             abort(404)
-        #     return redirect(request.url)
+            sample_id = request.form["sample_id"]
+            if not sample_id:
+                flash(f"Missing Sample ID. Unable to write to directory '{sample_id}'", "danger")
+                return redirect(request.url)
 
-    list_files = []  # File listing implementation that really needs work.
+            file_name = secure_filename(file.filename)
+            dir_path = os.path.join(app.config["FILE_UPLOADS"], sample_id)
+            file_path = os.path.join(dir_path, file_name)
+            if not os.path.isdir(dir_path):
+                try:
+                    os.makedirs(dir_path)
+                except OSError as error:
+                    flash(f"Error saving file{error}", "danger")
+                    return redirect(request.url)
+
+            file.save(file_path)
+            flash("File saved.", "info")
+            if "bracken_report" in file_name:
+                print("bracken_report triggered")
+                return_message = upload_database(file_name, sample_id)
+                flash(return_message, "danger" if "error" in return_message else "info")
+
+            return redirect(request.url)
+
+        # file extension is not "allowed": assume file is a document
+        dir_path = app.config["CLIENT_DOWNLOADS"]
+        file_name = secure_filename(file.filename)
+        file_path = os.path.join(dir_path, file_name)
+        if os.path.isdir(dir_path):
+            file.save(file_path)
+            flash("File saved.", "info")
+
+        write_file_metadata(file_path,
+            title=request.form.get("document_title"),
+            description=request.form.get("document_description"))
+
+        return redirect(request.url)
+
+
+    list_files = []
     for folder in os.listdir(app.config["FILE_UPLOADS"]):
         files_contained = os.listdir(os.path.join(app.config["FILE_UPLOADS"], folder))
         list_files.append([folder, files_contained])
@@ -372,7 +365,7 @@ def upload_file():
     return render_template("public/upload_file.html",
         headers=["Sample ID's", "Files"],
         data=list_files,
-        user_role=role)
+        user_role=current_user.role)
 
 
 # class ListStarted():
@@ -644,25 +637,36 @@ def show_metadata():
     return None
 
 
-@app.route("/index")
+@app.route("/documents", methods=["GET", "POST"])
 @login_required
 def downloads():
     """
-    Defines the template for rendering the `Additional Files` page.
+    Defines the template for rendering the `Documents` page.
     """
+
+    # POST handles updating document metadata
+    if request.method == "POST":
+        file_name = request.form.get("file_name")
+        file_path = os.path.join(app.config["CLIENT_DOWNLOADS"], file_name)
+        write_file_metadata(file_path,
+            title=request.form.get("document_title"),
+            description=request.form.get("document_description"))
+        flash(f"The file '{file_name}' was updated successfully.", "info")
+        return redirect(request.url)
+
 
     directory = app.config["CLIENT_DOWNLOADS"]
     files = []
-    for filename in os.listdir(directory):
-        file = os.path.join(directory, filename)
-        if os.path.isfile(file):
-            files.append(filename)
-    # rows = database_controller.get_home_table()
-    # return render_template("public/index.html", downloads=downloads, rows = rows)
-    return render_template("public/index.html", downloads=files)
+    for file_name in os.listdir(directory):
+        file_path = os.path.join(directory, file_name)
+        file = read_file_metadata(file_path)
+        if file:
+            files.append(file)
+
+    return render_template("public/documents.html", downloads=files)
 
 
-@app.route("/index/download/<file_name>")
+@app.route("/documents/download/<file_name>")
 @login_required
 def download_file(file_name):
     """
@@ -679,24 +683,27 @@ def download_file(file_name):
         return None
 
 
-@app.route("/index/remove/<file_name>")
+@app.route("/documents/delete/<file_name>")
 @login_required
 @is_admin
 def delete_file(file_name):
     """
-    Allows admins to remove files from app/static/file_uploads/download_folder path.
+    Allows admins to delete files from the path specified by `app.config['CLIENT_DOWNLOADS']`.
     Upon removing specified file via button on page, user is redirected to
     original downloads route.
     """
     try:
-        file_name_joined = os.path.join(app.config['CLIENT_DOWNLOADS'], file_name)
-        os.remove(file_name_joined)
-        print(f"{file_name} removed successfully")
-        return redirect(url_for('downloads'))
+        file_path = os.path.join(app.config['CLIENT_DOWNLOADS'], file_name)
+        os.remove(file_path)
+
+        meta_path = locate_file_metadata(file_path)
+        os.remove(meta_path)
+
+        flash(f"The file '{file_name}' was deleted successfully.", "info")
+        return redirect(url_for("downloads"))
     except OSError as error:
-        print(error)
-        print("File path can not be removed")
-        return redirect(url_for('downloads'))
+        flash(f"Failed to remove '{file_name}': {error}", "danger")
+        return redirect(url_for("downloads"))
 
 
 @app.route("/visualization", methods=["GET", "POST"])
