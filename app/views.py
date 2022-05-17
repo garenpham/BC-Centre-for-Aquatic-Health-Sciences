@@ -379,63 +379,6 @@ def upload_file():
 
 # File_list = ListStarted()
 
-# pylint: disable=invalid-name,too-many-locals
-def update_sample(locations):
-    """collects sample data data and submits to db or refills form if theres an error"""
-    form_data = None
-    sample_id=request.form.get('Sample ID')
-    CAHS_Submission_Number=request.form.get('CAHS Submission Number')
-    sample_Type=request.form.get('Sample Type')
-    sample_Location=request.form.get('Sample location')
-    fish_weight=request.form.get('Fish Weight (g)') or None
-    fish_Length=request.form.get('Fish Length (mm)') or None
-    material_swab=request.form.get('Material Swabbed for Biofilm') or None
-    date_filtered=request.form.get('Date Filtered') or None
-    volume_filtered=request.form.get('Volume Filtered (mL)') or None
-    time_to_filter=request.form.get('Time to Filter (h:mm:ss)') or None
-    return_message, alert_type = update_sample_info(
-        sample_id, CAHS_Submission_Number, sample_Type, sample_Location,
-        fish_weight, fish_Length, material_swab, date_filtered,
-        volume_filtered, time_to_filter)
-
-    if alert_type == "danger":
-        form_data = [sample_id, CAHS_Submission_Number, sample_Type,
-        sample_Location, fish_weight, fish_Length, material_swab,
-        date_filtered, volume_filtered, time_to_filter, 3]
-    flash(return_message, alert_type)
-    render_template("public/metadata.html", locations=locations, form_data=form_data)
-
-# pylint: disable=invalid-name,too-many-locals
-def update_submission(locations):
-    """collects submission data data and submits to db or refills form if theres an error"""
-    form_data = None
-    CAHS_Submission_Number_submission_data=\
-        request.form.get('CAHS Submission Number Submission Data')
-    Samplers=request.form.get('Samplers') or None
-    water_temp=request.form.get('Water Temperature (c)') or None
-    oxygen_measurement=request.form.get('Oxygen (mg/L)') or None
-    saturation_percent=request.form.get('Saturation (%)') or None
-    num_fish_swabs=request.form.get('# Fish Swabs')
-    num_biofilm_swabs=request.form.get('# Biofilm Swabs')
-    num_water_samples_collected=request.form.get('# Water Samples Collected')
-    vol_water=request.form.get('Vol Water collected (mL)')
-    location_id_submission=request.form.get('location_id')
-    date_collected=request.form.get('Date Collected')
-
-    return_message, alert_type = update_submission_data(
-        CAHS_Submission_Number_submission_data, Samplers, water_temp, oxygen_measurement,
-        saturation_percent, num_fish_swabs, num_biofilm_swabs, num_water_samples_collected,
-        vol_water, location_id_submission, date_collected
-        )
-    if alert_type == "danger":
-        form_data = [CAHS_Submission_Number_submission_data, Samplers,
-        water_temp, oxygen_measurement,saturation_percent,
-        num_fish_swabs, num_biofilm_swabs, num_water_samples_collected,
-        vol_water, location_id_submission, date_collected, 2]
-
-    flash(return_message, alert_type)
-    render_template("public/metadata.html", locations=locations, form_data=form_data)
-
 # pylint: disable=invalid-name,too-many-locals, too-many-statements
 @app.route("/metadata", methods=["GET", "POST"])
 @login_required
@@ -450,10 +393,55 @@ def update_metadata():
 
     if request.method == "POST":
         if request.form.get('submit_button') == "update_sample_data":
-            update_sample(locations)
+            sample_id=request.form.get('Sample ID')
+            CAHS_Submission_Number=request.form.get('CAHS Submission Number')
+            sample_Type=request.form.get('Sample Type')
+            sample_Location=request.form.get('Sample location')
+            fish_weight=request.form.get('Fish Weight (g)') or None
+            fish_Length=request.form.get('Fish Length (mm)') or None
+            material_swab=request.form.get('Material Swabbed for Biofilm') or None
+            date_filtered=request.form.get('Date Filtered') or None
+            volume_filtered=request.form.get('Volume Filtered (mL)') or None
+            time_to_filter=request.form.get('Time to Filter (h:mm:ss)') or None
+            return_message, alert_type = update_sample_info(
+                sample_id, CAHS_Submission_Number, sample_Type, sample_Location,
+                fish_weight, fish_Length, material_swab, date_filtered,
+                volume_filtered, time_to_filter)
+
+            if alert_type == "danger":
+                form_data = [sample_id, CAHS_Submission_Number, sample_Type,
+                sample_Location, fish_weight, fish_Length, material_swab,
+                date_filtered, volume_filtered, time_to_filter, 3]
+            flash(return_message, alert_type)
+            render_template("public/metadata.html", locations=locations, form_data=form_data)
 
         if request.form.get('submit_button') == "update_submission_data":
-            update_submission(locations)
+            CAHS_Submission_Number_submission_data=\
+            request.form.get('CAHS Submission Number Submission Data')
+            Samplers=request.form.get('Samplers') or None
+            water_temp=request.form.get('Water Temperature (c)') or None
+            oxygen_measurement=request.form.get('Oxygen (mg/L)') or None
+            saturation_percent=request.form.get('Saturation (%)') or None
+            num_fish_swabs=request.form.get('# Fish Swabs')
+            num_biofilm_swabs=request.form.get('# Biofilm Swabs')
+            num_water_samples_collected=request.form.get('# Water Samples Collected')
+            vol_water=request.form.get('Vol Water collected (mL)')
+            location_id_submission=request.form.get('location_id')
+            date_collected=request.form.get('Date Collected')
+
+            return_message, alert_type = update_submission_data(
+                CAHS_Submission_Number_submission_data, Samplers, water_temp, oxygen_measurement,
+                saturation_percent, num_fish_swabs, num_biofilm_swabs, num_water_samples_collected,
+                vol_water, location_id_submission, date_collected
+                )
+            if alert_type == "danger":
+                form_data = [CAHS_Submission_Number_submission_data, Samplers,
+                water_temp, oxygen_measurement,saturation_percent,
+                num_fish_swabs, num_biofilm_swabs, num_water_samples_collected,
+                vol_water, location_id_submission, date_collected, 2]
+
+            flash(return_message, alert_type)
+            render_template("public/metadata.html", locations=locations, form_data=form_data)
 
         if request.form.get('submit_button') == "update_location":
             location_id = request.form.get('Location ID')
@@ -719,7 +707,6 @@ def show_viz():
         sample_type = None
         if request.form.get("sample-type") != "All":
             sample_type = request.form.get("sample-type")
-
         if end_date >= start_date != '' and end_date != '':
             current_working_dir = os.getcwd()
             abund_data_result = get_abund_data(start_date, end_date, sample_type)
