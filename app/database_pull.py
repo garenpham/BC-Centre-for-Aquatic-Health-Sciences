@@ -6,6 +6,42 @@ import sys
 import mysql.connector
 from .database_controller import mysql_database_connection
 
+def get_location_list():
+    """returns a list of available locations"""
+    try:
+        database = mysql_database_connection()
+    # pylint: disable=broad-except
+    except BaseException:
+        print("error connecting to the database. please verify that MySQL is running.")
+        sys.exit()
+
+    cursor = database.cursor(buffered=True)
+    try:
+        cursor.execute("SELECT * FROM location ;")
+        result = cursor.fetchall()
+        return result
+    except mysql.connector.Error as err:
+        print(f"Something went wrong pulling location data from database: {err}")
+        return None
+
+def get_sample_by_sample_id(sample_id):
+    """returns a list of available locations"""
+    try:
+        database = mysql_database_connection()
+    # pylint: disable=broad-except
+    except BaseException:
+        print("error connecting to the database. please verify that MySQL is running.")
+        sys.exit()
+
+    cursor = database.cursor(buffered=True)
+    try:
+        cursor.execute("SELECT * FROM sample_info WHERE `Sample ID` LIKE %(sample_id)s;",
+                       {'sample_id': sample_id})
+        result = cursor.fetchall()
+        return result
+    except mysql.connector.Error as err:
+        print(f"Something went wrong pulling location data from database: {err}")
+        return None
 
 def show_location_data():
     """Shows location data by using a SELECT statement"""
