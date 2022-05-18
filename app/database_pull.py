@@ -138,7 +138,7 @@ def show_sample_data():
         print(f"Something went wrong pulling location data from database: {err}")
         return None
 
-def get_abund_data(start_date, end_date, sample_type):
+def get_abund_data(start_date, end_date, sample_type, abundance):
     """Show abundance plot visualization"""
     try:
         database = mysql_database_connection()
@@ -150,7 +150,7 @@ def get_abund_data(start_date, end_date, sample_type):
     cursor = database.cursor(buffered=True)
     try:
         sample_type_filter = f"AND sample_info.`Sample Type` = {sample_type}" if sample_type else ""
-        min_abund = 0.01
+        #min_abund = 0.01
         sample_id_filter = "'%'"
 
         query = (
@@ -161,7 +161,7 @@ def get_abund_data(start_date, end_date, sample_type):
                     "SELECT `Sample ID`, `name`, taxonomy_id "
                     "FROM sample_data "
                     "GROUP BY `name` "
-                    f"HAVING MAX(fraction_total_reads) > {min_abund}"
+                    f"HAVING MAX(fraction_total_reads) > {abundance}"
                 ") b ON a.taxonomy_id = b.taxonomy_id "
                 f"WHERE a.`Sample ID` LIKE {sample_id_filter}"
             "),"
@@ -188,6 +188,7 @@ def get_abund_data(start_date, end_date, sample_type):
         )
         cursor.execute(query)
         result = cursor.fetchall()
+        print(result)
         return result
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling abund data from database: {err}")

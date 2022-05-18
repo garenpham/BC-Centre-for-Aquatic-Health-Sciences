@@ -41,6 +41,9 @@
             {% if data == "Bad-date" %}
                 <p>Please enter a valid date range</p>
             {% endif %}
+            {% if data == "No-data" %}
+                <p>No data was found for the selected date range.</p>
+            {% endif %}
             {% if data == "Good-date" %}
             <div class="row">
                 <div class="column">
@@ -51,6 +54,7 @@
                 </div>
             </div> 
             {% endif %}
+
 
             <form action="/visualization" method="post">
                 <div>
@@ -68,6 +72,13 @@
                             <option value="Fish">Fish</option>
                             <option value="Water">Water</option>
                         </select>
+                        <p>
+                        <div class="slidecontainer">
+                            <label for="abund-slider">Relative abundance</label>
+                            <input name="abund-slider" type="range" min="1" max="100" value="2" class="slider" id="abund-slider">
+                            <span id="value"></span>
+                          </div>
+                        </p>
                     </p>
                 </div>
                 <button type="submit" class="btn btn-primary" name="submit_button" value="submit">Submit</button>
@@ -75,4 +86,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    var rangeslider = document.getElementById("abund-slider");
+    var output = document.getElementById("value");
+    output.innerHTML = rangeslider.value * 0.005;
+      
+    rangeslider.oninput = function() {
+      output.innerHTML = (this.value * 0.005).toFixed(3);
+    }
+    </script>
 {% endblock %}

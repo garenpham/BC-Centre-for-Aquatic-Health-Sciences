@@ -704,20 +704,24 @@ def show_viz():
     if request.form.get('submit_button') == "submit":
         start_date = request.form.get("start-date")
         end_date = request.form.get("end-date")
+        abundance = int(request.form.get("abund-slider")) * 0.005
         sample_type = None
         if request.form.get("sample-type") != "All":
             sample_type = request.form.get("sample-type")
         if end_date >= start_date != '' and end_date != '':
             current_working_dir = os.getcwd()
-            abund_data_result = get_abund_data(start_date, end_date, sample_type)
+            abund_data_result = get_abund_data(start_date, end_date, sample_type, abundance)
 
             with open('app/r/rel_abund_long.csv', encoding="utf-8", mode='w') as csv_file:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerow(['sample_ID', 'genus', 'value', 'date'])
                 csv_writer.writerows(abund_data_result)
 
-            subprocess.run(["/usr/bin/Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
+            try:
+                subprocess.run(["/usr/bin/Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
                 check=True)
+            except subprocess.CalledProcessError:
+                return render_template("public/visualization.html", data="No-data", viz=None)
 
             return render_template("public/visualization.html", data="Good-date",
                 viz1="data_abund_separate.png", viz2="data_abund_grouped.png")
