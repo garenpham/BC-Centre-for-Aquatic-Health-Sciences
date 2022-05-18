@@ -11,8 +11,8 @@ from zipfile import ZipFile
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from flask import request, abort, flash, render_template, session, url_for, redirect, \
-    send_from_directory
+from flask import make_response, request, abort, flash, render_template, session, url_for, \
+    redirect, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, \
@@ -746,30 +746,32 @@ def show_viz():
     """
     Displays the data visualization page and gets form submission info.
     """
-    # role = current_user.role
-    if request.form.get('submit_button') == "submit":
-        start_date = request.form.get("start-date")
-        end_date = request.form.get("end-date")
+    if request.method == "POST":
+        start_date = request.form.get("start-date") or None
+        end_date = request.form.get("end-date") or None
+        sample_type = request.form["sample-type"] if request.form["sample-type"] != "All" else None
         abundance = int(request.form.get("abund-slider")) * 0.005
-        sample_type = None
-        if request.form.get("sample-type") != "All":
-            sample_type = request.form.get("sample-type")
-        if end_date >= start_date != '' and end_date != '':
-            current_working_dir = os.getcwd()
-            abund_data_result = get_abund_data(start_date, end_date, sample_type, abundance)
 
-            with open('app/r/rel_abund_long.csv', encoding="utf-8", mode='w') as csv_file:
-                csv_writer = csv.writer(csv_file)
-                csv_writer.writerow(['sample_ID', 'genus', 'value', 'date'])
-                csv_writer.writerows(abund_data_result)
+        current_working_dir = os.getcwd()
+        abund_data_result = get_abund_data(start_date, end_date, sample_type, abundance)
 
-            try:
-                subprocess.run(["/usr/bin/Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
-                check=True)
-            except subprocess.CalledProcessError:
-                return render_template("public/visualization.html", data="No-data", viz=None)
+        if not abund_data_result:
+            return make_response(jsonify({"message":"Empty"}), 200)
 
-            return render_template("public/visualization.html", data="Good-date",
-                viz1="data_abund_separate.png", viz2="data_abund_grouped.png")
-        return render_template("public/visualization.html", data="Bad-date", viz=None)
-    return render_template("public/visualization.html", data=None, viz=None)
+        with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow(["sample_ID", "genus", "value", "date"])
+            csv_writer.writerows(abund_data_result)
+
+        try:
+            subprocess.run(["/usr/bin/Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
+            check=True)
+        except subprocess.CalledProcessError:
+            return make_response(jsonify({"message":"Error"}), 500)
+
+        return make_response(jsonify({
+            "message":"OK",
+            "viz1":"data_abund_separate.png",
+            "viz2":"data_abund_grouped.png"
+            }), 200)
+    return render_template("public/visualization.html")

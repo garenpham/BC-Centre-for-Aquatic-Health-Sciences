@@ -2,3 +2,5 @@
 .vscode
 __pycache__/
 venv/
+app/r/*.csv
+app/static/img/data_*

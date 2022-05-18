@@ -152,9 +152,17 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
     # pylint: disable=unused-variable
     database, cursor = initialize_database_cursor()
     try:
-        sample_type_filter = f"AND sample_info.`Sample Type` = {sample_type}" if sample_type else ""
-        # min_abund = 0.01
-        sample_id_filter = "'%'"
+        if start_date and end_date:
+            date_filter = "WHERE sample_info.`Date Filtered` " \
+                "BETWEEN '{start_date}' AND '{end_date}'"
+        elif start_date:
+            date_filter = f"WHERE sample_info.`Date Filtered` >= '{start_date}'"
+        elif end_date:
+            date_filter = f"WHERE sample_info.`Date Filtered` <= '{end_date}'"
+        else:
+            date_filter = "WHERE 1=1"
+
+        type_filter = f"AND sample_info.`Sample Type` = '{sample_type}'" if sample_type else ""
 
         query = (
             "WITH filtered_sample AS ("
@@ -166,7 +174,6 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
                     "GROUP BY `name` "
                     f"HAVING MAX(fraction_total_reads) > {abundance}"
                 ") b ON a.taxonomy_id = b.taxonomy_id "
-                f"WHERE a.`Sample ID` LIKE {sample_id_filter}"
             "),"
             "sample_info_data AS ("
                 "SELECT sample_info.`Sample ID` AS 'sample_ID', species.`name` AS 'genus', "
@@ -175,8 +182,8 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
                 "FROM sample_info "
                 "JOIN filtered_sample ON filtered_sample.`Sample ID` = sample_info.`Sample ID` "
                 "JOIN species ON species.taxonomy_id = filtered_sample.taxonomy_id "
-                f"WHERE sample_info.`Date Filtered` BETWEEN '{start_date}' AND '{end_date}' "
-                f"{sample_type_filter}"
+                f"{date_filter} "
+                f"{type_filter} "
             ") "
             "SELECT sample_info_data.sample_ID, sample_info_data.genus, sample_info_data.`value`, "
             "sample_info_data.`date` "
@@ -190,9 +197,9 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
             ";"
         )
         cursor.execute(query)
-        result = cursor.fetchall()
-        print(result)
-        return result
+        if cursor.rowcount:
+            return cursor.fetchall()
+        return None
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling abund data from database: {err}")
         return None

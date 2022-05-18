@@ -60,7 +60,7 @@ rel_abund_long$date <- factor(rel_abund_long$date, levels = c("Aug-3-21",
                                                               "Oct-27-21"
                                                               ))
 pdf(NULL)
-#Abundance plot with all samples separate (NOTE = colors won't work unless <46 samples)
+#Abundance plot with all samples separate (NOTE = colors won't work unless < 46 samples)
 ggplot(rel_abund_long, aes(x = sample_ID, y = value, fill = genus)) + 
   geom_bar(stat = "identity") +
   labs(x=NULL, 
@@ -74,7 +74,7 @@ ggplot(rel_abund_long, aes(x = sample_ID, y = value, fill = genus)) +
 
 ggsave(filename="data_abund_separate.png", path="app/static/img/", device="png", width=9, height=4)
 
-#Abundance plot grouped (NOTE = colors won't work unless <46 samples)
+#Abundance plot grouped (NOTE = colors won't work unless < 46 samples)
 ggplot(rel_abund_long, aes(x = sample_ID, y = value, fill = genus)) + 
   geom_bar(stat = "identity") +
   geom_col(width=1) +
