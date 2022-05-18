@@ -11,7 +11,8 @@ from zipfile import ZipFile
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from flask import request, abort, flash, render_template, url_for, redirect, send_from_directory
+from flask import request, abort, flash, render_template, session, url_for, redirect, \
+    send_from_directory
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, \
@@ -22,10 +23,12 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 
 from app import app
+from .functions import generate_csv
 from .database_push import upload_database, update_sample_info, update_submission_data, \
     update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
 from .database_pull import show_location_data, show_sample_info, show_submission_data, \
-    show_sample_data, get_location_list, get_sample_by_sample_id, get_abund_data
+    show_sample_data, get_master_sample_info, get_location_list, get_sample_by_sample_id, \
+    get_abund_data, filter_by_date
 from .file_metadata import locate_file_metadata, read_file_metadata, write_file_metadata
 
 # from is_safe_url import is_safe_url
@@ -493,7 +496,10 @@ def show_metadata():
 
     role = current_user.role
     if request.method == "GET":
-        database_data, header_data = show_sample_info()
+        database_data, header_data = get_master_sample_info()
+        session["database_data"] = database_data
+        session["database_headers"] = header_data
+        session["data_type"] = "master_sample_data_view"
         # print(header_data, database_data)
         # database_data, header_data = show_location_data()
         return render_template("public/show_data.html",
@@ -503,34 +509,51 @@ def show_metadata():
 
     if request.method == "POST":
         # for the different tabs
-        if request.form.get('submit_button') == "sample_info":
-            database_data, header_data = show_sample_info()
+        if request.form.get('submit_button') == "master_sample_data":
+            database_data, header_data = get_master_sample_info()
+            session["database_data"] = database_data
+            session["database_headers"] = header_data
+            session["data_type"] = "master_sample_data_view"
             return render_template("public/show_data.html",
                 headers=header_data,
                 data=database_data,
                 user_role=role)
-
+        if request.form.get('submit_button') == "sample_info":
+            database_data, header_data = show_sample_info()
+            session["database_data"] = database_data
+            session["database_headers"] = header_data
+            session["data_type"] = "sample_data_view"
+            return render_template("public/show_data_sample.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role)
         if request.form.get('submit_button') == "location_data":
             database_data, header_data = show_location_data()
+            session["database_data"] = database_data
+            session["database_headers"] = header_data
+            session["data_type"] = "location"
             return render_template("public/show_data_location.html",
                 headers=header_data,
                 data=database_data,
                 user_role=role)
-
         if request.form.get('submit_button') == "submission_data":
             database_data, header_data = show_submission_data()
+            session["database_data"] = database_data
+            session["database_headers"] = header_data
+            session["data_type"] = "submission_data"
             return render_template("public/show_data_submission_data.html",
                 headers=header_data,
                 data=database_data,
                 user_role=role)
-
         if request.form.get('submit_button') == "sample_data":
             database_data, header_data = show_sample_data()
+            session["database_data"] = database_data
+            session["database_headers"] = header_data
+            session["data_type"] = "sample_info"
             return render_template("public/show_data_sample_data.html",
                 headers=header_data,
                 data=database_data,
                 user_role=role)
-
         # Below is for the delete button
         if (request.form.get('submit_button') == "submit_deleteSample ID"
         and current_user.role == "admin"):
@@ -598,7 +621,30 @@ def show_metadata():
                 headers=header_data,
                 data=database_data,
                 user_role=role)
-
+        # Download current selection
+        if request.form.get('submit_button') == "submit_download":
+            return app.response_class(generate_csv(session["database_data"],
+                session["database_headers"]),
+                mimetype='text/csv')
+        # Download single row of data
+        if request.form.get('submit_button') == "submit_downloadSample ID":
+            database_data, header_data = get_master_sample_info()
+            primary_key = request.form.get('sample_id')
+            download_data, download_header_data = get_master_sample_info(primary_key)
+            return app.response_class(generate_csv(download_data, download_header_data),
+                mimetype='text/csv')
+        # Filter Selection
+        if request.form.get('submit_button') == "submit_filter":
+            print('filtering')
+            database_data, header_data = filter_by_date(session["data_type"],
+                request.form.get('start-date'),
+                request.form.get('end-date'))
+            session["database_data"] = database_data
+            return render_template("public/show_data.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+                filter=f"{request.form.get('start-date')} to {request.form.get('end-date')}")
         # Below is for the edit button ******INCOMPLETE*********
         if (request.form.get('submit_button') == "submit_edit_location"
         and current_user.role == "admin"):

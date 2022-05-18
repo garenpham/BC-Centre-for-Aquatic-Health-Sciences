@@ -117,6 +117,7 @@
                 </tbody>
             </table>
             <form action="/display_data" method="post">
+              <button type="submit" class="btn btn-primary" name="submit_button" value="master_sample_data">Master Sample Data</button>
               <button type="submit" class="btn btn-primary" name="submit_button" value="sample_info">Sample Information</button>
               <button type="submit" class="btn btn-primary" name="submit_button" value="location_data">Location Data</button>
               <button type="submit" class="btn btn-primary" name="submit_button" value="submission_data">Submission Data</button>
@@ -131,8 +132,9 @@
     let table = new DataTable('#show_data_table', {
         // options
         buttons: [
-        'copy', 'excel', 'pdf'
-    ]
+          'copy', 'excel', 'pdf'
+        ],
+        scrollX: true
     });
  
 </script>

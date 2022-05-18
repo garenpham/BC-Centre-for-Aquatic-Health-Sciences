@@ -3,9 +3,8 @@ Defines logic for pushing to the database.
 """
 
 import os
-import sys
 import mysql.connector
-from .database_controller import mysql_database_connection
+from .database_controller import initialize_database_cursor
 
 
 def upload_database(file_name, sample_id):
@@ -20,14 +19,7 @@ def upload_database(file_name, sample_id):
     file_location = os.path.join(cwd, "app", "static", "file_uploads", sample_id, file_name)
     print("file location: ", file_location)
 
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    database, cursor = initialize_database_cursor()
 
     try:
         cursor.execute("SELECT `Sample ID` FROM sample_data WHERE `Sample ID` LIKE %(sample_id)s;",
@@ -62,19 +54,12 @@ def update_sample_info(sample_id, CAHS_Submission_Number, sample_Type, sample_Lo
     At the moment the database upload is fairly basic but it will do an insert need to add a try and
     except to control this.
     """
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    database, cursor = initialize_database_cursor()
     print(sample_id, CAHS_Submission_Number, sample_Type, sample_Location, fish_weight, fish_Length,
           material_swab, date_filtered, volume_filtered, time_to_filter)
     try:
-        cursor.execute("SELECT `Sample ID` FROM sample_info WHERE `Sample ID` LIKE %(sample_id)s;",
-                       {'sample_id': sample_id})
+        cursor.execute("SELECT `Sample ID` FROM sample_info WHERE `Sample ID` LIKE %(sample_id)s;" ,
+            {'sample_id': sample_id})
         number_rows = cursor.rowcount
         if number_rows == 0:
             sample_info = (
@@ -116,18 +101,11 @@ def update_submission_data(CAHS_Submission_Number_submission_data, Samplers, wat
                            num_biofilm_swabs, num_water_samples_collected, vol_water,
                            location_id_submission, date_collected):
     """Adds submission data to the database"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    database, cursor = initialize_database_cursor()
     try:
         cursor.execute(
             "SELECT `CAHS Submission Number` FROM submission_data WHERE `CAHS Submission Number` "
-            "LIKE %(CAHS_Submission_Number)s;",
+            "LIKE %(CAHS_Submission_Number)s;" ,
             {'CAHS_Submission_Number': CAHS_Submission_Number_submission_data})
         number_rows = cursor.rowcount
         if number_rows == 0:
@@ -168,14 +146,8 @@ def update_submission_data(CAHS_Submission_Number_submission_data, Samplers, wat
 
 def check_location_data_exists(location_id):
     """Check if the location Data exists already"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         cursor.execute("SELECT `location_id` FROM location "
                        "WHERE `location_id` LIKE %(location_id)s;",
@@ -187,14 +159,7 @@ def check_location_data_exists(location_id):
 
 def update_location_data(location_id, location_name):
     """Adds location data to the database"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    database, cursor = initialize_database_cursor()
     try:
         # if location_id == "" and location_name != "":
         #     cursor.execute("SELECT `Sample ID` FROM sample_info "
@@ -231,14 +196,7 @@ def update_location_data(location_id, location_name):
 
 def delete_location_data(location_id):
     """Delete location data to the database"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    database, cursor = initialize_database_cursor()
     try:
         cursor.execute("DELETE FROM location WHERE `location_id` = %(location_id)s;",
                        {'location_id': location_id})
@@ -254,14 +212,7 @@ def delete_location_data(location_id):
 
 def delete_sample_data_data(sample_id):
     """Delete sample_data and sample_info to the database"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    database, cursor = initialize_database_cursor()
     try:
         cursor.execute("DELETE FROM sample_data WHERE `Sample ID` = %(sample_id)s;",
             {'sample_id': sample_id})
@@ -279,14 +230,7 @@ def delete_sample_data_data(sample_id):
 
 def delete_submission_data(CAHS_Submission_Number):
     """Delete submission data using the primary key CAHS_Sumbission_Number to the database"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=bare-except
-    except:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    database, cursor = initialize_database_cursor()
     try:
         cursor.execute("DELETE FROM sample_info "
                        "WHERE `CAHS Submission Number` = %(CAHS_Submission_Number)s;",

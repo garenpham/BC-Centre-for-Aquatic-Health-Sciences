@@ -26,3 +26,16 @@ def mysql_database_connection():
         sys.exit()
 
     return database
+
+
+def initialize_database_cursor():
+    """Initializes the database and the cursor for the database."""
+    try:
+        database = mysql_database_connection()
+    # pylint: disable=bare-except
+    except:
+        print("error connecting to the database. please verify that MySQL is running.")
+        sys.exit()
+
+    cursor = database.cursor(buffered=True)
+    return database, cursor

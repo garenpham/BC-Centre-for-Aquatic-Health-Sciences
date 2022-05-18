@@ -2,20 +2,14 @@
 Defines logic for pulling from the database.
 """
 
-import sys
 import mysql.connector
-from .database_controller import mysql_database_connection
+from .database_controller import initialize_database_cursor
+
 
 def get_location_list():
     """returns a list of available locations"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=broad-except
-    except BaseException:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         cursor.execute("SELECT * FROM location ;")
         result = cursor.fetchall()
@@ -24,16 +18,11 @@ def get_location_list():
         print(f"Something went wrong pulling location data from database: {err}")
         return None
 
+
 def get_sample_by_sample_id(sample_id):
     """returns a list of available locations"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=broad-except
-    except BaseException:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         cursor.execute("SELECT * FROM sample_info WHERE `Sample ID` LIKE %(sample_id)s;",
                        {'sample_id': sample_id})
@@ -43,16 +32,11 @@ def get_sample_by_sample_id(sample_id):
         print(f"Something went wrong pulling location data from database: {err}")
         return None
 
+
 def show_location_data():
     """Shows location data by using a SELECT statement"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=broad-except
-    except BaseException:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute("SELECT * FROM location ;")
@@ -69,14 +53,8 @@ def show_location_data():
 
 def show_sample_info():
     """Shows sample info by using a SELECT statement"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=broad-except
-    except BaseException:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute("SELECT * FROM sample_data_view ;")
@@ -93,14 +71,8 @@ def show_sample_info():
 
 def show_submission_data():
     """Show Submission data by using a SELECT statement"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=broad-except
-    except BaseException:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute("SELECT * FROM submission_data ;")
@@ -117,14 +89,8 @@ def show_submission_data():
 
 def show_sample_data():
     """Show sample data by using the SELECT statement"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=broad-except
-    except BaseException:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute("SELECT * FROM sample_info ;")
@@ -138,19 +104,56 @@ def show_sample_data():
         print(f"Something went wrong pulling location data from database: {err}")
         return None
 
+
+def get_master_sample_info(sample_id=None):
+    """Queries for specific master sample information by sample ID"""
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
+    try:
+        headers = []
+        if sample_id is None:
+            cursor.execute("SELECT * FROM master_sample_data_view ;")
+            result = cursor.fetchall()
+        else:
+            cursor.execute("SELECT * FROM master_sample_data_view "
+                           f"WHERE `Sample ID` = '{sample_id}' ;")
+            result = cursor.fetchall()
+        cursor.execute("SHOW COLUMNS FROM master_sample_data_view ;")
+        headers_list = cursor.fetchall()
+        for row in headers_list:
+            headers.append(row[0])
+        return result, headers
+    except mysql.connector.Error as err:
+        print(f"Something went wrong pulling sample info from database: {err}")
+        return None
+
+
+def filter_by_date(data_type, start_date, end_date):
+    """Filters queries by date"""
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
+    try:
+        headers = []
+        cursor.execute(f"SELECT * FROM {data_type} WHERE `Date Collected` >= '{start_date}' "
+                       f"AND `Date Collected` <= '{end_date}' ;")
+        result = cursor.fetchall()
+        cursor.execute(f"SHOW COLUMNS FROM {data_type} ;")
+        headers_list = cursor.fetchall()
+        for row in headers_list:
+            headers.append(row[0])
+        return result, headers
+    except mysql.connector.Error as err:
+        print(f"Something went wrong pulling sample info from database: {err}")
+        return None
+
+
 def get_abund_data(start_date, end_date, sample_type, abundance):
     """Show abundance plot visualization"""
-    try:
-        database = mysql_database_connection()
-    # pylint: disable=broad-except
-    except BaseException:
-        print("error connecting to the database. please verify that MySQL is running.")
-        sys.exit()
-
-    cursor = database.cursor(buffered=True)
+    # pylint: disable=unused-variable
+    database, cursor = initialize_database_cursor()
     try:
         sample_type_filter = f"AND sample_info.`Sample Type` = {sample_type}" if sample_type else ""
-        #min_abund = 0.01
+        # min_abund = 0.01
         sample_id_filter = "'%'"
 
         query = (
