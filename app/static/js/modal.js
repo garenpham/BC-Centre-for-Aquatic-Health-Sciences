@@ -36,10 +36,10 @@ export function Modal(props) {
 
     modal.addEventListener('animationend', function onEnd() {
       modal.removeEventListener('animationend', onEnd)
-      if (modal.classList.contains('-enter')) {
-        modal.classList.remove('-enter')
-      } else if (modal.classList.contains('-exit')) {
-        modal.classList.remove('-exit')
+      if (modal.classList.contains('anim-enter')) {
+        modal.classList.remove('anim-enter')
+      } else if (modal.classList.contains('anim-exit')) {
+        modal.classList.remove('anim-exit')
         props.shown = false
         setShown(false)
       }
@@ -50,11 +50,11 @@ export function Modal(props) {
   return html`
     <div class=${cc([
         "custom-modal-wrap",
-        isShown ? "-show" : "-hide"
+        isShown ? "anim-show" : "anim-hide"
       ])}>
       <div ref=${modalRef} class=${cc([
         "custom-modal",
-        isOpen ? "-enter" : "-exit"
+        isOpen ? "anim-enter" : "anim-exit"
       ])}>
         <h4 class="custom-modal-title">${props.title || 'Untitled modal'}</h4>
         <hr/>

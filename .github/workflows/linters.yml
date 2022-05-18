@@ -1,4 +1,4 @@
-name: Pylint
+name: Linters
 
 on: pull_request
 
@@ -22,3 +22,8 @@ jobs:
     - name: Analyze .py files
       run: |
         pylint $(git ls-files '*.py')
+    - name: Analyze .css files
+      uses: actions-hub/stylelint@master
+      env:
+        PATTERN: "**/*.css"
+            

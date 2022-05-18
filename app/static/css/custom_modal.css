@@ -8,7 +8,7 @@
   z-index: 1;
 }
 
-.custom-modal-wrap.-show {
+.custom-modal-wrap.anim-show {
   display: block;
 }
 
@@ -36,19 +36,19 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.125);
 }
 
-.custom-modal.-enter {
+.custom-modal.anim-enter {
   animation: custom-modal-slide 0.5s;
 }
 
-.custom-modal.-exit {
+.custom-modal.anim-exit {
   animation: custom-modal-slide 0.25s reverse ease-out;
 }
 
-.custom-modal.-enter + .custom-modal-overlay {
+.custom-modal.anim-enter + .custom-modal-overlay {
   animation: custom-modal-fade 0.125s;
 }
 
-.custom-modal.-exit + .custom-modal-overlay {
+.custom-modal.anim-exit + .custom-modal-overlay {
   animation: custom-modal-fade 0.25s reverse ease-out;
 }
 
@@ -65,12 +65,15 @@
   display: flex;
 }
 
+.custom-modal-fieldrow + .custom-modal-fieldgroup {
+  margin-top: 1.5rem;
+}
+
 .custom-modal-fieldrow .custom-modal-fieldgroup + .custom-modal-fieldgroup {
   margin-left: 1rem;
 }
 
-.custom-modal form > .custom-modal-fieldgroup + .custom-modal-fieldgroup,
-.custom-modal-fieldrow + .custom-modal-fieldgroup {
+.custom-modal form > .custom-modal-fieldgroup + .custom-modal-fieldgroup {
   margin-top: 1.5rem;
 }
 
