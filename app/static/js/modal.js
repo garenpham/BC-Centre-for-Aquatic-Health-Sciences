@@ -1,10 +1,10 @@
 import cc from 'https://unpkg.com/classcat?module';
-import { html, render, Component } from 'https://unpkg.com/htm/preact/index.mjs?module'
-import { useState, useRef, useEffect } from 'https://unpkg.com/preact@10.7.2/hooks/dist/hooks.mjs?module';
+import { html } from 'https://unpkg.com/htm/preact/index.mjs?module'
+import { useState, useRef, useEffect } from 'https://unpkg.com/preact/hooks/dist/hooks.mjs?module';
 
 
 export class ModalAction {
-  constructor(text, flags, options) {
+  constructor (text, flags, options) {
     this.text = text
     this.flags = flags
     this.disabled = options ? options.disabled : false  // TODO: optional chaining
@@ -12,7 +12,7 @@ export class ModalAction {
   }
 }
 
-export function Modal(props) {
+export function Modal (props) {
   const [isShown, setShown] = useState(false)
   const [isOpen, setOpen] = useState(false)
   const [isAnimating, setAnimating] = useState(false)
@@ -25,7 +25,6 @@ export function Modal(props) {
     setAnimating(true)
   }
 
-  const modalWrapRef = useRef(null)
   const modalRef = useRef(null)
 
   useEffect(() => {

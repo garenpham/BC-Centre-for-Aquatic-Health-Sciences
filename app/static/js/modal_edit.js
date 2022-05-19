@@ -1,12 +1,11 @@
-import cc from 'https://unpkg.com/classcat?module'
 import { h } from 'https://unpkg.com/preact?module'
-import { html, render, Component } from 'https://unpkg.com/htm/preact/index.mjs?module'
+import { html } from 'https://unpkg.com/htm/preact/index.mjs?module'
 import { useState, useEffect } from 'https://unpkg.com/preact/hooks/dist/hooks.mjs?module'
 
 import { Modal, ModalAction } from './modal.js'
 
 
-export function EditModal(props) {
+export function EditModal (props) {
   const [title, setTitle] = useState(props.fileTitle)
   const updateTitle = event => setTitle(event.target.value)
 

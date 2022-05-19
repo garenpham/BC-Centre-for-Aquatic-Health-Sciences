@@ -1,12 +1,11 @@
-import cc from 'https://unpkg.com/classcat?module'
 import { h } from 'https://unpkg.com/preact?module'
-import { html, render, Component } from 'https://unpkg.com/htm/preact/index.mjs?module'
+import { html } from 'https://unpkg.com/htm/preact/index.mjs?module'
 import { useState } from 'https://unpkg.com/preact/hooks/dist/hooks.mjs?module'
 
 import { Modal, ModalAction } from './modal.js'
 
 
-function FileInput(props) {
+function FileInput (props) {
   return html`
     <div class="custom-modal-fieldgroup">
       <label for="file-input">File<span class="required">*</span></label>
@@ -25,7 +24,7 @@ function FileInput(props) {
   `
 }
 
-export function UploadSampleModal(props) {
+export function UploadSampleModal (props) {
   const [id, setId] = useState('')
   const updateId = event => setId(event.target.value)
 

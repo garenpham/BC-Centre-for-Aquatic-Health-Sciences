@@ -6,7 +6,7 @@ const alert = document.getElementById('dataviz-alert'),
     datavizContainer = document.getElementById('dataviz-container'),
     filtersForm = document.getElementById('filters-form')
 
-startDate.oninput = event => {
+startDate.oninput = () => {
     endDate.setAttribute('min', startDate.value)
 }
 
@@ -48,4 +48,4 @@ filtersForm.onsubmit = event => {
     })
 }
 
-hideAlertButton.onclick = event => { alert.hidden = true }
+hideAlertButton.onclick = () => { alert.hidden = true }
