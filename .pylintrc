@@ -1,4 +1,3 @@
 [MASTER]
 # fix import-error
-# python env is hard-coded as per pyvenv.cfg
-init-hook="from pylint.config import find_pylintrc; import os, sys; sys.path.append(os.path.join(os.path.dirname(find_pylintrc()), 'venv/lib/python3.9/site-packages'))"
+init-hook="from pylint.config import find_pylintrc; import os, sys; sys.path.append(os.path.join(os.path.dirname(find_pylintrc()), 'venv/lib/python3.10/site-packages'))"
