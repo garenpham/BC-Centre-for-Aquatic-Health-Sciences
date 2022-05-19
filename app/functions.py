@@ -21,4 +21,9 @@ def generate_csv(results, headers):
             if j < len(result) - 1:
                 yield ','
         yield "\n"
-        
+
+def sanitize_form_data(form_data):
+    """
+    Replaces empty strings with Nones
+    """
+    return {k: None if v == '' else v for k, v in form_data.items()}

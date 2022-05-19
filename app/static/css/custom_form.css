@@ -1,0 +1,126 @@
+.custom-form {
+  --silver: #e4e4e4;
+  --lightgray: #b1b1b1;
+}
+
+.custom-form-fieldrow {
+  display: flex;
+  align-items: flex-start;
+}
+
+.custom-form-fieldgroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-form-fieldrow .custom-form-fieldgroup + .custom-form-fieldgroup {
+  margin-left: 1rem;
+}
+
+.custom-form-fieldgroup + button {
+  margin-left: 1rem;
+}
+
+.custom-form-fieldwrap {
+  display: flex;
+}
+
+.custom-form-fieldwrap button {
+  margin-left: 1rem;
+  white-space: nowrap;
+}
+
+.custom-form textarea {
+  width: 100%;
+  min-height: 8rem;
+}
+
+.custom-form .form-control:required:invalid {
+  background: var(--silver);
+  border-color: var(--lightgray);
+}
+
+.custom-form .form-control:optional:placeholder-shown {
+  background: var(--silver);
+  border-color: var(--lightgray);
+}
+
+.custom-form input[type="date"]:optional.invalid:not(:focus) {
+  background: var(--silver);
+  border-color: var(--lightgray);
+}
+
+.custom-form select {
+  background: var(--silver);
+  border-color: var(--lightgray);
+}
+
+.custom-form select:valid {
+  background: white;
+  border-color: #ced4da;  /* bootstrap default */
+}
+
+.custom-form .file-input {
+  display: flex;
+  align-items: center;
+}
+
+.custom-form .file-name {
+  margin-left: 0.5rem;
+}
+
+.custom-form p:last-of-type {
+  margin: 0;
+}
+
+.custom-form [hidden] {
+  display: none;
+}
+
+.custom-form-fieldgroup * + label {
+  order: -1;
+}
+
+.custom-form-fieldgroup *[required] + label::after {
+  content: "*";
+  color: red;
+}
+
+.custom-form .required {
+  color: red;
+}
+
+.custom-form-fieldgroup > label:first-of-type {
+  font-weight: bold;
+}
+
+.custom-form > .custom-form-fieldgroup:not(:first-child) {
+  margin-top: 1.5rem;
+}
+
+.custom-form-fieldrow:not(:first-child) {
+  margin-top: 1.5rem;
+}
+
+.custom-form-actions {
+  margin-top: 2rem;
+}
+
+.custom-form-actions.align-right {
+  float: right;
+}
+
+.custom-form-action + .custom-form-action {
+  margin-left: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .custom-form-fieldrow {
+    display: block;
+  }
+
+  .custom-form-fieldrow .custom-form-fieldgroup + .custom-form-fieldgroup {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}

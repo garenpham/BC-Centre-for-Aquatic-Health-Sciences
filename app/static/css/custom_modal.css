@@ -52,58 +52,6 @@
   animation: custom-modal-fade 0.25s reverse ease-out;
 }
 
-.custom-modal-fieldgroup > label:first-of-type {
-  font-weight: bold;
-}
-
-.custom-modal label.btn {
-  display: block;
-  margin: 0;
-}
-
-.custom-modal-fieldrow {
-  display: flex;
-}
-
-.custom-modal-fieldrow + .custom-modal-fieldgroup {
-  margin-top: 1.5rem;
-}
-
-.custom-modal-fieldrow .custom-modal-fieldgroup + .custom-modal-fieldgroup {
-  margin-left: 1rem;
-}
-
-.custom-modal form > .custom-modal-fieldgroup + .custom-modal-fieldgroup {
-  margin-top: 1.5rem;
-}
-
-.custom-modal textarea {
-  width: 100%;
-  min-height: 8rem;
-}
-
-.custom-modal p:last-of-type {
-  margin: 0;
-}
-
-.custom-modal .file-input {
-  display: flex;
-  align-items: center;
-}
-
-.custom-modal .file-name {
-  margin-left: 0.5rem;
-}
-
-.custom-modal-actions {
-  margin-top: 2rem;
-  float: right;
-}
-
-.custom-modal-action + .custom-modal-action {
-  margin-left: 0.5rem;
-}
-
 .custom-modal-close {
   color: gray;
   background: none;
@@ -111,14 +59,6 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-}
-
-.custom-modal [hidden] {
-  display: none;
-}
-
-.custom-modal .required {
-  color: red;
 }
 
 @keyframes custom-modal-slide {

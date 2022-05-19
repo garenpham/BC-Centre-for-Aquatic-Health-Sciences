@@ -7,7 +7,7 @@ import { Modal, ModalAction } from './modal.js'
 
 function FileInput (props) {
   return html`
-    <div class="custom-modal-fieldgroup">
+    <div class="custom-form-fieldgroup">
       <label for="file-input">File<span class="required">*</span></label>
       <div class="file-input">
         <label for="file-input" class="btn btn-primary">Choose file</label>
@@ -54,8 +54,8 @@ export function UploadSampleModal (props) {
       name="file_type"
       value="sample" />
 
-    <div class="custom-modal-fieldrow">
-      <div class="custom-modal-fieldgroup">
+    <div class="custom-form-fieldrow">
+      <div class="custom-form-fieldgroup">
         <label for="sample-id">Sample ID<span class="required">*</span></label>
         <input
           type="text"
@@ -101,8 +101,8 @@ export function UploadDocumentModal(props) {
       name="file_type"
       value="document" />
 
-    <div class="custom-modal-fieldrow">
-      <div class="custom-modal-fieldgroup">
+    <div class="custom-form-fieldrow">
+      <div class="custom-form-fieldgroup">
         <label for="file-title">Title<span class="required">*</span></label>
         <input
           type="text"
@@ -116,7 +116,7 @@ export function UploadDocumentModal(props) {
       <${FileInput} value=${file || 'No file chosen'} onchange=${updateFile} />
     </div>
 
-    <div class="custom-modal-fieldgroup">
+    <div class="custom-form-fieldgroup">
       <label for="document-description">Description (optional)</label>
       <textarea
         class="form-control"

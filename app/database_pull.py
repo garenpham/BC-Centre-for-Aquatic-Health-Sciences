@@ -6,30 +6,50 @@ import mysql.connector
 from .database_controller import initialize_database_cursor
 
 
-def get_location_list():
-    """returns a list of available locations"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+def get_hatcheries():
+    """
+    Gets a dict {id: name} of available hatcheries
+    """
+    _, cursor = initialize_database_cursor()
     try:
         cursor.execute("SELECT * FROM location ;")
         result = cursor.fetchall()
-        return result
+        return dict(result)
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
         return None
 
 
 def get_sample_by_sample_id(sample_id):
-    """returns a list of available locations"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+    """
+    Gets sample data by sample ID
+    """
+
+    _, cursor = initialize_database_cursor()
     try:
         cursor.execute("SELECT * FROM sample_info WHERE `Sample ID` LIKE %(sample_id)s;",
-                       {'sample_id': sample_id})
+                       {"sample_id": sample_id})
         result = cursor.fetchall()
         return result
     except mysql.connector.Error as err:
-        print(f"Something went wrong pulling location data from database: {err}")
+        print(f"Something went wrong pulling sample data from database: {err}")
+        return None
+
+
+def get_submission_by_submission_no(submission_no):
+    """
+    Gets environmental data by CAHS submission number
+    """
+
+    _, cursor = initialize_database_cursor()
+    try:
+        cursor.execute("SELECT * FROM submission_data"
+                       " WHERE `CAHS Submission Number` LIKE %(submission_no)s;",
+                       {"submission_no": submission_no})
+        result = cursor.fetchall()
+        return result
+    except mysql.connector.Error as err:
+        print(f"Something went wrong pulling environmental data from database: {err}")
         return None
 
 

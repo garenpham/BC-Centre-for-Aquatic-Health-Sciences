@@ -11,9 +11,9 @@ from zipfile import ZipFile
 
 import pandas as pd
 import matplotlib.pyplot as plt
+from werkzeug.utils import secure_filename
 from flask import make_response, request, abort, flash, render_template, session, url_for, \
     redirect, send_from_directory, jsonify
-from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, \
     current_user
@@ -23,12 +23,12 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 
 from app import app
-from .functions import generate_csv
+from .functions import generate_csv, sanitize_form_data
 from .database_push import upload_database, update_sample_info, update_submission_data, \
     update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
 from .database_pull import show_location_data, show_sample_info, show_submission_data, \
-    show_sample_data, get_master_sample_info, get_location_list, get_sample_by_sample_id, \
-    get_abund_data, filter_by_date
+    show_sample_data, get_master_sample_info, get_hatcheries, get_sample_by_sample_id, \
+    get_submission_by_submission_no, get_abund_data, filter_by_date
 from .file_metadata import locate_file_metadata, read_file_metadata, write_file_metadata
 
 # from is_safe_url import is_safe_url
@@ -383,110 +383,109 @@ def upload_file():
 # File_list = ListStarted()
 
 # pylint: disable=invalid-name,too-many-locals, too-many-statements
-@app.route("/metadata", methods=["GET", "POST"])
+@app.route("/metadata", methods=["GET"])
 @login_required
 @is_admin
 def update_metadata():
     """
     Defines the template for rendering the metadata entry page.
     """
-    form_data=None
-
-    locations = get_location_list()
-
-    if request.method == "POST":
-        if request.form.get('submit_button') == "update_sample_data":
-            sample_id=request.form.get('Sample ID')
-            CAHS_Submission_Number=request.form.get('CAHS Submission Number')
-            sample_Type=request.form.get('Sample Type')
-            sample_Location=request.form.get('Sample location')
-            fish_weight=request.form.get('Fish Weight (g)') or None
-            fish_Length=request.form.get('Fish Length (mm)') or None
-            material_swab=request.form.get('Material Swabbed for Biofilm') or None
-            date_filtered=request.form.get('Date Filtered') or None
-            volume_filtered=request.form.get('Volume Filtered (mL)') or None
-            time_to_filter=request.form.get('Time to Filter (h:mm:ss)') or None
-            return_message, alert_type = update_sample_info(
-                sample_id, CAHS_Submission_Number, sample_Type, sample_Location,
-                fish_weight, fish_Length, material_swab, date_filtered,
-                volume_filtered, time_to_filter)
-
-            if alert_type == "danger":
-
-                form_data = [sample_id, CAHS_Submission_Number, sample_Type,
-                sample_Location, fish_weight, fish_Length, material_swab,
-                date_filtered, volume_filtered, time_to_filter, 3]
-                form_data = ['' if i is None else i for i in form_data]
-
-            flash(return_message, alert_type)
-            render_template("public/metadata.html", locations=locations, form_data=form_data)
-
-        if request.form.get('submit_button') == "update_submission_data":
-            CAHS_Submission_Number_submission_data=\
-            request.form.get('CAHS Submission Number Submission Data')
-            Samplers=request.form.get('Samplers') or None
-            water_temp=request.form.get('Water Temperature (c)') or None
-            oxygen_measurement=request.form.get('Oxygen (mg/L)') or None
-            saturation_percent=request.form.get('Saturation (%)') or None
-            num_fish_swabs=request.form.get('# Fish Swabs')
-            num_biofilm_swabs=request.form.get('# Biofilm Swabs')
-            num_water_samples_collected=request.form.get('# Water Samples Collected')
-            vol_water=request.form.get('Vol Water collected (mL)')
-            location_id_submission=request.form.get('location_id')
-            date_collected=request.form.get('Date Collected')
-
-            return_message, alert_type = update_submission_data(
-                CAHS_Submission_Number_submission_data, Samplers, water_temp, oxygen_measurement,
-                saturation_percent, num_fish_swabs, num_biofilm_swabs, num_water_samples_collected,
-                vol_water, location_id_submission, date_collected
-                )
-            if alert_type == "danger":
-                form_data = [CAHS_Submission_Number_submission_data, Samplers,
-                water_temp, oxygen_measurement,saturation_percent,
-                num_fish_swabs, num_biofilm_swabs, num_water_samples_collected,
-                vol_water, location_id_submission, date_collected, 2]
-                form_data = ['' if i is None else i for i in form_data]
-
-            flash(return_message, alert_type)
-            render_template("public/metadata.html", locations=locations, form_data=form_data)
-
-        if request.form.get('submit_button') == "update_location":
-            location_id = request.form.get('Location ID')
-            location_name = request.form.get('Location Name')
-            # exists = check_location_data_exists(location_id)
-            return_message, alert_type = update_location_data(location_id, location_name)
-
-            if alert_type == "danger":
-                form_data = [location_id, location_name, 1]
-
-            flash(return_message, alert_type)
-            render_template("public/metadata.html", locations=locations, form_data=form_data)
-
-        if request.form.get('submit_button') == "update_sample_data_item":
-            sample_id = request.form.get('sample_id')
-            sample_data_columns = get_sample_by_sample_id(sample_id)
-            if len(sample_data_columns) >= 1:
-                sample_id = sample_data_columns[0][0]
-                cahs_submission = sample_data_columns[0][1]
-                sample_type = sample_data_columns[0][2]
-                location = sample_data_columns[0][3]
-                fish_weight = sample_data_columns[0][4]
-                fish_length = sample_data_columns[0][5]
-                material_swabbed = sample_data_columns[0][6]
-                date = sample_data_columns[0][7]
-                volume_filtered = sample_data_columns[0][8]
-                time_filtered = sample_data_columns[0][9]
+    return render_template("public/metadata.html", hatcheries=get_hatcheries())
 
 
-                form_data = [sample_id, cahs_submission, sample_type,
-                location, fish_weight, fish_length, material_swabbed,
-                date, volume_filtered, time_filtered, 3]
-                form_data = ['' if i is None else i for i in form_data]
-            else:
-                flash("No matching sample id exists", "danger")
-            render_template("public/metadata.html", locations=locations, form_data=form_data)
+@app.route("/update_environmental_data", methods=["POST"])
+@login_required
+@is_admin
+def update_environmental_data():
+    """
+    API endpoint for updating environmental data
+    """
+    return_message, alert_type = update_submission_data(**sanitize_form_data(request.form))
+    return make_response(jsonify({
+        "message": return_message,
+        "category": alert_type,
+    }), 200)
 
-    return render_template("public/metadata.html", locations=locations, form_data=form_data)
+
+@app.route("/update_sample_data", methods=["POST"])
+@login_required
+@is_admin
+def update_sample_data():
+    """
+    API endpoint for updating sample data
+    """
+    return_message, alert_type = update_sample_info(**sanitize_form_data(request.form))
+    return make_response(jsonify({
+        "message": return_message,
+        "category": alert_type,
+    }), 200)
+
+
+@app.route("/update_hatchery_data", methods=["POST"])
+@login_required
+@is_admin
+def update_hatchery_data():
+    """
+    API endpoint for updating hatchery data
+    """
+    return_message, alert_type = update_location_data(**request.form)
+    return make_response(jsonify({
+        "message": return_message,
+        "category": alert_type,
+    }), 200)
+
+
+@app.route("/sample_data/<sample_id>")
+@login_required
+def get_sample_data(sample_id):
+    """
+    API endpoint for retrieving sample data by sample ID
+    """
+
+    sample_data = get_sample_by_sample_id(sample_id)
+    if not sample_data:
+        return make_response(f"No sample data found for '{sample_id}'", 404)
+
+    sample_data = dict(zip([
+        "sampleId",
+        "submissionNo",
+        "sampleType",
+        "sampleLocation",
+        "fishWeight",
+        "fishLength",
+        "biofilmMaterial",
+        "waterDateFiltered",
+        "waterVolFiltered",
+        "waterTimeToFilter",
+    ], sample_data[0]))
+    return make_response(jsonify(sample_data), 200)
+
+
+@app.route("/environmental_data/<submission_no>")
+@login_required
+def get_environmental_data(submission_no):
+    """
+    API endpoint for retrieving environmental data by CAHS submission number
+    """
+
+    sample_data = get_submission_by_submission_no(submission_no)
+    if not sample_data:
+        return make_response(f"No environmental data found for '{submission_no}'", 404)
+
+    sample_data = dict(zip([
+        "submissionNo",
+        "samplers",
+        "waterTemperature",
+        "oxygen",
+        "saturation",
+        "fishSwabs",
+        "biofilmSwabs",
+        "waterSamples",
+        "waterVolPerSample",
+        "hatcheryId",
+        "dateCollected",
+    ], sample_data[0]))
+    return make_response(jsonify(sample_data), 200)
 
 @app.route("/display_data", methods=["GET", "POST"])
 @login_required

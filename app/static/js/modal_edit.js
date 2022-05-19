@@ -26,7 +26,7 @@ export function EditModal (props) {
       name="file_name"
       value=${props.fileName} />
 
-    <div class="custom-modal-fieldgroup">
+    <div class="custom-form-fieldgroup">
       <label for="document-title">Title<span class="required">*</span></label>
       <input
         type="text"
@@ -39,7 +39,7 @@ export function EditModal (props) {
         oninput=${updateTitle} />
     </div>
 
-    <div class="custom-modal-fieldgroup">
+    <div class="custom-form-fieldgroup">
       <label for="document-description">Description (optional)</label>
       <textarea
         class="form-control"

@@ -58,17 +58,21 @@ export function Modal (props) {
         <h4 class="custom-modal-title">${props.title || 'Untitled modal'}</h4>
         <hr/>
 
-        <form class="needs-validation" method="POST" enctype="multipart/form-data">
+        <form
+          class="custom-form needs-validation"
+          method="POST"
+          enctype="multipart/form-data">
+
           ${props.children}
 
-          <div class="custom-modal-actions">
+          <div class="custom-form-actions align-right">
             ${props.actions && props.actions.map(action => html`
               <button
                 type=${action.flags.includes('primary') && !action.callback
                   ? 'submit'
                   : 'button'}
                 class=${cc([
-                  "custom-modal-action",
+                  "custom-form-action",
                   "btn",
                   `btn-${action.flags.join('-')}`,
                   ...(action.disabled ? ["disabled"] : [])
