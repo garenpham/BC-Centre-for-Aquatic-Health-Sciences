@@ -412,9 +412,12 @@ def update_metadata():
                 volume_filtered, time_to_filter)
 
             if alert_type == "danger":
+
                 form_data = [sample_id, CAHS_Submission_Number, sample_Type,
                 sample_Location, fish_weight, fish_Length, material_swab,
                 date_filtered, volume_filtered, time_to_filter, 3]
+                form_data = ['' if i is None else i for i in form_data]
+
             flash(return_message, alert_type)
             render_template("public/metadata.html", locations=locations, form_data=form_data)
 
@@ -442,6 +445,7 @@ def update_metadata():
                 water_temp, oxygen_measurement,saturation_percent,
                 num_fish_swabs, num_biofilm_swabs, num_water_samples_collected,
                 vol_water, location_id_submission, date_collected, 2]
+                form_data = ['' if i is None else i for i in form_data]
 
             flash(return_message, alert_type)
             render_template("public/metadata.html", locations=locations, form_data=form_data)
@@ -461,7 +465,6 @@ def update_metadata():
         if request.form.get('submit_button') == "update_sample_data_item":
             sample_id = request.form.get('sample_id')
             sample_data_columns = get_sample_by_sample_id(sample_id)
-            print(sample_data_columns)
             if len(sample_data_columns) >= 1:
                 sample_id = sample_data_columns[0][0]
                 cahs_submission = sample_data_columns[0][1]
@@ -473,15 +476,17 @@ def update_metadata():
                 date = sample_data_columns[0][7]
                 volume_filtered = sample_data_columns[0][8]
                 time_filtered = sample_data_columns[0][9]
+
+
                 form_data = [sample_id, cahs_submission, sample_type,
                 location, fish_weight, fish_length, material_swabbed,
                 date, volume_filtered, time_filtered, 3]
+                form_data = ['' if i is None else i for i in form_data]
             else:
                 flash("No matching sample id exists", "danger")
             render_template("public/metadata.html", locations=locations, form_data=form_data)
 
     return render_template("public/metadata.html", locations=locations, form_data=form_data)
-
 
 @app.route("/display_data", methods=["GET", "POST"])
 @login_required
