@@ -1,6 +1,7 @@
 """
 Defines logic for pulling from the database.
 """
+import datetime
 
 import mysql.connector
 from .database_controller import initialize_database_cursor
@@ -101,7 +102,10 @@ def show_sample_data():
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
-        return result, headers
+        result_list = [[str(item) if isinstance(item, datetime.timedelta)
+                        else item for item in entry]
+                       for entry in result]
+        return result_list, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
         return None
@@ -120,11 +124,14 @@ def get_all_sample_data(sample_id=None):
             cursor.execute("SELECT * FROM master_sample_data_view "
                            f"WHERE `Sample ID` = '{sample_id}' ;")
             result = cursor.fetchall()
+        result_list = [[str(item) if isinstance(item, datetime.timedelta)
+                        else item for item in entry]
+                       for entry in result]
         cursor.execute("SHOW COLUMNS FROM master_sample_data_view ;")
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
-        return result, headers
+        return result_list, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling sample info from database: {err}")
         return None
