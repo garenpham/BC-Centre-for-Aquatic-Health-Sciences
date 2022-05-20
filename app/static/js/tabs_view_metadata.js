@@ -87,7 +87,8 @@ const EnvironmentalDataTabView = (props) => {
             id="date-collected"
             name="date_collected"
             value=${state.dateCollected}
-            required />
+            required
+            oninput=${event => dispatch({ dateCollected: event.target.value })} />
           <label for="date-collected">Date collected</label>
         </div>
       </div>
@@ -125,7 +126,8 @@ const EnvironmentalDataTabView = (props) => {
             id="hatchery-name"
             name="location_id_submission"
             value=${state.hatcheryId}
-            required>
+            required
+            onchange=${event => dispatch({ hatcheryId: event.target.value })} >
             <option value="">(None selected)</option>
             ${Object.entries(window.CAHS.hatcheries).map(([hatcheryId, hatcheryName]) => html`
               <option value=${hatcheryId}>${hatcheryName}</option>
@@ -143,7 +145,8 @@ const EnvironmentalDataTabView = (props) => {
           name="Samplers"
           value=${state.samplers}
           placeholder="e.g. John Doe, Jane Doe"
-          required />
+          required
+          oninput=${event => dispatch({ samplers: event.target.value })} />
         <label for="samplers">Samplers</label>
       </div>
 
@@ -156,7 +159,8 @@ const EnvironmentalDataTabView = (props) => {
             id="water-temperature"
             name="water_temp"
             value=${state.waterTemperature}
-            placeholder="10.0" />
+            placeholder="10.0"
+            oninput=${event => dispatch({ waterTemperature: event.target.value })} />
           <label for="water-temperature">Water temperature (ºC)</label>
         </div>
 
@@ -169,7 +173,8 @@ const EnvironmentalDataTabView = (props) => {
             id="oxygen"
             name="oxygen_measurement"
             value=${state.oxygen}
-            placeholder="10.00" />
+            placeholder="10.00"
+            oninput=${event => dispatch({ oxygen: event.target.value })} />
           <label for="oxygen">Oxygen (mg/L)</label>
         </div>
 
@@ -183,7 +188,8 @@ const EnvironmentalDataTabView = (props) => {
             id="saturation"
             name="saturation_percent"
             value=${state.saturation}
-            placeholder="100.0" />
+            placeholder="100.0"
+            oninput=${event => dispatch({ saturation: event.target.value })} />
           <label for="saturation">Saturation (%)</label>
         </div>
 
@@ -196,7 +202,8 @@ const EnvironmentalDataTabView = (props) => {
             id="water-vol-per-sample"
             name="vol_water"
             value=${state.waterVolPerSample}
-            placeholder="1000" />
+            placeholder="1000"
+            oninput=${event => dispatch({ waterVolPerSample: event.target.value })} />
           <label for="water-vol-per-sample">Vol. water/sample (mL)</label>
         </div>
       </div>
@@ -212,7 +219,8 @@ const EnvironmentalDataTabView = (props) => {
             name="num_water_samples_collected"
             value=${state.waterSamples}
             placeholder="0"
-            required />
+            required
+            oninput=${event => dispatch({ waterSamples: event.target.value })} />
           <label for="water-samples"># water samples collected</label>
         </div>
 
@@ -226,7 +234,8 @@ const EnvironmentalDataTabView = (props) => {
             name="num_fish_swabs"
             value=${state.fishSwabs}
             placeholder="0"
-            required />
+            required
+            oninput=${event => dispatch({ fishSwabs: event.target.value })} />
           <label for="fish-swabs"># fish swabs</label>
         </div>
 
@@ -240,7 +249,8 @@ const EnvironmentalDataTabView = (props) => {
             name="num_biofilm_swabs"
             value=${state.biofilmSwabs}
             placeholder="0"
-            required />
+            required
+            oninput=${event => dispatch({ biofilmSwabs: event.target.value })} />
           <label for="biofilm-swabs"># biofilm swabs</label>
         </div>
       </div>
@@ -301,10 +311,6 @@ const SampleDataTabView = (props) => {
   const submitSampleData = () =>
     postFormData('/update_sample_data', formRef.current, props.onmessage)
 
-  // HACK: we use oninput/onchange handlers for _every_ field here because we're
-  //       tracking date filter state. there's no CSS-only way to stylize
-  //       optional date elements in html, and the design dictates that empty
-  //       form controls should be grayed out for clarity
   return html`
     <form ref=${formRef} class="custom-form needs-validation">
 
