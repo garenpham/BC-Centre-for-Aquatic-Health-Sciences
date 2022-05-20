@@ -26,7 +26,9 @@ const postFormData = (endpoint, form, callback) => {
     .then(response => response.json())
     .then(({ category, message }) => {
       callback(category, message)
-      form.reset()
+      if (category !== 'danger') {
+        form.reset()
+      }
     })
 }
 
@@ -299,6 +301,10 @@ const SampleDataTabView = (props) => {
   const submitSampleData = () =>
     postFormData('/update_sample_data', formRef.current, props.onmessage)
 
+  // HACK: we use oninput/onchange handlers for _every_ field here because we're
+  //       tracking date filter state. there's no CSS-only way to stylize
+  //       optional date elements in html, and the design dictates that empty
+  //       form controls should be grayed out for clarity
   return html`
     <form ref=${formRef} class="custom-form needs-validation">
 
@@ -337,7 +343,8 @@ const SampleDataTabView = (props) => {
             name="CAHS_Submission_Number"
             value=${state.submissionNo}
             placeholder="V0123"
-            required />
+            required
+            oninput=${event => dispatch({ submissionNo: event.target.value })} />
           <label for="submission-no">CAHS Submission Number</label>
         </div>
       </div>
@@ -349,7 +356,8 @@ const SampleDataTabView = (props) => {
             id="sample-type"
             name="sample_Type"
             value=${state.sampleType}
-            required>
+            required
+            onchange=${event => dispatch({ sampleType: event.target.value })} >
             <option value="">(None selected)</option>
             <option value="Biofilm swab">Biofilm swab</option>
             <option value="Fish swab">Fish swab</option>
@@ -366,7 +374,8 @@ const SampleDataTabView = (props) => {
             name="sample_Location"
             value=${state.sampleLocation}
             placeholder="e.g. Pond 5"
-            required />
+            required
+            oninput=${event => dispatch({ sampleLocation: event.target.value })} />
           <label for="sample-location">Sample location</label>
         </div>
       </div>
@@ -381,7 +390,8 @@ const SampleDataTabView = (props) => {
             id="fish-weight"
             name="fish_weight"
             value=${state.fishWeight}
-            placeholder="10.00" />
+            placeholder="10.00"
+            oninput=${event => dispatch({ fishWeight: event.target.value })} />
           <label for="fish-weight">Fish weight (g)</label>
         </div>
 
@@ -394,7 +404,8 @@ const SampleDataTabView = (props) => {
             id="fish-length"
             name="fish_Length"
             value=${state.fishLength}
-            placeholder="100" />
+            placeholder="100"
+            oninput=${event => dispatch({ fishLength: event.target.value })} />
           <label for="fish-length">Fish length (mm)</label>
         </div>
       </div>
@@ -406,7 +417,8 @@ const SampleDataTabView = (props) => {
           id="biofilm-material"
           name="material_swab"
           value=${state.biofilmMaterial}
-          placeholder="e.g. Concrete wall" />
+          placeholder="e.g. Concrete wall"
+          oninput=${event => dispatch({ biofilmMaterial: event.target.value })} />
         <label for="biofilm-material">Material swabbed for biofilm</label>
       </div>
 
@@ -435,7 +447,8 @@ const SampleDataTabView = (props) => {
             id="water-vol-filtered"
             name="volume_filtered"
             value=${state.waterVolFiltered}
-            placeholder="1000" />
+            placeholder="1000"
+            oninput=${event => dispatch({ waterVolFiltered: event.target.value })} />
           <label for="water-vol-filtered">Vol. filtered (mL)</label>
         </div>
 
@@ -446,7 +459,8 @@ const SampleDataTabView = (props) => {
             id="water-time-to-filter"
             name="time_to_filter"
             value=${state.waterTimeToFilter}
-            placeholder="0:00:00" />
+            placeholder="0:00:00"
+            oninput=${event => dispatch({ waterTimeToFilter: event.target.value })} />
           <label for="water-time-to-filter">Time to filter (h:mm:ss)</label>
         </div>
       </div>
