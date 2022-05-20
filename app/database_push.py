@@ -4,6 +4,7 @@ Defines logic for pushing to the database.
 
 import os
 import mysql.connector
+from app import app
 from .database_controller import initialize_database_cursor
 
 
@@ -13,35 +14,34 @@ def upload_database(file_name, sample_id):
     except to control this.
     """
 
-    # requires changes to --secure-file-priv location
-    # file_name and sample_ID at the moment are static strings for testing purposes
-    cwd = os.getcwd()
-    file_location = os.path.join(cwd, "app", "static", "file_uploads", sample_id, file_name)
-    print("file location: ", file_location)
+    dir_path = app.config["FILE_UPLOADS"]
+    file_path = os.path.join(dir_path, sample_id, file_name)
 
     database, cursor = initialize_database_cursor()
-
     try:
-        cursor.execute("SELECT `Sample ID` FROM sample_data WHERE `Sample ID` LIKE %(sample_id)s;",
-                       {'sample_id': sample_id})
-        # pushing to the sample_data database
-        # may be /r/n or /n depending on the system and how it is pushed
-        # once on github it becomes /r/n though
-        number_rows = cursor.rowcount
-        if number_rows != 0:
-            cursor.execute("DELETE FROM sample_data WHERE `Sample ID` LIKE %(sample_id)s;",
-                {'sample_id': sample_id})
+        # constraint: sample_data rows must have corresponding entries in sample_info table
+        cursor.execute(f"SELECT `Sample ID` FROM sample_info WHERE `Sample ID` LIKE '{sample_id}';")
+        if not cursor.rowcount:
+            return ("Upload to database failed error:"
+                f" No corresponding sample data found for sample ID '{sample_id}'")
+
+        # delete preexisting bracken report data
+        cursor.execute(f"SELECT `Sample ID` FROM sample_data WHERE `Sample ID` LIKE {sample_id};")
+        if cursor.rowcount:
+            cursor.execute(f"DELETE FROM sample_data WHERE `Sample ID` LIKE '{sample_id}';")
             database.commit()
-        # Executes the load data if no pre-existing data exists
-        # need to add confirmation at some point
-        load = (
-            "LOAD DATA LOCAL INFILE %s INTO TABLE sample_data FIELDS TERMINATED BY '\t' "
-            "LINES TERMINATED BY '\n' IGNORE 1 LINES (`name`, `taxonomy_id`, `taxonomy_lvl`, "
-            "`kraken_assigned_reads`, `added_reads`, `new_est_reads`, `fraction_total_reads`) "
-            "SET `Sample ID` = (%s);")
-        cursor.execute(load, (file_location, sample_id))
+
+        cursor.execute(f"""
+            LOAD DATA LOCAL INFILE '{file_path}' INTO TABLE sample_data
+            FIELDS TERMINATED BY '\t'
+            LINES TERMINATED BY '\n'
+            IGNORE 1 LINES (
+                `name`, `taxonomy_id`, `taxonomy_lvl`, `kraken_assigned_reads`,
+                `added_reads`, `new_est_reads`, `fraction_total_reads`
+            ) SET `Sample ID` = '{sample_id}';
+        """)
         database.commit()
-        return "Upload of Bracken report Successful"
+        return f"Uploaded '{file_name}' to database successfully."
     except mysql.connector.Error as err:
         print(f"Something went wrong with uploading to sample_data: {err}")
         return f"Upload to database failed error: {err}"

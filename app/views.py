@@ -49,8 +49,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'secretkey'  # os.environ['SECRET_KEY']
 app.config["ALLOWED_FILE_EXTENSION"] = ["CSV", "HTML", "TXT"]
 app.config["MAX_FILESIZE"] = 100 * 1024 * 1024
-app.config["FILE_UPLOADS"] = os.path.join(cwd, "../file_uploads")
-app.config["CLIENT_DOWNLOADS"] = os.path.join(cwd, "../file_uploads/download_folder")
+app.config["FILE_UPLOADS"] = os.path.join(cwd, "..", "file_uploads")
+app.config["CLIENT_DOWNLOADS"] = os.path.join(cwd, "..", "file_uploads", "download_folder")
 
 
 def is_admin(func):
@@ -333,15 +333,22 @@ def upload_file():
                 try:
                     os.makedirs(dir_path)
                 except OSError as error:
-                    flash(f"Error saving file{error}", "danger")
+                    flash(f"Error saving file: {error}", "danger")
                     return redirect(request.url)
 
+            # need to save file in order to load into db
             file.save(file_path)
-            flash("File saved.", "info")
+
             if "bracken_report" in file_name:
-                print("bracken_report triggered")
                 return_message = upload_database(file_name, sample_id)
-                flash(return_message, "danger" if "error" in return_message else "info")
+                if "error" in return_message:
+                    # no need to keep invalid sample uploads
+                    os.remove(file_path)
+                    if not os.listdir(dir_path):
+                        os.rmdir(dir_path)
+                    flash(return_message, "danger")
+                else:
+                    flash(return_message, "info")
 
             return redirect(request.url)
 

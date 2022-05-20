@@ -20,6 +20,7 @@ def mysql_database_connection():
             passwd=os.environ['DB_PASS'],
             auth_plugin=os.environ['DB_AUTH_PLUGIN'],
             database=os.environ['DB'],
+            allow_local_infile=True,
         )
     except mysql.connector.Error as err:
         print(f"error connecting to the database. please verify that MySQL is running.{err}")
