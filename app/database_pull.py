@@ -53,15 +53,15 @@ def get_submission_by_submission_no(submission_no):
         return None
 
 
-def show_location_data():
+def show_hatchery_data():
     """Shows location data by using a SELECT statement"""
     # pylint: disable=unused-variable
     database, cursor = initialize_database_cursor()
     try:
         headers = []
-        cursor.execute("SELECT * FROM location ;")
+        cursor.execute("SELECT * FROM hatchery_data_view ;")
         result = cursor.fetchall()
-        cursor.execute("SHOW COLUMNS FROM location ;")
+        cursor.execute("SHOW COLUMNS FROM hatchery_data_view ;")
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
@@ -71,33 +71,15 @@ def show_location_data():
         return None
 
 
-def show_sample_info():
-    """Shows sample info by using a SELECT statement"""
+def show_environmental_data():
+    """Show environmental data by using a SELECT statement"""
     # pylint: disable=unused-variable
     database, cursor = initialize_database_cursor()
     try:
         headers = []
-        cursor.execute("SELECT * FROM sample_data_view ;")
+        cursor.execute("SELECT * FROM environmental_data_view ;")
         result = cursor.fetchall()
-        cursor.execute("SHOW COLUMNS FROM sample_data_view ;")
-        headers_list = cursor.fetchall()
-        for row in headers_list:
-            headers.append(row[0])
-        return result, headers
-    except mysql.connector.Error as err:
-        print(f"Something went wrong pulling sample info from database: {err}")
-        return None
-
-
-def show_submission_data():
-    """Show Submission data by using a SELECT statement"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
-    try:
-        headers = []
-        cursor.execute("SELECT * FROM submission_data ;")
-        result = cursor.fetchall()
-        cursor.execute("SHOW COLUMNS FROM submission_data ;")
+        cursor.execute("SHOW COLUMNS FROM environmental_data_view ;")
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
@@ -113,9 +95,9 @@ def show_sample_data():
     database, cursor = initialize_database_cursor()
     try:
         headers = []
-        cursor.execute("SELECT * FROM sample_info ;")
+        cursor.execute("SELECT * FROM sample_data_view ;")
         result = cursor.fetchall()
-        cursor.execute("SHOW COLUMNS FROM sample_info ;")
+        cursor.execute("SHOW COLUMNS FROM sample_data_view ;")
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
@@ -125,8 +107,8 @@ def show_sample_data():
         return None
 
 
-def get_master_sample_info(sample_id=None):
-    """Queries for specific master sample information by sample ID"""
+def get_all_sample_data(sample_id=None):
+    """Queries for all sample data, can be by sample ID"""
     # pylint: disable=unused-variable
     database, cursor = initialize_database_cursor()
     try:

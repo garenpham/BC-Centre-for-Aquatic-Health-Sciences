@@ -23,6 +23,8 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+        <br>
+        <h3>Environmental Data</h3>
             <table id="show_data_table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                 <thead>
                 <tr>
@@ -116,11 +118,10 @@
                 </tbody>
             </table>
             <form action="/display_data" method="post">
-              <button type="submit" class="btn btn-primary" name="submit_button" value="master_sample_data">Master Sample Data</button>
-              <button type="submit" class="btn btn-primary" name="submit_button" value="sample_info">Sample Information</button>
-              <button type="submit" class="btn btn-primary" name="submit_button" value="location_data">Location Data</button>
-              <button type="submit" class="btn btn-primary" name="submit_button" value="submission_data">Submission Data</button>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="all_data">All Data</button>
               <button type="submit" class="btn btn-primary" name="submit_button" value="sample_data">Sample Data</button>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="environmental_data">Environmental Data</button>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="hatchery_data">Hatchery Data</button>
             </form>
     </div>
   </div>
