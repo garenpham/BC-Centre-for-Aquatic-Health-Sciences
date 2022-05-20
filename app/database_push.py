@@ -26,7 +26,7 @@ def upload_database(file_name, sample_id):
                 f" No corresponding sample data found for sample ID '{sample_id}'")
 
         # delete preexisting bracken report data
-        cursor.execute(f"SELECT `Sample ID` FROM sample_data WHERE `Sample ID` LIKE {sample_id};")
+        cursor.execute(f"SELECT `Sample ID` FROM sample_data WHERE `Sample ID` LIKE '{sample_id}';")
         if cursor.rowcount:
             cursor.execute(f"DELETE FROM sample_data WHERE `Sample ID` LIKE '{sample_id}';")
             database.commit()
