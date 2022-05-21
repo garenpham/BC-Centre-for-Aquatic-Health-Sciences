@@ -21,13 +21,16 @@
       document.getElementById('slot-alerts')
     )
 
-    render(
+    const renderTabsView = () => render(
       h(MetadataTabsView, {
         tab: window.location.hash.slice(1),  // cut off pound sign, e.g. #sample-data -> sample-data
         onmessage: displayMessage,
       }),
       document.getElementById('slot-tabs'),
     )
+
+    renderTabsView()
+    window.addEventListener('hashchange', renderTabsView)
   </script>
 {% endblock %}
 

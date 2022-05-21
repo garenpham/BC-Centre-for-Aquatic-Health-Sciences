@@ -203,6 +203,7 @@ const EnvironmentalDataTabView = (props) => {
             name="vol_water"
             value=${state.waterVolPerSample}
             placeholder="1000"
+            required
             oninput=${event => dispatch({ waterVolPerSample: event.target.value })} />
           <label for="water-vol-per-sample">Vol. water/sample (mL)</label>
         </div>
@@ -312,6 +313,13 @@ const SampleDataTabView = (props) => {
     postFormData('/update_sample_data', formRef.current, props.onmessage)
 
   return html`
+    <div class="alert alert-info" role="alert">
+      <strong>NOTE: </strong>
+      Ensure you've registered a valid CAHS Submission Number under
+      <span> <a href="/metadata#environmental-data">Environmental data</a> </span>
+      before entering new sample data.
+    </div>
+
     <form ref=${formRef} class="custom-form needs-validation">
 
       <div class="custom-form-fieldrow">

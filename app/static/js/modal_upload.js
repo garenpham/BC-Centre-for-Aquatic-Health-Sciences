@@ -8,7 +8,6 @@ import { Modal, ModalAction } from './modal.js'
 function FileInput (props) {
   return html`
     <div class="custom-form-fieldgroup">
-      <label for="file-input">File<span class="required">*</span></label>
       <div class="file-input">
         <label for="file-input" class="btn btn-primary">Choose file</label>
         <span class="file-name">${props.value || 'No file chosen'}</span>
@@ -20,6 +19,7 @@ function FileInput (props) {
         name="file"
         required
         onchange=${props.onchange} />
+      <label for="file-input">File</label>
     </div>
   `
 }
@@ -54,9 +54,15 @@ export function UploadSampleModal (props) {
       name="file_type"
       value="sample" />
 
+    <div class="alert alert-info" role="alert">
+      <strong>NOTE: </strong>
+      Ensure you've registered this sample's corresponding sample ID on
+      <span> <a href="/metadata#sample-data" target="_blank">the Metadata page</a> </span>
+      before continuing with the upload.
+    </div>
+
     <div class="custom-form-fieldrow">
       <div class="custom-form-fieldgroup">
-        <label for="sample-id">Sample ID<span class="required">*</span></label>
         <input
           type="text"
           class="form-control"
@@ -65,6 +71,7 @@ export function UploadSampleModal (props) {
           placeholder="SBio123"
           required
           oninput=${updateId} />
+        <label for="sample-id">Sample ID</label>
       </div>
       <${FileInput} value=${file || 'No file chosen'} onchange=${updateFile} />
     </div>
@@ -103,7 +110,6 @@ export function UploadDocumentModal(props) {
 
     <div class="custom-form-fieldrow">
       <div class="custom-form-fieldgroup">
-        <label for="file-title">Title<span class="required">*</span></label>
         <input
           type="text"
           class="form-control"
@@ -112,6 +118,7 @@ export function UploadDocumentModal(props) {
           placeholder="Document name"
           required
           oninput=${updateTitle} />
+        <label for="file-title">Title</label>
       </div>
       <${FileInput} value=${file || 'No file chosen'} onchange=${updateFile} />
     </div>

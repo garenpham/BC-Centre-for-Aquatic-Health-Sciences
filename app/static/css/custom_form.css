@@ -65,6 +65,10 @@
   align-items: center;
 }
 
+.custom-form .file-input .btn {
+  margin: 0;
+}
+
 .custom-form .file-name {
   margin-left: 0.5rem;
 }
