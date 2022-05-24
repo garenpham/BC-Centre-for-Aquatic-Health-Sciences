@@ -180,7 +180,7 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
                 "JOIN ("
                     "SELECT `Sample ID`, `name`, taxonomy_id "
                     "FROM sample_data "
-                    "GROUP BY `name` "
+                    "GROUP BY `Sample ID`, `name`, taxonomy_id "
                     f"HAVING MAX(fraction_total_reads) > {abundance}"
                 ") b ON a.taxonomy_id = b.taxonomy_id "
             "),"
