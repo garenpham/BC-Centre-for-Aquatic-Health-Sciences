@@ -38,6 +38,6 @@ jobs:
         script: |
           cd dist
           ./setup.sh
-          Rscript app/r/setup.R
+          sudo Rscript app/r/setup.R
           sudo systemctl restart app
           systemctl status app
