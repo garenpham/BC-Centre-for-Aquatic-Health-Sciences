@@ -27,7 +27,7 @@ jobs:
         port: 22
         source: "."
         target: "dist"
-    - name: Restart app service
+    - name: Run setups and restart app service
       uses: appleboy/ssh-action@master
       with:
         key: ${{ secrets.ISSP_KEY }}
@@ -38,5 +38,6 @@ jobs:
         script: |
           cd dist
           ./setup.sh
+          Rscript app/r/setup.R
           sudo systemctl restart app
           systemctl status app
