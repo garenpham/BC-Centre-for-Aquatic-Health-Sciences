@@ -165,7 +165,7 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
         else:
             date_filter = "WHERE 1=1"
 
-        type_filter = f"AND sample_info.`Sample Type` = '{sample_type}'" if sample_type else ""
+        type_filter = f"AND sample_info.`Sample Type` LIKE '%{sample_type}%'" if sample_type else ""
 
         query = (
             "WITH filtered_sample AS ("
