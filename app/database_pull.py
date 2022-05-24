@@ -18,7 +18,7 @@ def get_hatcheries():
         return dict(result)
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
-        return None
+        return {}
 
 
 def get_sample_by_sample_id(sample_id):
@@ -34,7 +34,7 @@ def get_sample_by_sample_id(sample_id):
         return result
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling sample data from database: {err}")
-        return None
+        return []
 
 
 def get_submission_by_submission_no(submission_no):
@@ -51,13 +51,12 @@ def get_submission_by_submission_no(submission_no):
         return result
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling environmental data from database: {err}")
-        return None
+        return [], []
 
 
 def show_hatchery_data():
     """Shows location data by using a SELECT statement"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+    _, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute("SELECT * FROM hatchery_data_view ;")
@@ -69,13 +68,12 @@ def show_hatchery_data():
         return result, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
-        return None
+        return [], []
 
 
 def show_environmental_data():
     """Show environmental data by using a SELECT statement"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+    _, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute("SELECT * FROM environmental_data_view ;")
@@ -87,13 +85,12 @@ def show_environmental_data():
         return result, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling submission data from database: {err}")
-        return None
+        return [], []
 
 
 def show_sample_data():
     """Show sample data by using the SELECT statement"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+    _, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute("SELECT * FROM sample_data_view ;")
@@ -108,13 +105,12 @@ def show_sample_data():
         return result_list, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
-        return None
+        return [], []
 
 
 def get_all_sample_data(sample_id=None):
     """Queries for all sample data, can be by sample ID"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+    _, cursor = initialize_database_cursor()
     try:
         headers = []
         if sample_id is None:
@@ -134,13 +130,12 @@ def get_all_sample_data(sample_id=None):
         return result_list, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling sample info from database: {err}")
-        return None
+        return [], []
 
 
 def filter_by_date(data_type, start_date, end_date):
     """Filters queries by date"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+    _, cursor = initialize_database_cursor()
     try:
         headers = []
         cursor.execute(f"SELECT * FROM {data_type} WHERE `Date Collected` >= '{start_date}' "
@@ -153,13 +148,12 @@ def filter_by_date(data_type, start_date, end_date):
         return result, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling sample info from database: {err}")
-        return None
+        return [], []
 
 
 def get_abund_data(start_date, end_date, sample_type, abundance):
     """Show abundance plot visualization"""
-    # pylint: disable=unused-variable
-    database, cursor = initialize_database_cursor()
+    _, cursor = initialize_database_cursor()
     try:
         if start_date and end_date:
             date_filter = "WHERE sample_info.`Date Filtered` " \
@@ -208,7 +202,7 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
         cursor.execute(query)
         if cursor.rowcount:
             return cursor.fetchall()
-        return None
+        return []
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling abund data from database: {err}")
-        return None
+        return []
