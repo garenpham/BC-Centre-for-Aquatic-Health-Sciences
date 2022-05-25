@@ -39,8 +39,8 @@ filtersForm.onsubmit = event => {
                     alert.className = 'alert alert-warning alert-dismissible fade show'
                     alert.hidden = false
                 } else {
-                    vizImg1.setAttribute('src', '../static/img/' + data.viz1)
-                    vizImg2.setAttribute('src', '../static/img/' + data.viz2)
+                    vizImg1.setAttribute('src', '../static/img/' + data.viz1 + '?' + new Date().valueOf())
+                    vizImg2.setAttribute('src', '../static/img/' + data.viz2 + '?' + new Date().valueOf())
                     datavizContainer.hidden = false
                 }
             })
