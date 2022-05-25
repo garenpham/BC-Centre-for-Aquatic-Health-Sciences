@@ -717,7 +717,7 @@ def show_viz():
             csv_writer.writerows(abund_data_result)
 
         try:
-            subprocess.run(["/usr/bin/Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
+            subprocess.run(["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
             check=True)
         except subprocess.CalledProcessError:
             return make_response(jsonify({"message":"Error"}), 500)
