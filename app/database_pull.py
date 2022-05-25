@@ -152,54 +152,56 @@ def filter_by_date(data_type, start_date, end_date):
 
 
 def get_abund_data(start_date, end_date, sample_type, abundance):
-    """Show abundance plot visualization"""
+    """Get relative abundance data for graph visualization"""
     _, cursor = initialize_database_cursor()
     try:
-        if start_date and end_date:
-            date_filter = "WHERE sample_info.`Date Filtered` " \
-                "BETWEEN '{start_date}' AND '{end_date}'"
-        elif start_date:
-            date_filter = f"WHERE sample_info.`Date Filtered` >= '{start_date}'"
-        elif end_date:
-            date_filter = f"WHERE sample_info.`Date Filtered` <= '{end_date}'"
-        else:
-            date_filter = "WHERE 1=1"
+        sample_type = f"%{sample_type}%" if sample_type else "%"
+        if not start_date:
+            start_date = "0000-01-01"
+        if not end_date:
+            end_date = "9999-12-31"
 
-        type_filter = f"AND sample_info.`Sample Type` LIKE '%{sample_type}%'" if sample_type else ""
-
-        query = (
-            "WITH filtered_sample AS ("
-                "SELECT a.`Sample ID`, a.`name`, a.taxonomy_id, a.fraction_total_reads "
-                "FROM sample_data a "
-                "JOIN ("
-                    "SELECT taxonomy_id "
-                    "FROM sample_data "
-                    "GROUP BY taxonomy_id "
-                    f"HAVING MAX(fraction_total_reads) > {abundance}"
-                ") b ON a.taxonomy_id = b.taxonomy_id "
-            "),"
-            "sample_info_data AS ("
-                "SELECT sample_info.`Sample ID` AS 'sample_ID', species.`name` AS 'genus', "
-                    "filtered_sample.fraction_total_reads*100 AS 'value', "
-                    f"DATE_FORMAT(sample_info.`Date Filtered`, '%Y-%m-%d') AS 'date' "
-                "FROM sample_info "
-                "JOIN filtered_sample ON filtered_sample.`Sample ID` = sample_info.`Sample ID` "
-                "JOIN species ON species.taxonomy_id = filtered_sample.taxonomy_id "
-                f"{date_filter} "
-                f"{type_filter} "
-            ") "
-            "SELECT sample_info_data.sample_ID, sample_info_data.genus, sample_info_data.`value`, "
-            "sample_info_data.`date` "
-            "FROM sample_info_data "
-            "UNION "
-            "SELECT sample_info_data.sample_ID, 'Unclassified_Bacteria' AS 'genus', "
-            "100-SUM(sample_info_data.`value`) AS 'value', sample_info_data.`date` "
-            "FROM sample_info_data "
-            "GROUP BY sample_ID "
-            "ORDER BY genus, sample_ID "
-            ";"
+        query = """
+            WITH filtered_sample AS (
+                SELECT a.`Sample ID`, a.`name`, a.taxonomy_id, a.fraction_total_reads
+                FROM sample_data a
+                JOIN (
+                    SELECT taxonomy_id
+                    FROM sample_data
+                    GROUP BY taxonomy_id
+                    HAVING MAX(fraction_total_reads) > %(abundance)s
+                ) b ON a.taxonomy_id = b.taxonomy_id
+            ),
+            sample_info_data AS (
+                SELECT sample_info.`Sample ID` AS 'sample_ID', species.`name` AS 'genus',
+                    filtered_sample.fraction_total_reads*100 AS 'value',
+                    DATE_FORMAT(sample_info.`Date Filtered`, '%Y-%m-%d') AS 'date'
+                FROM sample_info
+                JOIN filtered_sample ON filtered_sample.`Sample ID` = sample_info.`Sample ID`
+                JOIN species ON species.taxonomy_id = filtered_sample.taxonomy_id
+                WHERE sample_info.`Date Filtered` BETWEEN %(start_date)s AND %(end_date)s
+                AND sample_info.`Sample Type` LIKE %(sample_type)s
+            )
+            SELECT sample_info_data.sample_ID, sample_info_data.genus, sample_info_data.`value`,
+            sample_info_data.`date`
+            FROM sample_info_data
+            UNION
+            SELECT sample_info_data.sample_ID, 'Unclassified_Bacteria' AS 'genus',
+            100-SUM(sample_info_data.`value`) AS 'value', sample_info_data.`date`
+            FROM sample_info_data
+            GROUP BY sample_ID
+            ORDER BY genus, sample_ID
+            ;
+        """
+        print(query)
+        cursor.execute(query,
+            {
+                "abundance":abundance,
+                "start_date":start_date,
+                "end_date":end_date,
+                "sample_type":sample_type
+            }
         )
-        cursor.execute(query)
         if cursor.rowcount:
             return cursor.fetchall()
         return []
