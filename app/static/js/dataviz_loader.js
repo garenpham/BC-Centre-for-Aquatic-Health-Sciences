@@ -29,7 +29,9 @@ filtersForm.onsubmit = event => {
         loader.hidden = true
         alert.hidden = true
         if (response.status == 500) {
-            alertMessage.innerHTML = 'Error encountered when running R script.'
+            alertMessage.innerHTML = 'Failed to visualize data:'
+                + ' The server failed to generate a response.'
+                + ' Try filtering down the dataset with a more specific query.'
             alert.className = 'alert alert-danger alert-dismissible fade show'
             alert.hidden = false
         } else {
