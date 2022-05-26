@@ -55,7 +55,7 @@ ggplot(rel_abund_long, aes(x = sample_ID, y = value, fill = genus)) +
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank(),
         strip.background = element_blank(),
-        strip.text.x = element_text(angle = 45),
+        strip.text.x = element_text(angle = 80),
         strip.placement = "outside") +
   scale_fill_manual(values = colors)
 

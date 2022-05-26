@@ -23,7 +23,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 
 from app import app
-from .functions import generate_csv, sanitize_form_data
+from .functions import generate_csv, sanitize_form_data, sanitize_abund_form_data
 from .database_push import upload_database, update_sample_info, update_submission_data, \
     update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
 from .database_pull import show_sample_data, show_hatchery_data, show_environmental_data, \
@@ -693,38 +693,45 @@ def delete_file(file_name):
         return redirect(url_for("downloads"))
 
 
-@app.route("/visualization", methods=["GET", "POST"])
+@app.route("/visualization", methods=["GET"])
 @login_required
-def show_viz():
+def visualization_page():
     """
-    Displays the data visualization page and gets form submission info.
+    Displays the data visualization page.
     """
-    if request.method == "POST":
-        start_date = request.form.get("start-date") or None
-        end_date = request.form.get("end-date") or None
-        sample_type = request.form["sample-type"] if request.form["sample-type"] != "All" else None
-        abundance = int(request.form.get("abund-slider")) * 0.005
-
-        current_working_dir = os.getcwd()
-        abund_data_result = get_abund_data(start_date, end_date, sample_type, abundance)
-
-        if not abund_data_result:
-            return make_response(jsonify({"message":"Empty"}), 200)
-
-        with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
-            csv_writer = csv.writer(csv_file)
-            csv_writer.writerow(["sample_ID", "genus", "value", "date"])
-            csv_writer.writerows(abund_data_result)
-
-        try:
-            subprocess.run(["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
-            check=True)
-        except subprocess.CalledProcessError:
-            return make_response(jsonify({"message":"Error"}), 500)
-
-        return make_response(jsonify({
-            "message":"OK",
-            "viz1":"data_abund_separate.png",
-            "viz2":"data_abund_grouped.png"
-            }), 200)
     return render_template("public/visualization.html")
+
+
+@app.route("/abund-graph", methods=["POST"])
+@login_required
+def show_abund_graph():
+    """
+    API endpoint for generating and displaying abundance graphs.
+    """
+    current_working_dir = os.getcwd()
+    form_data = sanitize_abund_form_data(request.form)
+    start_date = form_data['start-date']
+    end_date = form_data['end-date']
+    sample_type = form_data['sample-type']
+    abundance = int(form_data['abund-slider']) * 0.005
+
+    abund_data_result = get_abund_data(start_date, end_date, sample_type, abundance)
+    if not abund_data_result:
+        return make_response(jsonify({"message":"Empty"}), 200)
+
+    with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(["sample_ID", "genus", "value", "date"])
+        csv_writer.writerows(abund_data_result)
+
+    try:
+        subprocess.run(["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
+        check=True)
+    except subprocess.CalledProcessError:
+        return make_response(jsonify({"message":"Error"}), 500)
+
+    return make_response(jsonify({
+        "message":"OK",
+        "viz1":"data_abund_separate.png",
+        "viz2":"data_abund_grouped.png"
+        }), 200)

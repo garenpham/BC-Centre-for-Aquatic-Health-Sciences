@@ -22,8 +22,22 @@ def generate_csv(results, headers):
                 yield ','
         yield "\n"
 
+
 def sanitize_form_data(form_data):
     """
-    Replaces empty strings with Nones
+    Replaces empty strings with None.
     """
-    return {k: None if v == '' else v for k, v in form_data.items()}
+    return {key: None if value == '' else value for key, value in form_data.items()}
+
+
+def sanitize_abund_form_data(form_data):
+    """
+    Replaces empty strings and 'All' sample type with None in
+    form data for abundance graph filters.
+    """
+    return {
+        key: None
+        if value == '' or (key == 'sample-type' and value == 'All')
+        else value
+        for key, value in form_data.items()
+        }

@@ -21,7 +21,7 @@ filtersForm.onsubmit = event => {
     loader.hidden = false
     datavizContainer.hidden = true
 
-    fetch(filtersForm.action, {
+    fetch('/abund-graph', {
         method: 'POST',
         body: formData
     })
