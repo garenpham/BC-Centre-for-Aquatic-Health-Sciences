@@ -172,23 +172,25 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
                     HAVING MAX(fraction_total_reads) > %(abundance)s
                 ) b ON a.taxonomy_id = b.taxonomy_id
             ),
-            sample_info_data AS (
+            all_data AS (
                 SELECT sample_info.`Sample ID` AS 'sample_ID', species.`name` AS 'genus',
                     filtered_sample.fraction_total_reads*100 AS 'value',
-                    DATE_FORMAT(sample_info.`Date Filtered`, '%Y-%m-%d') AS 'date'
+                    DATE_FORMAT(submission_data.`Date Collected`, '%Y-%m-%d') AS 'date'
                 FROM sample_info
                 JOIN filtered_sample ON filtered_sample.`Sample ID` = sample_info.`Sample ID`
                 JOIN species ON species.taxonomy_id = filtered_sample.taxonomy_id
-                WHERE sample_info.`Date Filtered` BETWEEN %(start_date)s AND %(end_date)s
+                JOIN submission_data
+                ON submission_data.`CAHS Submission Number` = sample_info.`CAHS Submission Number`
+                WHERE submission_data.`Date Collected` BETWEEN %(start_date)s AND %(end_date)s
                 AND sample_info.`Sample Type` LIKE %(sample_type)s
             )
-            SELECT sample_info_data.sample_ID, sample_info_data.genus, sample_info_data.`value`,
-            sample_info_data.`date`
-            FROM sample_info_data
+            SELECT all_data.sample_ID, all_data.genus, all_data.`value`,
+            all_data.`date`
+            FROM all_data
             UNION
-            SELECT sample_info_data.sample_ID, 'Unclassified_Bacteria' AS 'genus',
-            100-SUM(sample_info_data.`value`) AS 'value', sample_info_data.`date`
-            FROM sample_info_data
+            SELECT all_data.sample_ID, 'Unclassified_Bacteria' AS 'genus',
+            100-SUM(all_data.`value`) AS 'value', all_data.`date`
+            FROM all_data
             GROUP BY sample_ID
             ORDER BY genus, sample_ID
             ;
