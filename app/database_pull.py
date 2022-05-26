@@ -193,7 +193,7 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
             ORDER BY genus, sample_ID
             ;
         """
-        print(query)
+
         cursor.execute(query,
             {
                 "abundance":abundance,
