@@ -20,26 +20,38 @@ def upload_database(file_name, sample_id):
     database, cursor = initialize_database_cursor()
     try:
         # constraint: sample_data rows must have corresponding entries in sample_info table
-        cursor.execute(f"SELECT `Sample ID` FROM sample_info WHERE `Sample ID` LIKE '{sample_id}';")
+        cursor.execute("""
+            SELECT `Sample ID` FROM sample_info
+            WHERE `Sample ID` LIKE %(sample_id)s;
+        """, { "sample_id": sample_id })
         if not cursor.rowcount:
             return ("Upload to database failed error:"
                 f" No corresponding sample data found for sample ID '{sample_id}'")
 
         # delete preexisting bracken report data
-        cursor.execute(f"SELECT `Sample ID` FROM sample_data WHERE `Sample ID` LIKE '{sample_id}';")
+        cursor.execute("""
+            SELECT `Sample ID` FROM sample_data
+            WHERE `Sample ID` LIKE %(sample_id)s;
+        """, { "sample_id": sample_id })
         if cursor.rowcount:
-            cursor.execute(f"DELETE FROM sample_data WHERE `Sample ID` LIKE '{sample_id}';")
+            cursor.execute("""
+                DELETE FROM sample_data
+                WHERE `Sample ID` LIKE %(sample_id)s;
+            """, { "sample_id": sample_id })
             database.commit()
 
-        cursor.execute(f"""
-            LOAD DATA LOCAL INFILE '{file_path}' INTO TABLE sample_data
+        cursor.execute("""
+            LOAD DATA LOCAL INFILE %(file_path)s INTO TABLE sample_data
             FIELDS TERMINATED BY '\t'
             LINES TERMINATED BY '\n'
             IGNORE 1 LINES (
                 `name`, `taxonomy_id`, `taxonomy_lvl`, `kraken_assigned_reads`,
                 `added_reads`, `new_est_reads`, `fraction_total_reads`
-            ) SET `Sample ID` = '{sample_id}';
-        """)
+            ) SET `Sample ID` = %(sample_id)s;
+        """, {
+            "file_path": file_path,
+            "sample_id": sample_id,
+        })
         database.commit()
         return f"Uploaded '{file_name}' to database successfully."
     except mysql.connector.Error as err:

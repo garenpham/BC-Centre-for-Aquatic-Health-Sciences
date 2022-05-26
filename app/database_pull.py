@@ -117,8 +117,10 @@ def get_all_sample_data(sample_id=None):
             cursor.execute("SELECT * FROM master_sample_data_view ;")
             result = cursor.fetchall()
         else:
-            cursor.execute("SELECT * FROM master_sample_data_view "
-                           f"WHERE `Sample ID` = '{sample_id}' ;")
+            cursor.execute("""
+                SELECT * FROM master_sample_data_view "
+                WHERE `Sample ID` = %(sample_id)s;
+            """, { "sample_id": sample_id })
             result = cursor.fetchall()
         result_list = [[str(item) if isinstance(item, datetime.timedelta)
                         else item for item in entry]
@@ -138,10 +140,17 @@ def filter_by_date(data_type, start_date, end_date):
     _, cursor = initialize_database_cursor()
     try:
         headers = []
-        cursor.execute(f"SELECT * FROM {data_type} WHERE `Date Collected` >= '{start_date}' "
-                       f"AND `Date Collected` <= '{end_date}' ;")
+        cursor.execute("""
+            SELECT * FROM %(data_type)s
+            WHERE `Date Collected` >= %(start_date)s
+            AND `Date Collected` <= %(end_date)s;
+        """, {
+            "data_type": data_type,
+            "start_date": start_date,
+            "end_date": end_date,
+        })
         result = cursor.fetchall()
-        cursor.execute(f"SHOW COLUMNS FROM {data_type} ;")
+        cursor.execute("SHOW COLUMNS FROM %(data_type)s;", { "data_type": data_type })
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
@@ -161,7 +170,7 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
         if not end_date:
             end_date = "9999-12-31"
 
-        query = """
+        cursor.execute("""
             WITH filtered_sample AS (
                 SELECT a.`Sample ID`, a.`name`, a.taxonomy_id, a.fraction_total_reads
                 FROM sample_data a
@@ -194,16 +203,12 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
             GROUP BY sample_ID
             ORDER BY genus, sample_ID
             ;
-        """
-
-        cursor.execute(query,
-            {
-                "abundance":abundance,
-                "start_date":start_date,
-                "end_date":end_date,
-                "sample_type":sample_type
-            }
-        )
+        """, {
+            "abundance": abundance,
+            "start_date": start_date,
+            "end_date": end_date,
+            "sample_type": sample_type,
+        })
         if cursor.rowcount:
             return cursor.fetchall()
         return []
