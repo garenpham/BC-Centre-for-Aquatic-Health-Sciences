@@ -4,6 +4,8 @@ Defines logic for pulling from the database.
 import datetime
 
 import mysql.connector
+
+from app.constants import END_OF_TIME, START_OF_TIME
 from .database_controller import initialize_database_cursor
 
 
@@ -135,26 +137,27 @@ def get_all_sample_data(sample_id=None):
         return [], []
 
 
-def filter_by_date(data_type, start_date, end_date):
+def filter_by_date(data_view, start_date, end_date):
     """Filters queries by date"""
     _, cursor = initialize_database_cursor()
     try:
         headers = []
-        cursor.execute("""
-            SELECT * FROM %(data_type)s
-            WHERE `Date Collected` >= %(start_date)s
-            AND `Date Collected` <= %(end_date)s;
+        cursor.execute(f"""
+            SELECT * FROM {data_view}
+            WHERE `Date Collected` BETWEEN %(start_date)s AND %(end_date)s;
         """, {
-            "data_type": data_type,
             "start_date": start_date,
-            "end_date": end_date,
+            "end_date": end_date
         })
         result = cursor.fetchall()
-        cursor.execute("SHOW COLUMNS FROM %(data_type)s;", { "data_type": data_type })
+        result_list = [[str(item) if isinstance(item, datetime.timedelta)
+                        else item for item in entry]
+                       for entry in result]
+        cursor.execute(f"SHOW COLUMNS FROM {data_view};")
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
-        return result, headers
+        return result_list, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling sample info from database: {err}")
         return [], []
@@ -166,9 +169,9 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
     try:
         sample_type = f"%{sample_type}%" if sample_type else "%"
         if not start_date:
-            start_date = "0000-01-01"
+            start_date = START_OF_TIME
         if not end_date:
-            end_date = "9999-12-31"
+            end_date = END_OF_TIME
 
         cursor.execute("""
             WITH filtered_sample AS (

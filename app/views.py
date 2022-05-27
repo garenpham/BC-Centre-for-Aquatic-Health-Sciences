@@ -30,6 +30,7 @@ from .database_pull import show_sample_data, show_hatchery_data, show_environmen
     get_all_sample_data, get_hatcheries, get_sample_by_sample_id, \
     get_submission_by_submission_no, get_abund_data, filter_by_date
 from .file_metadata import locate_file_metadata, read_file_metadata, write_file_metadata
+from .constants import END_OF_TIME, START_OF_TIME, VIEWS_WHITELIST
 
 # from is_safe_url import is_safe_url
 # from .database_controller import *
@@ -510,7 +511,7 @@ def show_metadata():
         database_data, header_data = get_all_sample_data()
         session["database_data"] = database_data
         session["database_headers"] = header_data
-        session["data_type"] = "master_sample_data_view"
+        session["data_view"] = "master_sample_data_view"
         # print(header_data, database_data)
         # database_data, header_data = show_location_data()
         return render_template("public/show_data.html",
@@ -612,15 +613,28 @@ def show_metadata():
         # Filter Selection
         if request.form.get('submit_button') == "submit_filter":
             print('filtering')
-            database_data, header_data = filter_by_date(session["data_type"],
-                request.form.get('start-date'),
-                request.form.get('end-date'))
+            if session["data_view"] not in VIEWS_WHITELIST:
+                flash(f"The view '{session['data_view']}' was not found.", "danger")
+                database_data, header_data = get_all_sample_data()
+                session["database_data"] = database_data
+                session["database_headers"] = header_data
+                return render_template("public/show_data.html",
+                    headers=header_data,
+                    data=database_data,
+                    user_role=role)
+
+            start_date = request.form.get('start-date') if request.form.get('start-date') \
+                else START_OF_TIME
+            end_date = request.form.get('end-date') if request.form.get('end-date') \
+                else END_OF_TIME
+            database_data, header_data = filter_by_date(session["data_view"],
+                start_date, end_date)
             session["database_data"] = database_data
             return render_template("public/show_data.html",
                 headers=header_data,
                 data=database_data,
                 user_role=role,
-                filter=f"{request.form.get('start-date')} to {request.form.get('end-date')}")
+                filter=f"{start_date} to {end_date}")
     return None
 
 
