@@ -1,0 +1,73 @@
+name: Pre-release
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # required for get_previous_tag
+
+    - name: Get latest tag
+      id: get_previous_tag
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      with:
+        fallback: 0.0.0
+
+    - name: Determine increment
+      id: determine_increment
+      run: |
+        echo "Head commit is \"${{ github.event.head_commit.message }}\""
+        INCREMENT="feature"
+        if [ ${{ startsWith(github.event.head_commit.message, 'fix:') }} == true ]; then
+          echo "Found \"fix\", creating a patch release..."
+          INCREMENT="bug"
+        elif [ ${{ startsWith(github.event.head_commit.message, 'feat:') }} == true ] \
+        || [ ${{ startsWith(github.event.head_commit.message, 'feat(') }} == true ]; then
+          echo "Found \"feat\", creating a minor release..."
+          INCREMENT="feature"
+        elif [ ${{ startsWith(github.event.head_commit.message, 'BREAKING CHANGE:') }} == true ]; then
+          echo "Found \"BREAKING CHANGE\", creating a major release..."
+          INCREMENT="major"
+        elif [ ${{ startsWith(github.event.head_commit.message, '[skip release]') }} == true ]; then
+          echo "Found [skip release], skipping release..."
+          INCREMENT="skip"
+        else
+          echo "No commit message flag found, using default increment ($INCREMENT)"
+        fi
+        echo "::set-output name=increment::$(echo "$INCREMENT")"
+
+    - name: Bump release version
+      id: bump_release_version
+      uses: christian-draeger/increment-semantic-version@1.0.2
+      with:
+        current-version: ${{ steps.get_previous_tag.outputs.tag }}
+        version-fragment: ${{ steps.determine_increment.outputs.increment }}
+
+    - name: Bump pre-release version
+      id: bump_prerelease_version
+      uses: christian-draeger/increment-semantic-version@1.0.2
+      with:
+        current-version: ${{ steps.bump_release_version.outputs.next-version }}
+        version-fragment: alpha
+
+    - name: Generate changelog
+      id: generate_changelog
+      uses: Bullrich/generate-release-changelog@master
+
+    - name: Create new release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ steps.bump_prerelease_version.outputs.next-version }}
+        release_name: "v${{ steps.bump_prerelease_version.outputs.next-version }}"
+        body: ${{ steps.generate_changelog.outputs.changelog }}
+        commitish: test
+        prerelease: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,132 @@
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:600|Noto+Sans|Open+Sans:400,700&display=swap');
+  .container{
+    height:100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background: url(../../static/img/salmon.jpg) no-repeat center center fixed;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    font-family: sans-serif;
+  } 
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+  }
+  .grid-container{
+    padding: 50px 60px;
+    width: 500px;
+    height: 430px;
+    border-radius: 8px;
+    background-color: rgba(225, 240, 186, 0.7);
+    border: 1px black;
+    text-align: center;
+  }
+
+  h1{
+    margin-bottom: 30px;
+  }
+  .holder{
+    margin: 25px;
+    width: 100%;
+    position: relative;
+  }
+  form input{
+    border-radius: 10px;
+    padding-left: 0px;
+    height: 30px;
+    font-size: 19px;
+    border: 1px;
+  }
+ 
+  input:focus{
+    border: 1px solid #aedff0;
+  }
+  p {
+    text-align: center;
+    padding: 5px;
+    
+  }
+  button {
+    transition-duration: 0.4s;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+    border-radius: 12px;
+    }
+
+    .login input{
+      padding-left: 10px;
+    }
+    .password input{
+      padding-left: 10px;
+    }
+  .registerbtn{
+    background-color: white;
+    color: black;
+    border: 2px solid #aedff0;
+    text-decoration: none;
+    margin: 10px;
+  }
+  .linkbtn{
+    background-color: white;
+    color: black;
+    border: 2px solid #aedff0;
+    text-decoration: none;
+    margin: 10px;
+  }
+  .cancelbtn:hover {
+      background-color: #aedff0;
+      color: white;
+      text-decoration: none;
+  }
+  .registerbtn:hover {
+    background-color: #aedff0;
+    color: white;
+    text-decoration: none;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }
+  .msg{
+    color: red;
+  }
+  .submitbutton{
+    padding: 1px 3px;
+    color: black;
+    border: 2px solid #aedff0;
+    text-decoration: none;
+  }
+</style>
+<div class="container">
+  <div class="row">
+    {% for message in get_flashed_messages() %}
+
+    <div role="alert", class = "msg">{{ message }}</div>
+
+    {% endfor %}
+    <div class="grid-container">
+      <h1>Register</h1>
+      <div class="item">
+        <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <p> User Name </p>
+          <p class="login">{{ form.username }}</p>
+          <p> Password </p>
+          <p class="password">{{ form.password }}</p>
+          <p> Access PIN </p>
+          <input name="text", placeholder="  Enter PIN here"> <br>
+          <button class = "submitbutton">{{ form.submit }}</button>
+        </form>
+        <button class = "linkbtn">
+        <a href="{{url_for('login')}}"><b>Login with Existing Account</b></a><br />
+      </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div>
+  <div>
+    <div id="background" class="welcome">
+      <style>
+        .background{
+          background-color: rgba(255, 255, 255, 0.658);
+          color: black;
+          border-radius: 20px;
+          padding: 10px;
+        }
+        #background{
+          background-image:url('../../static/img/home.jpg');
+          background-size: cover;
+          background-position: center;
+          height:100vh;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+        }
+
+        .welcome {
+          font-size: 30px;
+          margin:0;
+          padding: 20px;
+          text-align: center;
+        }
+        .name {
+          margin:0;
+          font-size: 50px;
+        }
+        button {
+          border-radius: 10px;
+          transition-duration: 0.4s;
+          cursor: pointer;
+          font-size: 25px;
+          text-decoration: none;
+        }
+        .loginbtn {
+          color: black;
+          border: 2px solid #008cba;
+          text-decoration: none;
+        }
+
+        .registerbtn {
+
+          background-color: white;
+          color: black;
+          border: 2px solid #4caf50;
+          text-decoration: none;
+        }
+        .loginbtn:hover {
+          background-color: #008cba;
+          color: white;
+          text-decoration: none;
+        }
+        .registerbtn:hover {
+          background-color: #4caf50;
+          color: white;
+          text-decoration: none;
+        }
+      </style>
+      <div class="background">
+        <h1 class>Welcome</h1>
+        <p class="name">BC Center for Aquatic Health Sciences</p>
+        <p>
+          <button class="loginbtn">
+            <a href="{{url_for('login')}}"> Login </a>
+          </button>
+          <button class="registerbtn">
+            <a href="{{url_for('register')}}"> Click to Register</a>
+          </button>
+        </p>
+      </div>
+      <hr />
+    </div>
+  </div>
+</div>

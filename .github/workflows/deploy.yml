@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Strip out git history
+      run: |
+        rm -rf .git .github .gitignore
+        ls -A
+    - name: Change FLASK_ENV to 'production'
+      run: |
+        sed -i 's/development/production/g' run.sh
+        cat run.sh
+    - name: SCP build into app VM
+      uses: appleboy/scp-action@master
+      with:
+        key: ${{ secrets.ISSP_KEY }}
+        username: ${{ secrets.ISSP_USER }}
+        host: ${{ secrets.ISSP_HOST }}
+        port: 22
+        source: "."
+        target: "dist"
+    - name: Run setups and restart app service
+      uses: appleboy/ssh-action@master
+      with:
+        key: ${{ secrets.ISSP_KEY }}
+        username: ${{ secrets.ISSP_USER }}
+        host: ${{ secrets.ISSP_HOST }}
+        port: 22
+        script_stop: true
+        script: |
+          cd dist
+          ./setup.sh
+          sudo Rscript app/r/setup.R
+          sudo systemctl restart app
+          systemctl status app

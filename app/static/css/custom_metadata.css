@@ -1,0 +1,20 @@
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
+
+.without-ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+
+.close {
+  position: absolute;
+  font-size: 22px;
+}
+
+.bootstrap-timepicker-widget table tr:nth-child(3) > td:last-child a {
+  display: none;
+}
+
+.bootstrap-timepicker-widget table tr:nth-child(1) > td:last-child a {
+  display: none;
+}

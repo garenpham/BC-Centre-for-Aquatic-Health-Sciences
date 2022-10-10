@@ -1,0 +1,84 @@
+.custom-modal-wrap {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.custom-modal-wrap.anim-show {
+  display: block;
+}
+
+.custom-modal-overlay {
+  background: rgba(255, 255, 255, 0.75);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.custom-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: 640px;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 4rem 2rem 2rem;
+  border: thin solid silver;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.125);
+}
+
+.custom-modal.anim-enter {
+  animation: custom-modal-slide 0.5s;
+}
+
+.custom-modal.anim-exit {
+  animation: custom-modal-slide 0.25s reverse ease-out;
+}
+
+.custom-modal.anim-enter + .custom-modal-overlay {
+  animation: custom-modal-fade 0.125s;
+}
+
+.custom-modal.anim-exit + .custom-modal-overlay {
+  animation: custom-modal-fade 0.25s reverse ease-out;
+}
+
+.custom-modal-close {
+  color: gray;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+@keyframes custom-modal-slide {
+  from {
+    opacity: 0;
+    top: 25%;
+  }
+
+  to {
+    opacity: 1;
+    top: 50%;
+  }
+}
+
+@keyframes custom-modal-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

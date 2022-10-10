@@ -1,0 +1,37 @@
+.tabs-view-tabs {
+  display: flex;
+}
+
+.tabs-view-tab {
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+  color: gray;
+  border: thin solid transparent;
+  border-bottom: none;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  font-weight: bold;
+}
+
+.tabs-view-tab.selected {
+  cursor: default;
+  background: white;
+  color: var(--blue);
+  border-color: silver;
+  box-shadow: 0 2px 0 -1px white;
+}
+
+.tabs-view-tab:hover {
+  color: black;
+}
+
+.tabs-view-tab.selected:hover {
+  color: var(--blue);
+}
+
+.tabs-view-output {
+  border-top: thin solid silver;
+  padding: 1.5rem;
+}

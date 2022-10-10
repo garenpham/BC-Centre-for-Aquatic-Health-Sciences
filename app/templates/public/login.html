@@ -1,0 +1,152 @@
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:600|Noto+Sans|Open+Sans:400,700&display=swap');
+
+  .body {
+    height: 100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background: url(../../static/img/login.jpeg) no-repeat center center fixed;
+    background-size: cover;
+    background-position: center 75%;
+    width: 100%;
+    font-family: sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .grid-container {
+    padding: 50px 10px;
+    width: 500px;
+    height: 400px;
+    border-radius: 8px;
+    background-color: rgba(225, 240, 186, 0.7);
+    border: 1px black;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  .holder {
+    margin: 25px;
+    width: 100%;
+    position: relative;
+  }
+
+  form input {
+    border-radius: 10px;
+    padding-left: 0px;
+    height: 30px;
+    font-size: 19px;
+    border: 1px;
+  }
+
+  input:focus {
+    border: 1px solid #aedff0;
+  }
+
+  p {
+    padding: 5px;
+  }
+
+  button {
+    transition-duration: 0.4s;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: none;
+    border-radius: 12px;
+  }
+
+  .login input {
+    padding-left: 15px;
+  }
+
+  .password input {
+    padding-left: 10px;
+  }
+
+  .registerbtn {
+    background-color: white;
+    color: black;
+    border: 2px solid #aedff0;
+    text-decoration: none;
+    margin: 10px;
+  }
+
+  .cancelbtn {
+    background-color: white;
+    color: black;
+    border: 2px solid #aedff0;
+    text-decoration: none;
+    margin: 10px;
+  }
+
+  .submitbutton:hover,
+  .registerbtn:hover {
+    background-color: #aedff0;
+    color: white;
+    text-decoration: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .submitbutton {
+    padding: 1px 12px;
+    color: black;
+    border: 1px solid #dcf1f8;
+    text-decoration: none;
+    margin: 10px;
+  }
+
+  .msg {
+    color: red;
+    font-size: 16px;
+  }
+</style>
+<div class="body">
+  <div>
+    <div class="grid-container">
+      {% for message in get_flashed_messages() %}
+
+      <div role="alert" , class="msg">{{ message }}</div>
+
+      {% endfor %}
+      <h1>BC CAHS </h1>
+      <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="item">
+
+          <p> User Name </p>
+          <p class="login">{{ form.username }}</p>
+          <p> Password </p>
+          <p class="password">{{ form.password }}</p>
+          <button class="submitbutton">{{ form.submit }}</button>
+
+      </form>
+    </div>
+    <button class="registerbtn">
+      <b><a href="{{url_for('register')}}">Register</a><br></b>
+  </div>
+  </button>
+  </hr>
+</div>
+</div>
+</div>
+
+<!-- {% if form.username.errors %}
+<ul class="errors">
+  {% for error in form.username.errors %}
+  <li>{{ error }}</li>
+  {% endfor %}
+</ul>
+{% endif %} -->

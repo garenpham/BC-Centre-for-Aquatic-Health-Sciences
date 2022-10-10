@@ -1,0 +1,54 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}
+  Upload metadata
+{% endblock %}
+
+{% block script %}
+  <script type="module">
+    import { h } from 'https://unpkg.com/preact?module'
+    import { render } from 'https://unpkg.com/htm/preact/index.mjs?module'
+    import { MetadataTabsView } from '{{ url_for("static", filename="js/tabs_view_metadata.js") }}'
+    import { renderAlert } from '{{ url_for("static", filename="js/alert.js") }}'
+
+    // extract locations dict as global JSON from Jinja template
+    window.CAHS = {
+      hatcheries: JSON.parse('{{ hatcheries|tojson }}')
+    }
+
+    const displayMessage = (category, message) => renderAlert(
+      { category, message },
+      document.getElementById('slot-alerts')
+    )
+
+    const renderTabsView = () => render(
+      h(MetadataTabsView, {
+        tab: window.location.hash.slice(1),  // cut off pound sign, e.g. #sample-data -> sample-data
+        onmessage: displayMessage,
+      }),
+      document.getElementById('slot-tabs'),
+    )
+
+    renderTabsView()
+    window.addEventListener('hashchange', renderTabsView)
+  </script>
+{% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom_metadata.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom_form.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom_tabs.css') }}">
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Upload metadata</h1>
+      <hr>
+
+      <div id="slot-alerts"></div>
+      <div id="slot-tabs"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
