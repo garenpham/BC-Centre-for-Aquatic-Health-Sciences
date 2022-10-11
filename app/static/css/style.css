@@ -31,6 +31,12 @@ hr {
 	margin-bottom: 25px;
 }
 
+/*Nav*/
+#navbarNav a:hover {
+	font-weight: 600;
+	color: white;
+}
+
 /* Three image containers (use 25% for four, and 50% for two, etc) */
 .column {
 	float: left;
