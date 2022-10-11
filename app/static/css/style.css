@@ -7,9 +7,14 @@
 	color: #aeaeae;
 }
 
-.username {
-	float: right;
+.mb-10 {
+	margin-bottom: 4rem;
 }
+
+.fw-700 {
+	font-weight: 700;
+}
+/*Username*/
 .username i {
 	font-size: 24px;
 }

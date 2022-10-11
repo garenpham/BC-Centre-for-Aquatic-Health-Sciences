@@ -30,7 +30,7 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-expand-lg bg-black mb-3">
+		<nav class="navbar navbar-expand-lg bg-black mb-10 p-4 d-flex">
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -42,42 +42,51 @@
 			>
 				<span class="navbar-toggler-icon"></span>
 			</button>
+			<div class="container">
+				<div class="col d-flex justify-content-between">
+					<div class="row collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a class="nav-link text-gray" href="/about">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-gray" href="/documents">Documents</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-gray" href="/visualization"
+									>Visualize</a
+								>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-gray" href="/display_data">Database</a>
+							</li>
+							{% if current_user.role == 'admin' %}
+							<li class="nav-item">
+								<a class="nav-link text-gray" href="/metadata"
+									>Upload metadata</a
+								>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-gray" href="/upload-file"
+									>Upload sample</a
+								>
+							</li>
+							{% endif %}
+							<li class="nav-item">
+								<a class="nav-link text-gray" href="{{ url_for('logout') }}">
+									Logout</a
+								>
+							</li>
+						</ul>
+					</div>
 
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link text-gray" href="/about">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-gray" href="/documents">Documents</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-gray" href="/visualization">Visualize</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-gray" href="/display_data">Database</a>
-					</li>
-					{% if current_user.role == 'admin' %}
-					<li class="nav-item">
-						<a class="nav-link text-gray" href="/metadata">Upload metadata</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-gray" href="/upload-file">Upload sample</a>
-					</li>
-					{% endif %}
-					<li class="nav-item">
-						<a class="nav-link text-gray" href="{{ url_for('logout') }}">
-							Logout</a
-						>
-					</li>
-				</ul>
-			</div>
-
-			<div class="d-flex align-items-center username text-gray">
-				<i class="bi bi-person pr-1"></i>
-				<div>
-					{% if current_user.is_authenticated %} {{
-					current_user.username.title() }}{% endif %}
+					<div class="row d-flex align-items-center username text-light">
+						<i class="bi bi-person pr-1"></i>
+						<div>
+							{% if current_user.is_authenticated %} {{
+							current_user.username.title() }}{% endif %}
+						</div>
+					</div>
 				</div>
 			</div>
 
