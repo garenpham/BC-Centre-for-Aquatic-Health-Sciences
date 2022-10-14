@@ -17,16 +17,35 @@
 .navbar-toggler {
 	border: 0;
 }
+
+#dropdownBtn:hover .dropdown-menu {
+	display: block;
+	background-color: #2a2b2d;
+	cursor: pointer;
+	margin-top: 0;
+}
+
 .dropdown-menu {
 	background-color: #ff647f;
 	min-width: 7rem;
 }
 .dropdown-item {
-	color: white !important;
-	font-weight: 700 !important;
+	color: rgba(255, 255, 255, 0.5);
+	font-weight: 400;
+}
+#dropdownNav:hover .dropdown-item {
+	background-color: #2a2b2d;
+	color: white;
+	font-weight: 700;
 }
 
 /*Username*/
+.username {
+	user-select: none;
+	-webkit-user-select: none;
+	color: white !important;
+}
+
 .username i {
 	font-size: 24px;
 }
@@ -44,7 +63,7 @@ hr {
 }
 
 /*Nav*/
-#navbarNav a:hover {
+#menu a:hover {
 	font-weight: 600;
 	color: white;
 }
@@ -85,5 +104,8 @@ hr {
 	}
 	.mb-10 {
 		margin-bottom: 2.4rem;
+	}
+	.dropdown-item {
+		color: white !important;
 	}
 }
