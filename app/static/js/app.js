@@ -2,6 +2,8 @@ function highlight() {
 	var pageurl = location.href;
 	var dnl = document.getElementsByTagName("a");
 	var itemDropdown = document.getElementById("itemDropdown");
+	var dropdownNav = document.getElementById("dropdownNav");
+
 	for (i = 0; i < dnl.length; i++) {
 		var x = dnl.item(i);
 		if (x.href == pageurl) {
@@ -16,6 +18,7 @@ function highlight() {
 				// mobile
 				x.style.color = "white";
 				itemDropdown.setAttribute("style", "text-align: center !important");
+				dropdownNav.setAttribute("style", "display: block !important");
 			}
 		}
 	}
