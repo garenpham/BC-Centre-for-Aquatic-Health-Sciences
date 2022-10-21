@@ -3,6 +3,7 @@ function highlight() {
 	var navlinks = document.getElementsByTagName("a");
 	var itemDropdown = document.getElementById("itemDropdown");
 	var dropdownNav = document.getElementById("dropdownNav");
+	var navSmTitle = document.getElementById("navSmTitle");
 
 	for (i = 0; i < navlinks.length; i++) {
 		var currentPage = navlinks.item(i);
@@ -19,6 +20,7 @@ function highlight() {
 				currentPage.style.color = "white";
 				itemDropdown.setAttribute("style", "text-align: center ");
 				dropdownNav.setAttribute("style", "display: block");
+				navSmTitle.innerHTML = currentPage.innerHTML;
 			}
 		}
 	}
