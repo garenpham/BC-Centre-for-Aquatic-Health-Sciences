@@ -26,13 +26,17 @@
 	background-color: #ff647f;
 	cursor: pointer;
 	margin-top: 0;
+	opacity: 1;
+	animation: fade 1s;
 }
 
 .dropdown-menu {
 	background-color: #ff647f;
 	min-width: 6.4rem;
 	border-radius: 1.6rem;
+	transition: opacity 500ms, visibility 500ms;
 }
+
 .dropdown-menu:hover .dropdown-item {
 	background-color: #ff647f;
 	border-radius: 1.6rem;
