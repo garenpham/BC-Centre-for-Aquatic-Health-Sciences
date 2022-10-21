@@ -41,7 +41,6 @@
 .dropdown-item {
 	color: white !important;
 	font-weight: 600;
-	transition: left 500ms ease-in-out !important;
 }
 
 .navbar-toggler-icon {
@@ -132,19 +131,22 @@ hr {
 		padding-left: 15px;
 		padding-right: 15px;
 		padding-bottom: 15px;
-		width: 83%;
+		width: 78%;
 		height: 100%;
 		z-index: 99;
 	}
 
 	.navbar-collapse.collapsing {
-		left: -75%;
-		transition: height 0s ease;
+		left: -78%;
+		transition: height 0s;
+	}
+	.navbar-collapse.active {
+		transition: left 300ms ease-out;
 	}
 
 	.navbar-collapse.show {
 		left: 0;
-		transition: left 300ms ease-in-out;
+		transition: left 300ms ease-out;
 	}
 
 	#navbarNav {
@@ -152,7 +154,7 @@ hr {
 	}
 	#closeIcon {
 		-webkit-text-stroke: 2px;
-		font-size: 1.4rem;
+		font-size: 1.2rem;
 	}
 	#closeIcon.active {
 		visibility: visible !important;

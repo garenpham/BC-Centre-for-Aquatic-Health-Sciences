@@ -1,7 +1,6 @@
 function highlight() {
 	var pageurl = location.href;
 	var navlinks = document.getElementsByTagName("a");
-	var itemDropdown = document.getElementById("itemDropdown");
 	var dropdownNav = document.getElementById("dropdownNav");
 	var navSmTitle = document.getElementById("navSmTitle");
 
@@ -29,8 +28,14 @@ window.onload = highlight;
 var navbar_toggler = document.querySelector(".navbar-toggler");
 var closeIcon = document.getElementById("closeIcon");
 var main = document.querySelector("main");
+var navCollapse = document.querySelector(".navbar-collapse");
 
 navbar_toggler.addEventListener("click", function () {
 	closeIcon.classList.toggle("active");
+	if (closeIcon.classList.contains("active")) {
+		navCollapse.classList.remove("active");
+	} else {
+		navCollapse.classList.add("active");
+	}
 	main.classList.toggle("active");
 });
