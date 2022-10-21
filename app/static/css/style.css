@@ -26,15 +26,12 @@
 	background-color: #ff647f;
 	cursor: pointer;
 	margin-top: 0;
-	opacity: 1;
-	animation: fade 1s;
 }
 
 .dropdown-menu {
 	background-color: #ff647f;
 	min-width: 6.4rem;
 	border-radius: 1.6rem;
-	transition: opacity 500ms, visibility 500ms;
 }
 
 .dropdown-menu:hover .dropdown-item {
@@ -44,6 +41,7 @@
 .dropdown-item {
 	color: white !important;
 	font-weight: 600;
+	transition: left 500ms ease-in-out !important;
 }
 
 .navbar-toggler-icon {
@@ -109,7 +107,15 @@ hr {
 		width: 100%;
 	}
 }
-@media (max-width: 978px) {
+@media (max-width: 999px) {
+	body {
+		overflow-y: hidden;
+	}
+
+	main.active {
+		filter: blur(2px);
+	}
+
 	.container {
 		padding-inline: 1.24rem 1.24rem;
 	}
@@ -118,5 +124,37 @@ hr {
 	}
 	.dropdown-menu {
 		border-radius: 0.4rem;
+	}
+	.navbar-collapse {
+		position: fixed;
+		top: 0px;
+		left: 0;
+		padding-left: 15px;
+		padding-right: 15px;
+		padding-bottom: 15px;
+		width: 83%;
+		height: 100%;
+		z-index: 99;
+	}
+
+	.navbar-collapse.collapsing {
+		left: -75%;
+		transition: height 0s ease;
+	}
+
+	.navbar-collapse.show {
+		left: 0;
+		transition: left 300ms ease-in-out;
+	}
+
+	#navbarNav {
+		background-color: #242424;
+	}
+	#closeIcon {
+		-webkit-text-stroke: 2px;
+		font-size: 1.4rem;
+	}
+	#closeIcon.active {
+		visibility: visible !important;
 	}
 }

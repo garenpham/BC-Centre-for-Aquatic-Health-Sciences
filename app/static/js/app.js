@@ -14,11 +14,9 @@ function highlight() {
 				// what you want to run in desktop
 				currentPage.style.fontWeight = "bold";
 				currentPage.style.color = "white";
-				itemDropdown.setAttribute("style", "text-align: center");
 			} else {
 				// mobile
 				currentPage.style.color = "white";
-				itemDropdown.setAttribute("style", "text-align: center ");
 				dropdownNav.setAttribute("style", "display: block");
 				navSmTitle.innerHTML = currentPage.innerHTML;
 			}
@@ -27,3 +25,12 @@ function highlight() {
 }
 
 window.onload = highlight;
+
+var navbar_toggler = document.querySelector(".navbar-toggler");
+var closeIcon = document.getElementById("closeIcon");
+var main = document.querySelector("main");
+
+navbar_toggler.addEventListener("click", function () {
+	closeIcon.classList.toggle("active");
+	main.classList.toggle("active");
+});

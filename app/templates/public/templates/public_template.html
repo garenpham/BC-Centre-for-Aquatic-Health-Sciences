@@ -37,7 +37,7 @@
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-black mb-10 p-4 d-flex">
 			<button
-				class="navbar-toggler container text-black justify-content-start text-white fw-600"
+				class="navbar-toggler container text-black justify-content-between text-white fw-600"
 				type="button"
 				data-toggle="collapse"
 				data-target="#navbarNav"
@@ -45,8 +45,12 @@
 				aria-expanded="false"
 				aria-label="Toggle navigation"
 			>
-				<span class="navbar-toggler-icon mr-3"></span>
-				<span id="navSmTitle"></span>
+				<div class="d-flex justify-content-start align-items-center">
+					<span class="navbar-toggler-icon mr-3"></span>
+					<span id="navSmTitle"></span>
+				</div>
+
+				<i id="closeIcon" class="bi bi-x-lg" style="visibility: hidden"></i>
 			</button>
 			<div class="container">
 				<div
@@ -91,7 +95,7 @@
 								<li>
 									<a
 										id="itemDropdown"
-										class="dropdown-item nav-link text-gray"
+										class="dropdown-item nav-link text-gray text-center"
 										href="{{ url_for('logout') }}"
 									>
 										Log out</a
