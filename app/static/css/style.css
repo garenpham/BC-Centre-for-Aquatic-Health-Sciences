@@ -107,9 +107,6 @@ hr {
 	}
 }
 @media (max-width: 999px) {
-	body.active {
-		overflow: hidden;
-	}
 	main.active {
 		filter: blur(2px);
 	}

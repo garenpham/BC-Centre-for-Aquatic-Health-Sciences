@@ -27,19 +27,19 @@ window.onload = highlight;
 
 var navbar_toggler = document.querySelector(".navbar-toggler");
 var closeIcon = document.getElementById("closeIcon");
-var main = document.querySelector("main");
-var body = document.querySelector("body");
+var main = document.getElementsByTagName("main");
+var body = document.getElementsByTagName("body");
 var navCollapse = document.querySelector(".navbar-collapse");
 
 navbar_toggler.addEventListener("click", function () {
 	closeIcon.classList.toggle("active");
 	if (closeIcon.classList.contains("active")) {
 		navCollapse.classList.remove("active");
-		main.classList.add("active");
-		body.classList.add("active");
+		main[0].style.filter = "blur(2px)";
+		body[0].style.overflow = "hidden";
 	} else {
 		navCollapse.classList.add("active");
-		main.classList.remove("active");
-		body.classList.add("active");
+		main[0].style.filter = "blur(0px)";
+		body[0].style.overflow = "scroll";
 	}
 });
