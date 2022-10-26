@@ -60,34 +60,57 @@
 					id="navbarNav"
 				>
 					<ul class="navbar-nav" id="menu">
-						<li class="d-lg-none nav-item text-gray text-uppercase">Menu</li>
+						<li
+							class="d-lg-none nav-item nav-menu-title text-gray text-uppercase"
+						>
+							Menu
+						</li>
 						<div class="nav-bg">
 							<li class="nav-item mr-lg-4">
 								<a class="nav-link text-gray" href="/about">Home</a>
 							</li>
 						</div>
-						<div class="nav-bg"><li class="nav-item mr-lg-4">
-							<a class="nav-link text-gray" href="/documents">Documents</a>
-						</li></div>
-						<div class="nav-bg"><li class="nav-item mr-lg-4">
-							<a class="nav-link text-gray" href="/visualization">Visualize</a>
-						</li></div>
-						<div class="nav-bg"><li class="nav-item mr-lg-4">
-							<a class="nav-link text-gray" href="/display_data">Database</a>
-						</li></div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/documents">Documents</a>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/visualization"
+									>Visualize</a
+								>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/display_data">Database</a>
+							</li>
+						</div>
 						{% if current_user.role == 'admin' %}
-						<div class="nav-bg"><li class="nav-item mr-lg-4">
-							<a class="nav-link text-gray" href="/metadata">Update metadata</a>
-						</li></div>
-						<div class="nav-bg"><li class="nav-item mr-lg-4">
-							<a class="nav-link text-gray" href="/upload-file"
-								>Upload sample</a
-							></div>
-						</li>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/metadata"
+									>Update metadata</a
+								>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/upload-file"
+									>Upload sample</a
+								>
+							</li>
+						</div>
 						{% endif %}
 					</ul>
 
 					<ul class="navbar-nav" id="dropdownBtn">
+						<li
+							class="d-lg-none nav-item nav-menu-title nav-user-title text-gray text-uppercase"
+						>
+							USER
+						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link d-flex align-items-center username">
 								<i class="bi bi-person pr-1"></i>

@@ -160,12 +160,13 @@ hr {
 	#closeIcon.active {
 		display: block !important;
 	}
+
 	.nav-item {
 		width: 50vw;
-		margin: auto;
+		margin: 4.4px auto;
 	}
 
-	#menu .nav-item::after {
+	#menu .nav-bg::after {
 		content: "";
 		display: block;
 		position: absolute;
@@ -174,11 +175,35 @@ hr {
 		border-bottom: 1px solid grey;
 	}
 
+	.nav-menu-title::after {
+		content: "";
+		display: block;
+		position: absolute;
+		width: 80vw;
+		left: 0;
+		margin-top: 4px;
+		border-bottom: 1px solid grey;
+	}
+
 	#dropdownBtn {
 		border-bottom: 1px solid grey;
-		margin-bottom: 1.4rem;
+		margin-bottom: 1.8rem;
+		padding-bottom: 1.4rem;
 	}
-	#dropdownBtn {
-		padding-bottom: 1rem;
+	.nav-user-title {
+		margin-bottom: 0.8rem;
+	}
+	.nav-user-title::after {
+		content: "";
+		display: block;
+		position: absolute;
+		width: 80vw;
+		left: 0;
+		border-bottom: 1px solid gray;
+		margin-top: 0.4rem;
+	}
+	.nav-menu-title {
+		font-size: 12px;
+		font-weight: 700;
 	}
 }
