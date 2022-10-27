@@ -1,7 +1,7 @@
 """
 Module for miscellaneous functions.
 """
-
+from werkzeug.datastructures import MultiDict
 
 def generate_csv(results, headers):
     """
@@ -35,9 +35,36 @@ def sanitize_abund_form_data(form_data):
     Replaces empty strings and 'All' sample type with None in
     form data for abundance graph filters.
     """
+    return sanitize_trend_form_data(form_data)
     return {
         key: None
         if value == '' or (key == 'sample-type' and value == 'All')
         else value
         for key, value in form_data.items()
         }
+
+
+def sanitize_trend_form_data(form_data):
+    """
+    Replaces empty strings and 'All' sample type with None in
+    form data for abundance graph filters.
+    """
+    # Delcare return array
+    return_dict = {}
+    for key, value in form_data.items():
+        # Iterate through items
+        # NOTE: form_data.items() returns only 1 VALUE for EACH key (duplicate key value pairs are ignored!)
+        if key == '':
+            continue
+        if (key == 'sample-type' and value == 'ALL'):
+            return_dict[key] = None
+        elif key != 'sample-type':
+            return_dict[key] = value
+        else:
+            return_dict[key] = value
+    # MultiDict.getlist('key') returns all values for a given key in multi dict.
+    if len(form_data.getlist('species-select')) > 1:
+        # If there is more than one species selected, append all values to list
+        return_dict['species-select'] = form_data.getlist('species-select')
+        
+    return return_dict

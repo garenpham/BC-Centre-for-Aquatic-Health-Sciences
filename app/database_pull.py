@@ -25,12 +25,12 @@ def get_hatcheries():
 
 def get_sample_by_sample_id(sample_id):
     """
-    Gets sample data by sample ID
+    Gets sample data by sample_id
     """
 
     _, cursor = initialize_database_cursor()
     try:
-        cursor.execute("SELECT * FROM sample_info WHERE `Sample ID` LIKE %(sample_id)s;",
+        cursor.execute("SELECT * FROM sample_info WHERE sample_id LIKE %(sample_id)s;",
                        {"sample_id": sample_id})
         result = cursor.fetchall()
         return result
@@ -41,13 +41,13 @@ def get_sample_by_sample_id(sample_id):
 
 def get_submission_by_submission_no(submission_no):
     """
-    Gets environmental data by CAHS submission number
+    Gets environmental data by submission_id
     """
 
     _, cursor = initialize_database_cursor()
     try:
         cursor.execute("SELECT * FROM submission_data"
-                       " WHERE `CAHS Submission Number` LIKE %(submission_no)s;",
+                       " WHERE submission_id LIKE %(submission_no)s;",
                        {"submission_no": submission_no})
         result = cursor.fetchall()
         return result
@@ -111,7 +111,7 @@ def show_sample_data():
 
 
 def get_all_sample_data(sample_id=None):
-    """Queries for all sample data, can be by sample ID"""
+    """Queries for all sample data, can be by sample_id"""
     _, cursor = initialize_database_cursor()
     try:
         headers = []
@@ -121,7 +121,7 @@ def get_all_sample_data(sample_id=None):
         else:
             cursor.execute("""
                 SELECT * FROM master_sample_data_view "
-                WHERE `Sample ID` = %(sample_id)s;
+                WHERE sample_id = %(sample_id)s;
             """, { "sample_id": sample_id })
             result = cursor.fetchall()
         result_list = [[str(item) if isinstance(item, datetime.timedelta)
@@ -144,7 +144,7 @@ def filter_by_date(data_view, start_date, end_date):
         headers = []
         cursor.execute(f"""
             SELECT * FROM {data_view}
-            WHERE `Date Collected` BETWEEN %(start_date)s AND %(end_date)s;
+            WHERE date_collected BETWEEN %(start_date)s AND %(end_date)s;
         """, {
             "start_date": start_date,
             "end_date": end_date
@@ -175,7 +175,7 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
 
         cursor.execute("""
             WITH filtered_sample AS (
-                SELECT a.`Sample ID`, a.`name`, a.taxonomy_id, a.fraction_total_reads
+                SELECT a.sample_id, a.`name`, a.taxonomy_id, a.fraction_total_reads
                 FROM sample_data a
                 JOIN (
                     SELECT taxonomy_id
@@ -185,16 +185,16 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
                 ) b ON a.taxonomy_id = b.taxonomy_id
             ),
             all_data AS (
-                SELECT sample_info.`Sample ID` AS 'sample_ID', species.`name` AS 'genus',
+                SELECT sample_info.sample_id AS 'sample_ID', species.`name` AS 'genus',
                     filtered_sample.fraction_total_reads*100 AS 'value',
-                    DATE_FORMAT(submission_data.`Date Collected`, '%Y-%m-%d') AS 'date'
+                    DATE_FORMAT(submission_data.date_collected, '%Y-%m-%d') AS 'date'
                 FROM sample_info
-                JOIN filtered_sample ON filtered_sample.`Sample ID` = sample_info.`Sample ID`
+                JOIN filtered_sample ON filtered_sample.sample_id = sample_info.sample_id
                 JOIN species ON species.taxonomy_id = filtered_sample.taxonomy_id
                 JOIN submission_data
-                ON submission_data.`CAHS Submission Number` = sample_info.`CAHS Submission Number`
-                WHERE submission_data.`Date Collected` BETWEEN %(start_date)s AND %(end_date)s
-                AND sample_info.`Sample Type` LIKE %(sample_type)s
+                ON submission_data.submission_id = sample_info.submission_id
+                WHERE submission_data.date_collected BETWEEN %(start_date)s AND %(end_date)s
+                AND sample_info.sample_type LIKE %(sample_type)s
             )
             SELECT all_data.sample_ID, all_data.genus, all_data.`value`,
             all_data.`date`
@@ -212,6 +212,78 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
             "end_date": end_date,
             "sample_type": sample_type,
         })
+        if cursor.rowcount:
+            return cursor.fetchall()
+        return []
+    except mysql.connector.Error as err:
+        print(f"Something went wrong pulling abund data from database: {err}")
+        return []
+
+def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
+    """Get Trend of Relative Abundance for One or More Species Over Time"""
+    _, cursor = initialize_database_cursor()
+    try:
+        sample_type = f"%{sample_type}%" if sample_type else "%"
+        if not start_date:
+            start_date = START_OF_TIME
+        if not end_date:
+            end_date = END_OF_TIME
+        if species_array == []:
+            species_array = ""
+        #print("MULTI LINE:", species_array)
+        cursor.execute("""
+            SELECT
+                t3.name, #as 'Name',
+                --   t3.taxonomy_id, #as 'Taxonomy ID',
+                --   t3.sample_id, #as 'Sample ID',
+                --   t3.submission_id,
+                --   t3.sample_type,
+                AVG(t3.fraction_total_reads) as 'fraction_total_reads',
+                -- t3.sample_location, # as 'Sample Location',
+                t4.date_collected # as 'Date Collected'
+                FROM  
+                (SELECT
+                    t1.name,
+                    t1.taxonomy_id,
+                    t1.fraction_total_reads,
+                    t1.sample_id,
+                    t2.submission_id,
+                    t2.sample_type,
+                    t2.sample_location
+                FROM 
+                    (SELECT
+                    sample_data.name,
+                    sample_data.taxonomy_id,
+                    sample_data.fraction_total_reads,
+                    sample_data.sample_id
+                    FROM sample_data
+                    WHERE name = 'Haliscomenobacter' OR name = 'Polaromonas') t1 
+                    INNER JOIN
+                    (SELECT
+                    sample_info.sample_id,
+                    sample_info.submission_id,
+                    sample_info.sample_type,
+                    sample_info.sample_location
+                    FROM sample_info
+                    WHERE sample_type LIKE %(sample_type)s) t2
+                    ON t1.sample_id = t2.sample_id) t3
+                LEFT JOIN
+                (SELECT
+                submission_data.submission_id,
+                submission_data.date_collected
+                FROM submission_data) t4
+                ON t3.submission_id = t4.submission_id
+                GROUP BY name, date_collected;
+                        """, {
+            "abundance": abundance,
+            "start_date": start_date,
+            "end_date": end_date,
+            "sample_type": sample_type,
+            "species_array": species_array,
+        })
+        # Example Species Array String
+        # "WHERE name = 'Haliscomenobacter' OR name = 'Polaromonas'"
+
         if cursor.rowcount:
             return cursor.fetchall()
         return []
