@@ -5,13 +5,13 @@ library(stringr)
 # Load data
 
 # This will have to be change later 2022-10-26
-data <- read.csv(file = '/mnt/c/Users/Noje/Downloads/new_data_query.csv')
+data <- read.csv(file = 'app/r/trend_long.csv')
 data$date_collected <- as.Date(data$date_collected)
 
 
 specify_decimal <- function(x, k) trimws(format(round(x, k), nsmall=k))
 #Plot
-png(filename = "/mnt/c/Users/Noje/Downloads/new_data1.png")
+png(filename = "app/static/img/trend_data.png")
 data %>%
   tail(10) %>%
   ggplot( aes(x=date_collected, y=fraction_total_reads, color=name)) +

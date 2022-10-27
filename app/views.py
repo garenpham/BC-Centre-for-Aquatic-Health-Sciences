@@ -738,9 +738,12 @@ def show_abund_graph():
     sample_type = form_data['sample-type']
     abundance = int(form_data['abund-slider']) * 0.005
     graph_type = form_data['graph-type']
-    print(form_data, graph_type)
+    print(graph_type, form_data)
     if graph_type == 'species_abundance_trend':
-        species_array = [form_data['species-select']]
+        try:
+            species_array = [form_data['species-select']]
+        except:
+            species_array = [['%']]
 
     if graph_type == 'relative_abundance':
         abund_data_result = get_abund_data(
@@ -765,31 +768,38 @@ def show_abund_graph():
             "viz2": "data_abund_grouped.png"
         }), 200)
     else:
+        species_array = species_array[0]
         if len(species_array) == 0:
             species_array == ''
         else:
-            temp_str = ''
+            
+            query_str = ''
             for count, species_name in enumerate(species_array):
                 if count == 0:
-                    temp_str += """WHERE """
+                    query_str += """WHERE """
                 else:
-                    temp_str += """ OR """
-                temp_str += f"""name = '{species_name}"""
-            species_array = temp_str
-       
-        trend_data_result = get_trend_data(start_date, end_date, sample_type, abundance, species_array)
-        print('query [', start_date, end_date, sample_type, abundance, species_array, ']' )
-        print('result', trend_data_result)
+                    query_str += """ OR """
+                query_str += f"""name = '{species_name}'"""
+        print('Species Array:', species_array)
+        print('Fetch Query: ', query_str)
+        trend_data_result = get_trend_data(start_date, end_date, sample_type, abundance, query_str)
+        #print('result', trend_data_result)
         if not trend_data_result:
             return make_response(jsonify({"message": "Empty"}), 200)
         with open("app/r/trend_long.csv", encoding="utf-8", mode="w") as csv_file:
             csv_writer = csv.writer(csv_file)
-            csv_writer.writerow(["sample_ID", "genus", "value", "date"])
+            csv_writer.writerow(["name", "fraction_total_reads", "date_collected"])
             csv_writer.writerows(trend_data_result)
 
-        
+        try:
+            print(current_working_dir)
+            subprocess.run(["Rscript", f"{current_working_dir}/app/r/trend_graphs.R"],
+                        check=True)
+        except subprocess.CalledProcessError:
+            return make_response(jsonify({"message": "Error"}), 500)
+
         return make_response(jsonify({
             "message": "OK",
-            "viz1": "test_hist.png",
-            "viz2": "test_hist.png"
+            "viz1": "trend_data.png",
+            "viz2": "trend_data.png"
         }), 200)

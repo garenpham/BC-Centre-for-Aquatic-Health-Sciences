@@ -223,7 +223,7 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
     """Get Trend of Relative Abundance for One or More Species Over Time"""
     _, cursor = initialize_database_cursor()
     try:
-        sample_type = f"%{sample_type}%" if sample_type else "%"
+        sample_type = f"%{sample_type}%" if sample_type != 'All' else "%"
         if not start_date:
             start_date = START_OF_TIME
         if not end_date:
@@ -283,9 +283,9 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
         })
         # Example Species Array String
         # "WHERE name = 'Haliscomenobacter' OR name = 'Polaromonas'"
-
+        print(cursor.rowcount)
         if cursor.rowcount:
-            return cursor.fetchall()
+            return cursor.fetchall()    
         return []
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling abund data from database: {err}")
