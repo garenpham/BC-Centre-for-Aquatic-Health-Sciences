@@ -1,0 +1,27 @@
+<html>
+    <title>
+        View Users
+    </title>
+
+    <body>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>role</th>
+                <th>date</th>
+            </tr>
+
+                {%for user in users%}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.role}}</td>
+                    <td>{{user.date}}</td>
+                </tr>
+                {%endfor%}
+
+        </table>
+    </body>
+
+</html>
