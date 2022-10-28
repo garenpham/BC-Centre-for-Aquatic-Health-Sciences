@@ -221,6 +221,15 @@ def register():
     return render_template("public/register.html", form=form)
 
 
+@app.route("/view_users", methods=["GET", "POST"])
+@login_required
+def view_users():
+    """
+    Let the admin see all the users
+    """
+    return render_template("public/view_users.html", users=User.query.all())
+
+
 @app.route("/index/data", methods=["GET"])
 @login_required
 def data():
@@ -525,6 +534,12 @@ def show_metadata():
 
     if request.method == "POST":
         # for the different tabs
+        
+        database_data, header_data = get_all_sample_data()
+        session["database_data"] = database_data
+        session["database_headers"] = header_data
+        session["data_view"] = "master_sample_data_view"
+        
         if request.form.get('submit_button') == "all_data":
             database_data, header_data = get_all_sample_data()
             session["database_data"] = database_data
