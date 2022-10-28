@@ -221,6 +221,15 @@ def register():
     return render_template("public/register.html", form=form)
 
 
+@app.route("/view_users", methods=["GET", "POST"])
+@login_required
+def view_users():
+    """
+    Let the admin see all the users
+    """
+    return render_template("public/view_users.html", users=User.query.all())
+
+
 @app.route("/index/data", methods=["GET"])
 @login_required
 def data():
