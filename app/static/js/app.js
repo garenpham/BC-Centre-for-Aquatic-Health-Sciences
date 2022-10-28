@@ -3,20 +3,22 @@ function highlight() {
 	var navlinks = document.getElementsByTagName("a");
 	var navSmTitle = document.getElementById("navSmTitle");
 	var navBg = document.getElementsByClassName("nav-bg");
+	var nav = document.getElementsByTagName("nav");
 
 	for (i = 0; i < navlinks.length; i++) {
 		var currentPage = navlinks.item(i);
 		if (currentPage.href == pageurl) {
 			currentPage.style.color = "white";
+			currentPage.style.fontWeight = "bold";
 			navSmTitle.innerHTML = currentPage.innerHTML;
 			navBg.item(i).style.backgroundColor = "black";
-			if (
-				!/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
-			) {
-				// what you want to run in desktop
-				currentPage.style.fontWeight = "bold";
-			} else {
+			if ($(window).width() < 999) {
 				// mobile
+				if (pageurl.includes("metadata")) {
+					nav[0].setAttribute("style", "margin-bottom: 0 !important");
+				}
+			} else {
+				// what you want to run in desktop
 			}
 		} else {
 		}
