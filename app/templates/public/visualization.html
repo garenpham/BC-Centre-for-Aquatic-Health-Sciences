@@ -6,7 +6,9 @@
 {% endblock %}
 {% block title %}Home{% endblock %}
 {% block main %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script strc="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <div class="container ">
     <div class="row">
         <div class="col">
@@ -35,13 +37,29 @@
                         <option value="ish">Fish</option>
                         <option value="ater">Water</option>
                     </select>
+
+                    <label for="graph-type">Select sample type</label>
+                    <select name="graph-type" id="graph-type">
+                        <option value="relative_abundance">Relative Abundance of Samples</option>
+                        <option value="species_abundance_trend">Abundance Trend over Time for Species</option>
+                    </select>
+
+                    <label for="abund-slider">Minimum relative abundance threshold</label>
+                    <input name="abund-slider" id="abund-slider" type="range" min="2" max="100" value="2" class="slider">
+                    <span id="abund-value"></span>
+                    <div style="margin-top:3px;margin-bottom:3px;">
+                        <label for="species-select" class="form-label">Select Species (Trend)</label>
+                        <select class="form-control selectpicker" name="species-select" id="species-select" multiple data-live-search="true">
+                            {% for i in range(0, species_array_length )%}
+                                <option value={{species_array[i]}}>{{species_array[i]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                     <div>
-                        <label for="abund-slider">Minimum relative abundance threshold</label>
-                        <input name="abund-slider" id="abund-slider" type="range" min="2" max="100" value="2" class="slider">
-                        <span id="abund-value"></span>
-                        
                         <button type="submit" class="btn btn-primary" id="submit-button" name="submit-button" value="submit">Submit</button>
                     </div>
+                    
+
                 </div>
             </form>
 
@@ -75,4 +93,7 @@
         output.innerHTML = (rangeslider.value * 0.005).toFixed(3)
     }
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
 {% endblock %}

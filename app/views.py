@@ -28,7 +28,7 @@ from .database_push import upload_database, update_sample_info, update_submissio
     update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
 from .database_pull import show_sample_data, show_hatchery_data, show_environmental_data, \
     get_all_sample_data, get_hatcheries, get_sample_by_sample_id, \
-    get_submission_by_submission_no, get_abund_data, filter_by_date
+    get_submission_by_submission_no, get_abund_data, get_trend_data, filter_by_date
 from .file_metadata import locate_file_metadata, read_file_metadata, write_file_metadata
 from .constants import END_OF_TIME, START_OF_TIME, VIEWS_WHITELIST
 
@@ -525,6 +525,12 @@ def show_metadata():
 
     if request.method == "POST":
         # for the different tabs
+        
+        database_data, header_data = get_all_sample_data()
+        session["database_data"] = database_data
+        session["database_headers"] = header_data
+        session["data_view"] = "master_sample_data_view"
+        
         if request.form.get('submit_button') == "all_data":
             database_data, header_data = get_all_sample_data()
             session["database_data"] = database_data
@@ -713,13 +719,16 @@ def delete_file(file_name):
         return redirect(url_for("downloads"))
 
 
+species_arrayz = ['Sporella', 'Runella', 'Haliscomenobacter', 'Polaromonas']
+
 @app.route("/visualization", methods=["GET"])
 @login_required
 def visualization_page():
     """
     Displays the data visualization page.
     """
-    return render_template("public/visualization.html")
+    return render_template("public/visualization.html", species_array=species_arrayz, species_array_length = len(species_arrayz))
+
 
 
 @app.route("/abund-graph", methods=["POST"])
@@ -734,26 +743,69 @@ def show_abund_graph():
     end_date = form_data['end-date']
     sample_type = form_data['sample-type']
     abundance = int(form_data['abund-slider']) * 0.005
+    graph_type = form_data['graph-type']
+    print(graph_type, form_data)
+    if graph_type == 'species_abundance_trend':
+        try:
+            species_array = [form_data['species-select']]
+        except:
+            species_array = [['%']]
 
-    abund_data_result = get_abund_data(
-        start_date, end_date, sample_type, abundance)
-    if not abund_data_result:
-        return make_response(jsonify({"message": "Empty"}), 200)
+    if graph_type == 'relative_abundance':
+        abund_data_result = get_abund_data(
+            start_date, end_date, sample_type, abundance)
+        if not abund_data_result:
+            return make_response(jsonify({"message": "Empty"}), 200)
+        with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow(["sample_ID", "genus", "value", "date"])
+            csv_writer.writerows(abund_data_result)
 
-    with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
-        csv_writer = csv.writer(csv_file)
-        csv_writer.writerow(["sample_ID", "genus", "value", "date"])
-        csv_writer.writerows(abund_data_result)
+        try:
+            #print(current_working_dir)
+            subprocess.run(["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
+                        check=True)
+        except subprocess.CalledProcessError:
+            return make_response(jsonify({"message": "Error"}), 500)
 
-    try:
-        print(current_working_dir)
-        subprocess.run(["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
-                       check=True)
-    except subprocess.CalledProcessError:
-        return make_response(jsonify({"message": "Error"}), 500)
+        return make_response(jsonify({
+            "message": "OK",
+            "viz1": "data_abund_separate.png",
+            "viz2": "data_abund_grouped.png"
+        }), 200)
+    else:
+        species_array = species_array[0]
+        if len(species_array) == 0:
+            species_array == ''
+        else:
+            
+            query_str = ''
+            for count, species_name in enumerate(species_array):
+                if count == 0:
+                    query_str += """WHERE """
+                else:
+                    query_str += """ OR """
+                query_str += f"""name = '{species_name}'"""
+        print('Species Array:', species_array)
+        print('Fetch Query: ', query_str)
+        trend_data_result = get_trend_data(start_date, end_date, sample_type, abundance, query_str)
+        #print('result', trend_data_result)
+        if not trend_data_result:
+            return make_response(jsonify({"message": "Empty"}), 200)
+        with open("app/r/trend_long.csv", encoding="utf-8", mode="w") as csv_file:
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow(["name", "fraction_total_reads", "date_collected"])
+            csv_writer.writerows(trend_data_result)
 
-    return make_response(jsonify({
-        "message": "OK",
-        "viz1": "data_abund_separate.png",
-        "viz2": "data_abund_grouped.png"
-    }), 200)
+        try:
+            print(current_working_dir)
+            subprocess.run(["Rscript", f"{current_working_dir}/app/r/trend_graphs.R"],
+                        check=True)
+        except subprocess.CalledProcessError:
+            return make_response(jsonify({"message": "Error"}), 500)
+
+        return make_response(jsonify({
+            "message": "OK",
+            "viz1": "trend_data.png",
+            "viz2": "trend_data.png"
+        }), 200)
