@@ -34,7 +34,7 @@ var navbar_toggler = document.querySelector(".navbar-toggler");
 var closeIcon = document.getElementById("closeIcon");
 var main = document.getElementsByTagName("main");
 var body = document.getElementsByTagName("body");
-var navCollapse = document.querySelector(".navbar-collapse");
+var navCollapse = document.querySelector("#navbarNav");
 
 navbar_toggler.addEventListener("click", function () {
 	closeIcon.classList.toggle("active");
