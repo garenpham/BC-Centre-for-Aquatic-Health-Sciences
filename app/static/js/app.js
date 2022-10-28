@@ -7,10 +7,13 @@ function highlight() {
 
 	for (i = 0; i < navlinks.length; i++) {
 		var currentPage = navlinks.item(i);
-		if (currentPage.href == pageurl) {
+		if (
+			pageurl.includes(currentPage.href) &&
+			!currentPage.innerText.includes("Admin") //exclude admin with the current nav link
+		) {
 			currentPage.style.color = "white";
 			currentPage.style.fontWeight = "bold";
-			navSmTitle.innerHTML = currentPage.innerHTML;
+			navSmTitle.innerText = currentPage.innerText;
 			navBg.item(i).style.backgroundColor = "black";
 			if ($(window).width() < 999) {
 				// mobile
