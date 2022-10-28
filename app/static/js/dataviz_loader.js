@@ -34,7 +34,6 @@ filtersForm.onsubmit = event => {
             alert.className = 'alert alert-danger alert-dismissible fade show'
             alert.hidden = false
         } else {
-            console.log(response.json())
             response.json().then(data => {
                 if (data.message == 'Empty') {
                     alertMessage.innerHTML = 'No data is found matching the filter parameters.'
@@ -43,8 +42,10 @@ filtersForm.onsubmit = event => {
                 } else {
                     vizImg1.setAttribute('src', '../static/img/' + data.viz1 + '?' + new Date().valueOf())
                     vizImg2.setAttribute('src', '../static/img/' + data.viz2 + '?' + new Date().valueOf())
-                    vizImg1.style.objectFit = 'contain';
-                    vizImg2.style.objectFit = 'contain';
+                    vizImg1.style.width = '480px';
+                    vizImg2.style.width = '480px';
+                    vizImg1.style.height = '480px';
+                    vizImg2.style.height = '480px';
                     datavizContainer.hidden = false
                 }
             })
