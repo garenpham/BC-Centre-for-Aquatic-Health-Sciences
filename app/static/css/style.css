@@ -140,7 +140,6 @@ hr {
 	}
 
 	#navbarNav.collapsing {
-		left: -80vw;
 		transition: height 0s;
 	}
 	#navbarNav.active {
