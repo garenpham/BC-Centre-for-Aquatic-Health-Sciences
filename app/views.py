@@ -525,6 +525,12 @@ def show_metadata():
 
     if request.method == "POST":
         # for the different tabs
+        
+        database_data, header_data = get_all_sample_data()
+        session["database_data"] = database_data
+        session["database_headers"] = header_data
+        session["data_view"] = "master_sample_data_view"
+        
         if request.form.get('submit_button') == "all_data":
             database_data, header_data = get_all_sample_data()
             session["database_data"] = database_data
