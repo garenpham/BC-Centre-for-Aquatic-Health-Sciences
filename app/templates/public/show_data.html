@@ -26,11 +26,16 @@
         <form action="/display_data" method="post">
           <div>
               <h5>Filter:</h5>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="all_data">All Data</button>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="sample_data">Sample Data</button>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="environmental_data">Environmental Data</button>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="hatchery_data">Hatchery Data</button>
+              <br class="mb-4"/>
               <label for="start">Start Date</label>
               <input type="date" id="start" name="start-date">
               <label for="end">End Date</label>
               <input type="date" id="end" name="end-date">
-              <button type="submit" class="btn btn-primary" name="submit_button" value="submit_filter">Filter</button>
+              <button type="submit" class="btn btn-primary" name="submit_button" value="submit_filter">Go</button>
           </div>
           <br>
           {% if filter %}
@@ -111,12 +116,12 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <form action="/display_data" method="post">
+            <!-- <form action="/display_data" method="post">
               <button type="submit" class="btn btn-primary" name="submit_button" value="all_data">All Data</button>
               <button type="submit" class="btn btn-primary" name="submit_button" value="sample_data">Sample Data</button>
               <button type="submit" class="btn btn-primary" name="submit_button" value="environmental_data">Environmental Data</button>
               <button type="submit" class="btn btn-primary" name="submit_button" value="hatchery_data">Hatchery Data</button>
-            </form>
+            </form> -->
     </div>
   </div>
 </div>
