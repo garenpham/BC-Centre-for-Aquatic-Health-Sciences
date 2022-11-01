@@ -217,7 +217,7 @@ def register():
             date = datetime.now()
             date = date.strftime('%d/%m/%y')
             
-            new_user = User(name=form.name.data, username=form.username.data, password=hash_pwd, date)
+            new_user = User(name=form.name.data, username=form.username.data, password=hash_pwd, date=date)
 
             # pylint: disable=no-member
             db.session.add(new_user)
