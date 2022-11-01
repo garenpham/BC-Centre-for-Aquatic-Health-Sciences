@@ -3,7 +3,7 @@ Defines view logic for the application server.
 """
 
 import csv
-import datetime
+from datetime import datetime
 import subprocess
 import shutil
 import os
