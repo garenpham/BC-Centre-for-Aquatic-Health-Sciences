@@ -1,3 +1,10 @@
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        }
+</style>
+
 <html>
     <title>
         View Users
@@ -7,8 +14,8 @@
         <table>
             <tr>
                 <th>id</th>
+                <th>username</th>
                 <th>name</th>
-                <th>role</th>
                 <th>date</th>
             </tr>
 
@@ -16,7 +23,8 @@
                 <tr>
                     <td>{{user.id}}</td>
                     <td>{{user.username}}</td>
-                    <td>{{user.role}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.date}}</td>
                 </tr>
                 {%endfor%}
 
