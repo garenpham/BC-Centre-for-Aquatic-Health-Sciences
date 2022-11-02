@@ -115,7 +115,9 @@
       <div class="item">
         <form method="POST" action="">
           {{ form.hidden_tag() }}
-          <p> User Name </p>
+          <p> Organization Name </p>
+          <p class="login">{{ form.name }}</p>
+          <p> Username </p>
           <p class="login">{{ form.username }}</p>
           <p> Password </p>
           <p class="password">{{ form.password }}</p>

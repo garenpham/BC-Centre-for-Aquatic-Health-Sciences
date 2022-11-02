@@ -4,7 +4,6 @@ function highlight() {
 	var navSmTitle = document.getElementById("navSmTitle");
 	var navBg = document.getElementsByClassName("nav-bg");
 	var nav = document.getElementsByTagName("nav");
-
 	for (i = 0; i < navlinks.length; i++) {
 		var currentPage = navlinks.item(i);
 		if (
@@ -23,7 +22,7 @@ function highlight() {
 			} else {
 				// what you want to run in desktop
 			}
-		} else {
+			break;
 		}
 	}
 }
@@ -34,7 +33,7 @@ var navbar_toggler = document.querySelector(".navbar-toggler");
 var closeIcon = document.getElementById("closeIcon");
 var main = document.getElementsByTagName("main");
 var body = document.getElementsByTagName("body");
-var navCollapse = document.querySelector(".navbar-collapse");
+var navCollapse = document.querySelector("#navbarNav");
 
 navbar_toggler.addEventListener("click", function () {
 	closeIcon.classList.toggle("active");

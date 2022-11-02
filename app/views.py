@@ -3,6 +3,7 @@ Defines view logic for the application server.
 """
 
 import csv
+from datetime import datetime
 import subprocess
 import shutil
 import os
@@ -89,6 +90,8 @@ class User(db.Model, UserMixin):
 
     # pylint: disable=no-member
     id = db.Column(db.Integer, primary_key=True)
+    
+    name = db.Column(db.String(20), unique=True, nullable=False)
 
     # pylint: disable=no-member
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -98,13 +101,18 @@ class User(db.Model, UserMixin):
 
     # pylint: disable=no-member
     role = db.Column(db.String(20), nullable=True)
+    
+    date = db.Column(db.String(20), nullable=True)
 
 
 class RegisterForm(FlaskForm):
     """
     A Flask form for handling registration.
     """
-
+    
+    name = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "name"})
+    
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
 
@@ -206,7 +214,11 @@ def register():
         text = request.form['text']
         if text.upper() == pin.upper():
             hash_pwd = bcrypt.generate_password_hash(form.password.data)
-            new_user = User(username=form.username.data, password=hash_pwd)
+            
+            date = datetime.now()
+            date = date.strftime('%d/%m/%y')
+            
+            new_user = User(name=form.name.data, username=form.username.data, password=hash_pwd, date=date)
 
             # pylint: disable=no-member
             db.session.add(new_user)
