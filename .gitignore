@@ -4,3 +4,4 @@ __pycache__/
 venv/
 app/r/*.csv
 app/static/img/data_*
+app/static/img/trend_data.png
