@@ -221,73 +221,129 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
 def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
     """Get Trend of Relative Abundance for One or More Species Over Time"""
     _, cursor = initialize_database_cursor()
-    print("Hello?")
     try:
         sample_type = f"%{sample_type}%" if sample_type != 'All' else "%"
         if not start_date:
             start_date = START_OF_TIME
         if not end_date:
             end_date = END_OF_TIME
-        if species_array == []:
-            species_array = ""
-        #print("MULTI LINE:", species_array)
-        print("""%(species_array)s""", {'species_array': species_array})
-        cursor.execute("""
-            SELECT
-                t3.name, #as 'Name',
-                --   t3.taxonomy_id, #as 'Taxonomy ID',
-                --   t3.sample_id, #as 'Sample ID',
-                --   t3.submission_id,
-                --   t3.sample_type,
-                AVG(t3.fraction_total_reads) as 'fraction_total_reads',
-                -- t3.sample_location, # as 'Sample Location',
-                t4.date_collected # as 'Date Collected'
-                FROM  
-                (SELECT
-                    t1.name,
-                    t1.taxonomy_id,
-                    t1.fraction_total_reads,
-                    t1.sample_id,
-                    t2.submission_id,
-                    t2.sample_type,
-                    t2.sample_location
-                FROM 
+        if len(species_array) > 0:
+            insert_string = ""
+            for count, item in enumerate(species_array):
+                insert_string += f" '%s',"
+            species_array = tuple(species_array)
+            insert_string = insert_string[1:-1]
+            insert_string = insert_string % species_array
+            cursor.execute(f"""
+                SELECT
+                    t3.name, #as 'Name',
+                    --   t3.taxonomy_id, #as 'Taxonomy ID',
+                    --   t3.sample_id, #as 'Sample ID',
+                    --   t3.submission_id,
+                    --   t3.sample_type,
+                    AVG(t3.fraction_total_reads) as 'fraction_total_reads',
+                    -- t3.sample_location, # as 'Sample Location',
+                    t4.date_collected # as 'Date Collected'
+                    FROM  
                     (SELECT
-                    sample_data.name,
-                    sample_data.taxonomy_id,
-                    sample_data.fraction_total_reads,
-                    sample_data.sample_id
-                    FROM sample_data
-                    %(species_array)s) t1 
-                    INNER JOIN
+                        t1.name,
+                        t1.taxonomy_id,
+                        t1.fraction_total_reads,
+                        t1.sample_id,
+                        t2.submission_id,
+                        t2.sample_type,
+                        t2.sample_location
+                    FROM 
+                        (SELECT
+                        sample_data.name,
+                        sample_data.taxonomy_id,
+                        sample_data.fraction_total_reads,
+                        sample_data.sample_id
+                        FROM sample_data
+                        WHERE name IN ({insert_string}) ) t1 
+                        INNER JOIN
+                        (SELECT
+                        sample_info.sample_id,
+                        sample_info.submission_id,
+                        sample_info.sample_type,
+                        sample_info.sample_location
+                        FROM sample_info
+                        WHERE sample_type LIKE %(sample_type)s) t2
+                        ON t1.sample_id = t2.sample_id) t3
+                    LEFT JOIN
                     (SELECT
-                    sample_info.sample_id,
-                    sample_info.submission_id,
-                    sample_info.sample_type,
-                    sample_info.sample_location
-                    FROM sample_info
-                    WHERE sample_type LIKE %(sample_type)s) t2
-                    ON t1.sample_id = t2.sample_id) t3
-                LEFT JOIN
-                (SELECT
-                submission_data.submission_id,
-                submission_data.date_collected
-                FROM submission_data) t4
-                ON t3.submission_id = t4.submission_id
-                GROUP BY name, date_collected;
-                        """, {
-            "abundance": abundance,
-            "start_date": start_date,
-            "end_date": end_date,
-            "sample_type": sample_type,
-            "species_array": species_array,
-        })
+                    submission_data.submission_id,
+                    submission_data.date_collected
+                    FROM submission_data) t4
+                    ON t3.submission_id = t4.submission_id
+                    GROUP BY name, date_collected;
+                            """, {
+                "abundance": abundance,
+                "start_date": start_date,
+                "end_date": end_date,
+                "sample_type": sample_type,
+            })
+            print("Statement:", cursor.statement)
+        else:
+            #print(species_array)
+            cursor.execute("""
+                SELECT
+                    t3.name, #as 'Name',
+                    --   t3.taxonomy_id, #as 'Taxonomy ID',
+                    --   t3.sample_id, #as 'Sample ID',
+                    --   t3.submission_id,
+                    --   t3.sample_type,
+                    AVG(t3.fraction_total_reads) as 'fraction_total_reads',
+                    -- t3.sample_location, # as 'Sample Location',
+                    t4.date_collected # as 'Date Collected'
+                    FROM  
+                    (SELECT
+                        t1.name,
+                        t1.taxonomy_id,
+                        t1.fraction_total_reads,
+                        t1.sample_id,
+                        t2.submission_id,
+                        t2.sample_type,
+                        t2.sample_location
+                    FROM 
+                        (SELECT
+                        sample_data.name,
+                        sample_data.taxonomy_id,
+                        sample_data.fraction_total_reads,
+                        sample_data.sample_id
+                        FROM sample_data) t1 
+                        INNER JOIN
+                        (SELECT
+                        sample_info.sample_id,
+                        sample_info.submission_id,
+                        sample_info.sample_type,
+                        sample_info.sample_location
+                        FROM sample_info
+                        WHERE sample_type LIKE %(sample_type)s) t2
+                        ON t1.sample_id = t2.sample_id) t3
+                    LEFT JOIN
+                    (SELECT
+                    submission_data.submission_id,
+                    submission_data.date_collected
+                    FROM submission_data) t4
+                    ON t3.submission_id = t4.submission_id
+                    GROUP BY name, date_collected;
+                            """, {
+                "abundance": abundance,
+                "start_date": start_date,
+                "end_date": end_date,
+                "sample_type": sample_type,
+            })
+            print("Statement:", cursor.statement)
+        
+        
         # Example Species Array String
         # "WHERE name = 'Haliscomenobacter' OR name = 'Polaromonas'"
-        print(cursor.rowcount)
+        print("Query returned rowcount:", cursor.rowcount)
         if cursor.rowcount:
             return cursor.fetchall()    
         return []
+
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling abund data from database: {err}")
         return []
