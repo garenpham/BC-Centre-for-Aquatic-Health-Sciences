@@ -167,12 +167,11 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
     """Get relative abundance data for graph visualization"""
     _, cursor = initialize_database_cursor()
     try:
-        sample_type = f"%{sample_type}%" if sample_type else "%"
+        sample_type = f"%{sample_type}%" if sample_type != 'All' else "%"
         if not start_date:
             start_date = START_OF_TIME
         if not end_date:
             end_date = END_OF_TIME
-
         cursor.execute("""
             WITH filtered_sample AS (
                 SELECT a.sample_id, a.`name`, a.taxonomy_id, a.fraction_total_reads
@@ -222,6 +221,7 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
 def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
     """Get Trend of Relative Abundance for One or More Species Over Time"""
     _, cursor = initialize_database_cursor()
+    print("Hello?")
     try:
         sample_type = f"%{sample_type}%" if sample_type != 'All' else "%"
         if not start_date:
@@ -231,6 +231,7 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
         if species_array == []:
             species_array = ""
         #print("MULTI LINE:", species_array)
+        print("""%(species_array)s""", {'species_array': species_array})
         cursor.execute("""
             SELECT
                 t3.name, #as 'Name',
@@ -257,7 +258,7 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
                     sample_data.fraction_total_reads,
                     sample_data.sample_id
                     FROM sample_data
-                    WHERE name = 'Haliscomenobacter' OR name = 'Polaromonas') t1 
+                    %(species_array)s) t1 
                     INNER JOIN
                     (SELECT
                     sample_info.sample_id,
@@ -290,3 +291,11 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling abund data from database: {err}")
         return []
+
+
+# WHERE name IN ('Species_1', 'Species_2')
+
+# Convert list to tuple for parentheses
+# Create custom list of %s based on length of species_array
+# etc %s, %s, %s, 
+# This will prevent sql injection and yadda yadda

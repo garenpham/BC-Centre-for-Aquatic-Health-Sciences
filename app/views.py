@@ -763,26 +763,29 @@ def show_abund_graph():
     if graph_type == 'relative_abundance':
         abund_data_result = get_abund_data(
             start_date, end_date, sample_type, abundance)
+        print(abund_data_result)
         if not abund_data_result:
             return make_response(jsonify({"message": "Empty"}), 200)
         with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(["sample_ID", "genus", "value", "date"])
             csv_writer.writerows(abund_data_result)
-
+        print("Running r script.")
         try:
             #print(current_working_dir)
             subprocess.run(["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
                         check=True)
         except subprocess.CalledProcessError:
+            print("R script error.")
             return make_response(jsonify({"message": "Error"}), 500)
 
         return make_response(jsonify({
             "message": "OK",
+            "type": "relative_abundance",
             "viz1": "data_abund_separate.png",
             "viz2": "data_abund_grouped.png"
         }), 200)
-    else:
+    elif graph_type == 'species_abundance_trend':
         species_array = species_array[0]
         if len(species_array) == 0:
             species_array == ''
@@ -797,7 +800,7 @@ def show_abund_graph():
                 query_str += f"""name = '{species_name}'"""
         print('Species Array:', species_array)
         print('Fetch Query: ', query_str)
-        trend_data_result = get_trend_data(start_date, end_date, sample_type, abundance, query_str)
+        trend_data_result = get_trend_data(start_date, end_date, sample_type, abundance, species_array)
         #print('result', trend_data_result)
         if not trend_data_result:
             return make_response(jsonify({"message": "Empty"}), 200)
@@ -815,6 +818,7 @@ def show_abund_graph():
 
         return make_response(jsonify({
             "message": "OK",
+            "type": "species_abundance_trend",
             "viz1": "trend_data.png",
             "viz2": "trend_data.png"
         }), 200)

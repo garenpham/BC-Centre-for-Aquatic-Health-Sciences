@@ -35,6 +35,7 @@ filtersForm.onsubmit = event => {
             alert.hidden = false
         } else {
             response.json().then(data => {
+                console.log(data)
                 if (data.message == 'Empty') {
                     alertMessage.innerHTML = 'No data is found matching the filter parameters.'
                     alert.className = 'alert alert-warning alert-dismissible fade show'
