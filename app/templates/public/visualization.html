@@ -16,6 +16,7 @@
 <script
 	strc="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 ></script>
+<script></script>
 <div class="container">
 	<div class="row">
 		<div class="col">
@@ -49,9 +50,9 @@
 						<option value="ish">Fish</option>
 						<option value="ater">Water</option>
 					</select>
-
 					<label for="graph-type">Select sample type</label>
-					<select name="graph-type" id="graph-type">
+
+					<select name="graph-type" id="graph-type" onchange="type_selected()">
 						<option value="relative_abundance">
 							Relative Abundance of Samples
 						</option>
@@ -60,7 +61,9 @@
 						</option>
 					</select>
 
-					<label for="abund-slider">Minimum relative abundance threshold</label>
+					<label id="slider-label" for="abund-slider"
+						>Minimum relative abundance threshold</label
+					>
 					<input
 						name="abund-slider"
 						id="abund-slider"
@@ -71,7 +74,10 @@
 						class="slider"
 					/>
 					<span id="abund-value"></span>
-					<div style="margin-top: 3px; margin-bottom: 3px">
+					<div
+						id="species-select-dropdown"
+						style="display: none; margin-top: 3px; margin-bottom: 3px"
+					>
 						<label for="species-select" class="form-label"
 							>Select Species (Trend)</label
 						>
@@ -133,6 +139,32 @@
 	rangeslider.oninput = () => {
 		output.innerHTML = (rangeslider.value * 0.005).toFixed(3);
 	};
+	function type_selected() {
+		var graphType = document.getElementById("graph-type");
+		var typeSelected = graphType.options[graphType.selectedIndex].value;
+		if (typeSelected == "relative_abundance") {
+			document
+				.getElementById("species-select-dropdown")
+				.setAttribute("class", "d-none");
+			document
+				.getElementById("abund-slider")
+				.setAttribute("class", "d-inline-block");
+			document
+				.getElementById("abund-value")
+				.setAttribute("class", "d-inline-block");
+			document
+				.getElementById("slider-label")
+				.setAttribute("class", "d-inline-block");
+		} else if (typeSelected == "species_abundance_trend") {
+			document
+				.getElementById("species-select-dropdown")
+				.setAttribute("class", "d-inline-block");
+			document.getElementById("abund-slider").setAttribute("class", "d-none");
+			document.getElementById("slider-label").setAttribute("class", "d-none");
+			document.getElementById("abund-value").setAttribute("class", "d-none");
+		}
+	}
+	window.onload = type_selected();
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>

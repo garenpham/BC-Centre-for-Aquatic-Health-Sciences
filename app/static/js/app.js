@@ -27,7 +27,9 @@ function highlight() {
 	}
 }
 
-window.onload = highlight;
+window.onload = function () {
+	highlight();
+};
 
 var navbar_toggler = document.querySelector(".navbar-toggler");
 var closeIcon = document.getElementById("closeIcon");
