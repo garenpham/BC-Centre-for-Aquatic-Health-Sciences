@@ -9,13 +9,15 @@ data <- read.csv(file = 'app/r/trend_long.csv')
 data$date_collected <- as.Date(data$date_collected)
 
 
-specify_decimal <- function(x, k) trimws(format(round(x, k), nsmall=k))
+specify_decimal <- function(x, k) trimws(format(round(x, k), nsmall = k))
 #Plot
-png(filename = "app/static/img/trend_data.png")
+png(filename = "app/static/img/trend_data.png",
+  width = 1280, height = 1280, units = "px")
 data %>%
-  tail(10) %>%
-  ggplot( aes(x=date_collected, y=fraction_total_reads, color=name)) +
-  xlab(str_glue("Daterange \n {data$date_collected[1]} to {data$date_collected[nrow(data)]}")) + ylab("Relative Abundance") +
+  tail(100) %>%
+  ggplot(aes(x = date_collected, y = fraction_total_reads, color = name)) +
+  xlab(str_glue("Daterange \n {data$date_collected[1]} to {data$date_collected[nrow(data)]}"))
+    + ylab("Relative Abundance") +
     geom_line() +
     geom_point() +
     geom_text(
