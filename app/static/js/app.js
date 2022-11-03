@@ -29,6 +29,7 @@ function highlight() {
 
 window.onload = function () {
 	highlight();
+	type_selected();
 };
 
 var navbar_toggler = document.querySelector(".navbar-toggler");
