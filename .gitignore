@@ -5,3 +5,4 @@ venv/
 app/r/*.csv
 app/static/img/data_*
 app/static/img/trend_data.*
+app/r/app/static/img/trend_data.*
