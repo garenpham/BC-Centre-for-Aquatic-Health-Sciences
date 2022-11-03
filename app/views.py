@@ -775,7 +775,7 @@ def show_abund_graph():
     if graph_type == 'relative_abundance':
         abund_data_result = get_abund_data(
             start_date, end_date, sample_type, abundance)
-        print(abund_data_result)
+        #print(abund_data_result)
         if not abund_data_result:
             return make_response(jsonify({"message": "Empty"}), 200)
         with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
@@ -797,11 +797,14 @@ def show_abund_graph():
             "viz2": "data_abund_grouped.png"
         }), 200)
     elif graph_type == 'species_abundance_trend':
+        if isinstance(species_array, str):
+            species_array = [species_array]
         if not len(species_array) > 0:
             species_array == []
-        print('Species Array:', species_array)
+        #print('Species Array:', species_array)
         trend_data_result = get_trend_data(start_date, end_date, sample_type, abundance, species_array)
-        #print('result', trend_data_result)
+        #for species in trend_data_result:
+        #    print(species)
         if not trend_data_result:
             return make_response(jsonify({"message": "Empty"}), 200)
         with open("app/r/trend_long.csv", encoding="utf-8", mode="w") as csv_file:

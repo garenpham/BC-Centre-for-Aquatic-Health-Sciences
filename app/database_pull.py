@@ -283,7 +283,7 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
                 "end_date": end_date,
                 "sample_type": sample_type,
             })
-            print("Statement:", cursor.statement)
+            #print("SQL Statement:", cursor.statement)
         else:
             #print(species_array)
             cursor.execute("""
@@ -334,7 +334,7 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
                 "end_date": end_date,
                 "sample_type": sample_type,
             })
-            print("Statement:", cursor.statement)
+            #print("SQL Statement:", cursor.statement)
         
         
         # Example Species Array String
