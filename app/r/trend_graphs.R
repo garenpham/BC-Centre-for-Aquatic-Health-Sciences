@@ -19,8 +19,8 @@ data %>%
     geom_line() +
     geom_point() +
     geom_text(
-    data = . %>% filter(fraction_total_reads == data$fraction_total_reads),
-    aes(label = specify_decimal(fraction_total_reads, 4)),
+    data = . %>% filter(fraction_total_reads %in% data$fraction_total_reads),
+    aes(label = specify_decimal(fraction_total_reads, 6)),
     vjust = "inward", hjust = "inward",
     show.legend = FALSE) +
     ggtitle("Relative Abundance Graph (Species/Date range)")
