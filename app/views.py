@@ -24,7 +24,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 
 from app import app
-from .functions import generate_csv, sanitize_form_data, sanitize_abund_form_data
+from .functions import generate_csv, sanitize_form_data, sanitize_abund_form_data, create_species_list
 from .database_push import upload_database, update_sample_info, update_submission_data, \
     update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
 from .database_pull import show_sample_data, show_hatchery_data, show_environmental_data, \
@@ -740,7 +740,6 @@ def delete_file(file_name):
         return redirect(url_for("downloads"))
 
 
-species_arrayz = ['Sporella', 'Runella', 'Haliscomenobacter', 'Polaromonas']
 
 @app.route("/visualization", methods=["GET"])
 @login_required
@@ -748,7 +747,8 @@ def visualization_page():
     """
     Displays the data visualization page.
     """
-    return render_template("public/visualization.html", species_array=species_arrayz, species_array_length = len(species_arrayz))
+    species_name_list = create_species_list()
+    return render_template("public/visualization.html", species_array=species_name_list, species_array_length = len(species_name_list))
 
 
 

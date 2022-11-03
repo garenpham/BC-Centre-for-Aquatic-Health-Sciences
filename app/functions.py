@@ -1,6 +1,7 @@
 """
 Module for miscellaneous functions.
 """
+import os
 from werkzeug.datastructures import MultiDict
 
 def generate_csv(results, headers):
@@ -22,6 +23,14 @@ def generate_csv(results, headers):
                 yield ','
         yield "\n"
 
+def create_species_list():
+    species = []
+    with open("./app/static/samples/species.csv", 'r', encoding='utf-8') as species_file:
+        for line in species_file:
+            line = line.replace('"', '')
+            line = line.replace("\n", '')
+            species.append(line)
+    return species
 
 def sanitize_form_data(form_data):
     """
