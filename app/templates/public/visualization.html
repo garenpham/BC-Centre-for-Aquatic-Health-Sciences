@@ -39,10 +39,10 @@
 				<div>
 					<label for="start-date">Start Date</label>
 					<input type="date" id="start-date" name="start-date" />
-
+					<br class="d-lg-none d-block" />
 					<label for="end-date">End Date</label>
 					<input type="date" id="end-date" name="end-date" />
-
+					<br />
 					<label for="sample-type">Select sample type</label>
 					<select name="sample-type" id="sample-type">
 						<option value="All">All</option>
@@ -50,7 +50,8 @@
 						<option value="ish">Fish</option>
 						<option value="ater">Water</option>
 					</select>
-					<label for="graph-type">Select sample type</label>
+					<br class="d-lg-none d-block" />
+					<label for="graph-type">Select graph type</label>
 
 					<select name="graph-type" id="graph-type" onchange="type_selected()">
 						<option value="relative_abundance">
@@ -60,7 +61,7 @@
 							Abundance Trend over Time for Species
 						</option>
 					</select>
-
+					<br />
 					<label id="slider-label" for="abund-slider"
 						>Minimum relative abundance threshold</label
 					>
