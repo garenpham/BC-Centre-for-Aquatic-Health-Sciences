@@ -80,6 +80,18 @@
       })
     }
   }
+  function download_btn_touch(){
+    var downldBtn=document.getElementById("downldBtn");
+    downldBtn.style.cssText= "color: white; background-color: #525252;";
+  }
+  function edit_btn_touch(){
+    var envDataBtn=document.getElementById("envDataBtn");
+    envDataBtn.style.cssText= "color: white; background-color: #007500;";
+  }
+  function delete_btn_touch(){
+    var hatchDataBtn=document.getElementById("hatchDataBtn");
+    hatchDataBtn.style.cssText= "color: white; background-color: #A3A300;";
+  }
 </script>
 
 
@@ -88,7 +100,6 @@
     <div class="col">
       <h1>Documents</h1>
       <hr>
-
       {% for category, message in get_flashed_messages(with_categories=true) %}
         <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
           {{ message }}
@@ -111,19 +122,28 @@
               </div>
             </div>
             <div class="file-actions">
-              <a class="file-action btn btn-primary" href="/documents/download/{{ file_name }}">Download</a>
+              <a class="file-action btn btn-primary" id="downldBtn" href="/documents/download/{{ file_name }}">
+                <span class="d-none d-lg-inline-block">Download</span>
+                <i class="bi bi-download d-lg-none d-inline-block py-1"></i>
+              </a>
               {% if current_user.role == 'admin' %}
                 <button
                   class="file-action btn btn-outline-secondary"
                   onclick="CAHS.openEditModal('{{ file_name }}', '{{ file_title }}', '{{ file_description }}')"
-                >Edit</button>
+                >
+                  <span class="d-none d-lg-inline-block">Edit</span>
+                  <i class="bi bi-pen-fill d-lg-none d-inline-block py-1"></i>
+              </button>
                 <button
                   class="file-action btn btn-outline-danger"
                   onclick="CAHS.openDeleteModal(
                     '{{ file_name }}',
                     () => window.location.href = '/documents/delete/{{ file_name }}'
                   )"
-                >Delete</a>
+                >
+                  <span class="d-none d-lg-inline-block">Delete</span>
+                  <i class="bi bi-trash3-fill d-lg-none d-inline-block py-1"></i>
+              </a>
               {% endif %}
             </div>
           </li>

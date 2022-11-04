@@ -1,34 +1,31 @@
 <style>
-    table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        }
+	table,
+	th,
+	td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
 </style>
 
-<html>
-    <title>
-        View Users
-    </title>
+{% extends "public/templates/public_template.html" %} {% block title %} View
+Users {% endblock %} {% block main %}
+<body>
+	<table>
+		<tr>
+			<th>id</th>
+			<th>username</th>
+			<th>name</th>
+			<th>date</th>
+		</tr>
 
-    <body>
-        <table>
-            <tr>
-                <th>id</th>
-                <th>username</th>
-                <th>name</th>
-                <th>date</th>
-            </tr>
-
-                {%for user in users%}
-                <tr>
-                    <td>{{user.id}}</td>
-                    <td>{{user.username}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.date}}</td>
-                </tr>
-                {%endfor%}
-
-        </table>
-    </body>
-
-</html>
+		{%for user in users%}
+		<tr>
+			<td>{{user.id}}</td>
+			<td>{{user.username}}</td>
+			<td>{{user.name}}</td>
+			<td>{{user.date}}</td>
+		</tr>
+		{%endfor%}
+	</table>
+</body>
+{% endblock %}

@@ -235,6 +235,7 @@ def register():
 
 @app.route("/view_users", methods=["GET", "POST"])
 @login_required
+@is_admin
 def view_users():
     """
     Let the admin see all the users
