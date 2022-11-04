@@ -27,10 +27,7 @@ function highlight() {
 	}
 }
 
-window.onload = function () {
-	highlight();
-	type_selected();
-};
+window.addEventListener("onload", highlight());
 
 var navbar_toggler = document.querySelector(".navbar-toggler");
 var closeIcon = document.getElementById("closeIcon");

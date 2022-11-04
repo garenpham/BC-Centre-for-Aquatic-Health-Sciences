@@ -35,6 +35,20 @@
     background-color: #A3A300;
   }
 </style>
+<script>
+  function sample_btn_touch(){
+    var sampleDataBtn=document.getElementById("sampleDataBtn");
+    sampleDataBtn.style.cssText= "color: white; background-color: #525252;";
+  }
+  function env_btn_touch(){
+    var envDataBtn=document.getElementById("envDataBtn");
+    envDataBtn.setAttribute("style","color: white; background-color: #007500;");
+  }
+  function hatch_btn_touch(){
+    var hatchDataBtn=document.getElementById("hatchDataBtn");
+    hatchDataBtn.setAttribute("style","color: white; background-color: #A3A300;");
+  }
+</script>
 <div class="container ">
   <div class="row">
     <div class="col">
@@ -42,9 +56,9 @@
     <hr class="mb-lg-4 mb-2" />
         <form action="/display_data" method="post">
           <button type="submit" class="btn btn-primary mr-2 mb-2" name="submit_button" value="all_data">All Data</button>
-          <button type="submit" id="sampleDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="sample_data">Sample Data</button>
-          <button type="submit" id="envDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="environmental_data">Environmental Data</button>
-          <button type="submit" id="hatchDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="hatchery_data">Hatchery Data</button>
+          <button type="submit" id="sampleDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="sample_data" ontouchstart="sample_btn_touch()">Sample Data</button>
+          <button type="submit" id="envDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="environmental_data" ontouchstart="env_btn_touch()">Environmental Data</button>
+          <button type="submit" id="hatchDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="hatchery_data" ontouchstart="hatch_btn_touch()">Hatchery Data</button>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}
             <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
