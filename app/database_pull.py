@@ -30,8 +30,10 @@ def get_sample_by_sample_id(sample_id):
 
     _, cursor = initialize_database_cursor()
     try:
-        cursor.execute("SELECT * FROM sample_info WHERE sample_id LIKE %(sample_id)s;",
-                       {"sample_id": sample_id})
+        cursor.execute(
+            "SELECT * FROM sample_info WHERE sample_id LIKE %(sample_id)s;",
+            {"sample_id": sample_id},
+        )
         result = cursor.fetchall()
         return result
     except mysql.connector.Error as err:
@@ -46,9 +48,11 @@ def get_submission_by_submission_no(submission_no):
 
     _, cursor = initialize_database_cursor()
     try:
-        cursor.execute("SELECT * FROM submission_data"
-                       " WHERE submission_id LIKE %(submission_no)s;",
-                       {"submission_no": submission_no})
+        cursor.execute(
+            "SELECT * FROM submission_data"
+            " WHERE submission_id LIKE %(submission_no)s;",
+            {"submission_no": submission_no},
+        )
         result = cursor.fetchall()
         return result
     except mysql.connector.Error as err:
@@ -101,9 +105,13 @@ def show_sample_data():
         headers_list = cursor.fetchall()
         for row in headers_list:
             headers.append(row[0])
-        result_list = [[str(item) if isinstance(item, datetime.timedelta)
-                        else item for item in entry]
-                       for entry in result]
+        result_list = [
+            [
+                str(item) if isinstance(item, datetime.timedelta) else item
+                for item in entry
+            ]
+            for entry in result
+        ]
         return result_list, headers
     except mysql.connector.Error as err:
         print(f"Something went wrong pulling location data from database: {err}")
@@ -119,14 +127,21 @@ def get_all_sample_data(sample_id=None):
             cursor.execute("SELECT * FROM master_sample_data_view ;")
             result = cursor.fetchall()
         else:
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT * FROM master_sample_data_view "
                 WHERE sample_id = %(sample_id)s;
-            """, { "sample_id": sample_id })
+            """,
+                {"sample_id": sample_id},
+            )
             result = cursor.fetchall()
-        result_list = [[str(item) if isinstance(item, datetime.timedelta)
-                        else item for item in entry]
-                       for entry in result]
+        result_list = [
+            [
+                str(item) if isinstance(item, datetime.timedelta) else item
+                for item in entry
+            ]
+            for entry in result
+        ]
         cursor.execute("SHOW COLUMNS FROM master_sample_data_view ;")
         headers_list = cursor.fetchall()
         for row in headers_list:
@@ -142,17 +157,21 @@ def filter_by_date(data_view, start_date, end_date):
     _, cursor = initialize_database_cursor()
     try:
         headers = []
-        cursor.execute(f"""
+        cursor.execute(
+            f"""
             SELECT * FROM {data_view}
             WHERE date_collected BETWEEN %(start_date)s AND %(end_date)s;
-        """, {
-            "start_date": start_date,
-            "end_date": end_date
-        })
+        """,
+            {"start_date": start_date, "end_date": end_date},
+        )
         result = cursor.fetchall()
-        result_list = [[str(item) if isinstance(item, datetime.timedelta)
-                        else item for item in entry]
-                       for entry in result]
+        result_list = [
+            [
+                str(item) if isinstance(item, datetime.timedelta) else item
+                for item in entry
+            ]
+            for entry in result
+        ]
         cursor.execute(f"SHOW COLUMNS FROM {data_view};")
         headers_list = cursor.fetchall()
         for row in headers_list:
@@ -167,12 +186,13 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
     """Get relative abundance data for graph visualization"""
     _, cursor = initialize_database_cursor()
     try:
-        sample_type = f"%{sample_type}%" if sample_type != 'All' else "%"
+        sample_type = f"%{sample_type}%" if sample_type != "All" else "%"
         if not start_date:
             start_date = START_OF_TIME
         if not end_date:
             end_date = END_OF_TIME
-        cursor.execute("""
+        cursor.execute(
+            """
             WITH filtered_sample AS (
                 SELECT a.sample_id, a.`name`, a.taxonomy_id, a.fraction_total_reads
                 FROM sample_data a
@@ -205,12 +225,14 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
             GROUP BY sample_ID
             ORDER BY genus, sample_ID
             ;
-        """, {
-            "abundance": abundance,
-            "start_date": start_date,
-            "end_date": end_date,
-            "sample_type": sample_type,
-        })
+        """,
+            {
+                "abundance": abundance,
+                "start_date": start_date,
+                "end_date": end_date,
+                "sample_type": sample_type,
+            },
+        )
         if cursor.rowcount:
             return cursor.fetchall()
         return []
@@ -218,11 +240,12 @@ def get_abund_data(start_date, end_date, sample_type, abundance):
         print(f"Something went wrong pulling abund data from database: {err}")
         return []
 
+
 def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
     """Get Trend of Relative Abundance for One or More Species Over Time"""
     _, cursor = initialize_database_cursor()
     try:
-        sample_type = f"%{sample_type}%" if sample_type != 'All' else "%"
+        sample_type = f"%{sample_type}%" if sample_type != "All" else "%"
         if not start_date:
             start_date = START_OF_TIME
         if not end_date:
@@ -234,7 +257,8 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
             species_array = tuple(species_array)
             insert_string = insert_string[1:-1]
             insert_string = insert_string % species_array
-            cursor.execute(f"""
+            cursor.execute(
+                f"""
                 SELECT
                     t3.name, #as 'Name',
                     --   t3.taxonomy_id, #as 'Taxonomy ID',
@@ -277,16 +301,19 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
                     FROM submission_data) t4
                     ON t3.submission_id = t4.submission_id
                     GROUP BY name, date_collected;
-                            """, {
-                "abundance": abundance,
-                "start_date": start_date,
-                "end_date": end_date,
-                "sample_type": sample_type,
-            })
-            #print("SQL Statement:", cursor.statement)
+                            """,
+                {
+                    "abundance": abundance,
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "sample_type": sample_type,
+                },
+            )
+            # print("SQL Statement:", cursor.statement)
         else:
-            #print(species_array)
-            cursor.execute("""
+            # print(species_array)
+            cursor.execute(
+                """
                 SELECT
                     t3.name, #as 'Name',
                     --   t3.taxonomy_id, #as 'Taxonomy ID',
@@ -328,20 +355,21 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
                     FROM submission_data) t4
                     ON t3.submission_id = t4.submission_id
                     GROUP BY name, date_collected;
-                            """, {
-                "abundance": abundance,
-                "start_date": start_date,
-                "end_date": end_date,
-                "sample_type": sample_type,
-            })
-            #print("SQL Statement:", cursor.statement)
-        
-        
+                            """,
+                {
+                    "abundance": abundance,
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "sample_type": sample_type,
+                },
+            )
+            # print("SQL Statement:", cursor.statement)
+
         # Example Species Array String
         # "WHERE name = 'Haliscomenobacter' OR name = 'Polaromonas'"
         print("Query returned rowcount:", cursor.rowcount)
         if cursor.rowcount:
-            return cursor.fetchall()    
+            return cursor.fetchall()
         return []
 
     except mysql.connector.Error as err:
@@ -353,5 +381,5 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
 
 # Convert list to tuple for parentheses
 # Create custom list of %s based on length of species_array
-# etc %s, %s, %s, 
+# etc %s, %s, %s,
 # This will prevent sql injection and yadda yadda

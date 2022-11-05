@@ -7,8 +7,8 @@ VIEWS_WHITELIST = [
     "hatchery_data_view",
     "sample_data_view",
     "master_sample_data_view",
-    "environmental_data_view"
-    ]
+    "environmental_data_view",
+]
 
 START_OF_TIME = "0000-01-01"
 
