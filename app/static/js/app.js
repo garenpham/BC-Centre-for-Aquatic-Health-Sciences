@@ -4,7 +4,7 @@ function highlight() {
 	var navSmTitle = document.getElementById("navSmTitle");
 	var navBg = document.getElementsByClassName("nav-bg");
 	var nav = document.getElementsByTagName("nav");
-	for (i = 0; i < navlinks.length; i++) {
+	for (let i = 0; i < navlinks.length; i++) {
 		var currentPage = navlinks.item(i);
 		if (
 			pageurl.includes(currentPage.href) &&
