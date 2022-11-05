@@ -1,89 +1,174 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<!--Font Awsome-->
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link
+			href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+			rel="stylesheet"
+		/>
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+		/>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+		<!-- Custom CSS -->
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='css/style.css') }}"
+		/>
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+		{% block internal_css %}{% endblock %}
 
-  {% block internal_css %}{% endblock %}
+		<title>{% block title %}{% endblock %}</title>
+	</head>
 
-  <title>{% block title %}{% endblock %}</title>
-</head>
+	<body>
+		<nav
+			class="navbar navbar-expand-lg navbar-dark bg-black mb-lg-10 mb-4 p-lg-4 py-3 d-flex"
+		>
+			<button
+				class="navbar-toggler container text-black justify-content-between text-white fw-600"
+				type="button"
+				data-toggle="collapse"
+				data-target="#navbarNav"
+				aria-controls="navbarNav"
+				aria-expanded="false"
+				aria-label="Toggle navigation"
+			>
+				<div class="d-flex justify-content-start align-items-center">
+					<span class="navbar-toggler-icon mr-3"></span>
+					<span id="navSmTitle"></span>
+				</div>
 
-<body>
+				<i id="closeIcon" class="bi bi-x-lg" style="display: none"></i>
+			</button>
+			<div class="container">
+				<div
+					class="justify-content-between collapse navbar-collapse"
+					id="navbarNav"
+				>
+					<ul class="navbar-nav" id="menu">
+						<li
+							class="d-lg-none nav-item nav-menu-title text-gray text-uppercase"
+						>
+							Menu
+						</li>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/about">Home</a>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/documents">Documents</a>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/visualization"
+									>Visualize</a
+								>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/display_data">Database</a>
+							</li>
+						</div>
+						{% if current_user.role == 'admin' %}
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/metadata"
+									>Update metadata</a
+								>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/upload-file"
+									>Upload sample</a
+								>
+							</li>
+						</div>
+						<div class="nav-bg">
+							<li class="nav-item mr-lg-4">
+								<a class="nav-link text-gray" href="/view_users">View users</a>
+							</li>
+						</div>
+						{% endif %}
+					</ul>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+					<ul class="navbar-nav" id="dropdownBtn">
+						<li
+							class="d-lg-none nav-item nav-menu-title nav-user-title text-gray text-uppercase"
+						>
+							USER
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link d-flex align-items-center username">
+								<i class="bi bi-person pr-1"></i>
+								<div>
+									{% if current_user.is_authenticated %} {{
+									current_user.username.title() }}{% endif %}
+								</div>
+							</a>
+							<ul id="dropdownNav" class="dropdown-menu">
+								<li>
+									<a
+										id="itemDropdown"
+										class="dropdown-item nav-link text-gray text-center"
+										href="{{ url_for('logout') }}"
+									>
+										Log out</a
+									>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- <div class="collapse navbar-collapse" id="navbarNav"> -->
+			<!--   <ul class="navbar-nav ml-auto"> -->
+			<!--     <li class="nav-item"> -->
+			<!--       <a class="nav-link" href="/admin/dashboard">Admin</a> -->
+			<!--     </li> -->
+			<!--   </ul> -->
+			<!-- </div> -->
+		</nav>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/documents">Documents</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/visualization">Visualization</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/display_data">Database</a>
-        </li>
-        {% if current_user.role == 'admin' %}
-        <li class="nav-item">
-          <a class="nav-link" href="/upload-file">Upload</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/metadata">Metadata</a>
-        </li>
-        {% endif %}
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('logout') }}"> Logout</a>
-        </li>
-      </ul>
-    </div>
+		<main>{% block main %}{% endblock %}</main>
 
-    <p class="username">{% if current_user.is_authenticated %} {{ current_user.username.title() }}'s account {%
-        endif %}</p>
-
-    <!-- <div class="collapse navbar-collapse" id="navbarNav"> -->
-    <!--   <ul class="navbar-nav ml-auto"> -->
-    <!--     <li class="nav-item"> -->
-    <!--       <a class="nav-link" href="/admin/dashboard">Admin</a> -->
-    <!--     </li> -->
-    <!--   </ul> -->
-    <!-- </div> -->
-  </nav>
-
-
-  <main>
-    {% block main %}{% endblock %}
-  </main>
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
-    integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous">
-  </script>
-  <!-- Custom JavaScript -->
-  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-  {% block script %}{% endblock %}
-</body>
-
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+			integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+			integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+			crossorigin="anonymous"
+		></script>
+		<!-- Custom JavaScript -->
+		<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+		{% block script %}{% endblock %}
+	</body>
 </html>

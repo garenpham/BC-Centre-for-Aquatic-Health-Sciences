@@ -12,7 +12,6 @@ startDate.oninput = () => {
 
 filtersForm.onsubmit = event => {
     event.preventDefault()
-
     const vizImg1 = document.getElementById('viz1'),
         vizImg2 = document.getElementById('viz2'),
         alertMessage = document.getElementById('alert-message'),
@@ -36,6 +35,7 @@ filtersForm.onsubmit = event => {
             alert.hidden = false
         } else {
             response.json().then(data => {
+                console.log(data)
                 if (data.message == 'Empty') {
                     alertMessage.innerHTML = 'No data is found matching the filter parameters.'
                     alert.className = 'alert alert-warning alert-dismissible fade show'
@@ -43,6 +43,17 @@ filtersForm.onsubmit = event => {
                 } else {
                     vizImg1.setAttribute('src', '../static/img/' + data.viz1 + '?' + new Date().valueOf())
                     vizImg2.setAttribute('src', '../static/img/' + data.viz2 + '?' + new Date().valueOf())
+                    vizImg1.style.width = '480px';
+                    vizImg2.style.width = '480px';
+                    vizImg1.style.height = '480px';
+                    vizImg2.style.height = '480px';
+                    if (data['type'] == "species_abundance_trend") {
+                        vizImg1.style.width = '1280px';
+                        vizImg2.style.width = '0px';
+                        vizImg1.style.height = '720px';
+                        vizImg2.style.height = '0px';
+
+                    }
                     datavizContainer.hidden = false
                 }
             })

@@ -16,13 +16,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
         pip install -r requirements.txt
-    - name: Analyze .py files
-      run: |
-        pylint $(git ls-files '*.py')
-    - name: Analyze .js files
-      run: |
-        npx eslint "**/*.js"
-    - name: Analyze .css files
-      uses: actions-hub/stylelint@master
-      env:
-        PATTERN: "**/*.css"
+   # - name: Analyze .py files
+   #   run: |
+   #     pylint $(git ls-files '*.py')
+   # - name: Analyze .js files
+   #   run: |
+   #     npx eslint "**/*.js"
+   # - name: Analyze .css files
+   #   uses: actions-hub/stylelint@master
+   #   env:
+   #     PATTERN: "**/*.css"

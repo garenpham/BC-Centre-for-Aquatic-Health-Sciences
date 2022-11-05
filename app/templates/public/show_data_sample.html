@@ -6,11 +6,60 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<style>
+  #sampleDataBtn{
+    background-color: inherit;
+    color:#525252;
+    border-color: #525252;
+  }
+  #sampleDataBtn:hover{
+    color:white;
+    background-color: #525252;
+  }
+  #envDataBtn{
+    background-color: inherit;
+    color: #007500;
+    border-color: #007500;
+  }
+  #envDataBtn:hover{
+    color:white;
+    background-color: #007500;
+  }
+  #hatchDataBtn{
+    background-color: inherit;
+    color: #A3A300;
+    border-color: #A3A300;
+  }
+  #hatchDataBtn:hover{
+    color: white;
+    background-color: #A3A300;
+  }
+</style>
+<script>
+  function sample_btn_touch(){
+    var sampleDataBtn=document.getElementById("sampleDataBtn");
+    sampleDataBtn.style.cssText= "color: white; background-color: #525252;";
+  }
+  function env_btn_touch(){
+    var envDataBtn=document.getElementById("envDataBtn");
+    envDataBtn.setAttribute("style","color: white; background-color: #007500;");
+  }
+  function hatch_btn_touch(){
+    var hatchDataBtn=document.getElementById("hatchDataBtn");
+    hatchDataBtn.setAttribute("style","color: white; background-color: #A3A300;");
+  }
+</script>
 <div class="container ">
   <div class="row">
     <div class="col">
     <h1>Data</h1>
-    <hr>
+    <hr class="mb-lg-4 mb-2" />
+        <form action="/display_data" method="post">
+          <button type="submit" class="btn btn-primary mr-2 mb-2" name="submit_button" value="all_data">All Data</button>
+          <button type="submit" id="sampleDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="sample_data" ontouchstart="sample_btn_touch()">Sample Data</button>
+          <button type="submit" id="envDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="environmental_data" ontouchstart="env_btn_touch()">Environmental Data</button>
+          <button type="submit" id="hatchDataBtn" class="btn btn-primary mr-2 mb-2" name="submit_button" value="hatchery_data" ontouchstart="hatch_btn_touch()">Hatchery Data</button>
+        </form>
         {% with messages = get_flashed_messages(with_categories=true) %}
             <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
             {% if messages %}
@@ -115,12 +164,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <form action="/display_data" method="post">
-              <button type="submit" class="btn btn-primary" name="submit_button" value="all_data">All Data</button>
-              <button type="submit" class="btn btn-primary" name="submit_button" value="sample_data">Sample Data</button>
-              <button type="submit" class="btn btn-primary" name="submit_button" value="environmental_data">Environmental Data</button>
-              <button type="submit" class="btn btn-primary" name="submit_button" value="hatchery_data">Hatchery Data</button>
-            </form>
     </div>
   </div>
 </div>

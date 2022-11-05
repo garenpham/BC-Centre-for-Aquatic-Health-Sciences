@@ -1,78 +1,171 @@
-{% extends "public/templates/public_template.html" %}
-{% block internal_css %}
+{% extends "public/templates/public_template.html" %} {% block internal_css %}
 <style>
-    #loader {margin-top: 5rem;}
+	#loader {
+		margin-top: 5rem;
+	}
 </style>
-{% endblock %}
-{% block title %}Home{% endblock %}
-{% block main %}
+{% endblock %} {% block title %}Visualization{% endblock %} {% block main %}
+<link
+	rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"
+/>
+<link
+	rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+/>
+<script
+	strc="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+></script>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<h1>Visualization</h1>
+			<hr />
 
-<div class="container ">
-    <div class="row">
-        <div class="col">
-            <h1>Visualization</h1>
-            <hr>
+			<div
+				id="dataviz-alert"
+				class="alert alert-info"
+				role="alert"
+				hidden="true"
+			>
+				<span id="alert-message"></span>
+				<button id="alert-hide-button" type="button" class="close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
 
-            <div id="dataviz-alert" class="alert alert-info" role="alert" hidden="true">
-                <span id="alert-message"></span>
-                <button id="alert-hide-button" type="button" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            
-            <form id="filters-form">
-                <div>    
-                    <label for="start-date">Start Date</label>
-                    <input type="date" id="start-date" name="start-date">
+			<form id="filters-form">
+				<div>
+					<label for="start-date">Start Date</label>
+					<input type="date" id="start-date" name="start-date" />
+					<br class="d-lg-none d-block" />
+					<label for="end-date">End Date</label>
+					<input type="date" id="end-date" name="end-date" />
+					<br />
+					<label for="sample-type">Select sample type</label>
+					<select name="sample-type" id="sample-type">
+						<option value="All">All</option>
+						<option value="iofilm">Biofilm</option>
+						<option value="ish">Fish</option>
+						<option value="ater">Water</option>
+					</select>
+					<br class="d-lg-none d-block" />
+					<label for="graph-type">Select graph type</label>
 
-                    <label for="end-date">End Date</label>
-                    <input type="date" id="end-date" name="end-date">
+					<select name="graph-type" id="graph-type" onchange="type_selected()">
+						<option value="relative_abundance">
+							Relative Abundance of Samples
+						</option>
+						<option value="species_abundance_trend">
+							Abundance Trend over Time for Species
+						</option>
+					</select>
+					<br />
+					<label id="slider-label" for="abund-slider"
+						>Minimum relative abundance threshold</label
+					>
+					<input
+						name="abund-slider"
+						id="abund-slider"
+						type="range"
+						min="2"
+						max="100"
+						value="2"
+						class="slider"
+					/>
+					<span id="abund-value"></span>
+					<div
+						id="species-select-dropdown"
+						style="display: none; margin-top: 3px; margin-bottom: 3px"
+					>
+						<label for="species-select" class="form-label"
+							>Select Species (Trend)</label
+						>
+						<select
+							class="form-control selectpicker"
+							name="species-select"
+							id="species-select"
+							multiple
+							data-live-search="true"
+						>
+							{% for i in range(0, species_array_length )%}
+							<option value="{{species_array[i]}}">{{species_array[i]}}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div>
+						<button
+							type="submit"
+							class="btn btn-primary"
+							id="submit-button"
+							name="submit-button"
+							value="submit"
+						>
+							Submit
+						</button>
+					</div>
+				</div>
+			</form>
 
-                    <label for="sample-type">Select sample type</label>
-                    <select name="sample-type" id="sample-type">
-                        <option value="All">All</option>
-                        <option value="iofilm">Biofilm</option>
-                        <option value="ish">Fish</option>
-                        <option value="ater">Water</option>
-                    </select>
-                    <div>
-                        <label for="abund-slider">Minimum relative abundance threshold</label>
-                        <input name="abund-slider" id="abund-slider" type="range" min="2" max="100" value="2" class="slider">
-                        <span id="abund-value"></span>
-                        
-                        <button type="submit" class="btn btn-primary" id="submit-button" name="submit-button" value="submit">Submit</button>
-                    </div>
-                </div>
-            </form>
+			<div class="d-flex justify-content-center">
+				<div class="spinner-border" role="status" id="loader" hidden="true">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
 
-            <div class="d-flex justify-content-center">
-                <div class="spinner-border" role="status" id="loader" hidden="true">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            
-            <div class="row" id="dataviz-container" hidden="true">
-                <div class="column">
-                    <img id="viz1" src="" height="333" width="500">
-                </div>
-                <div class="column">
-                    <img id="viz2" src="" height="333" width="500">
-                </div>
-            </div> 
-
-        </div>
-    </div>
+			<div class="row" id="dataviz-container" hidden="true">
+				<div class="column">
+					<img id="viz1" src="" height="333" width="500" />
+				</div>
+				<div class="column">
+					<img id="viz2" src="" height="333" width="500" />
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-{% endblock %}
-{% block script %}
-<script defer type="text/javascript" charset="utf8" src="{{ url_for('static', filename='js/dataviz_loader.js') }}"></script>
+{% endblock %} {% block script %}
+<script
+	defer
+	type="text/javascript"
+	charset="utf8"
+	src="{{ url_for('static', filename='js/dataviz_loader.js') }}"
+></script>
 <script>
-    const rangeslider = document.getElementById('abund-slider'),
-        output = document.getElementById('abund-value')
-    output.innerHTML = rangeslider.value * 0.005
+	const rangeslider = document.getElementById("abund-slider"),
+		output = document.getElementById("abund-value");
+	output.innerHTML = rangeslider.value * 0.005;
 
-    rangeslider.oninput = () => {
-        output.innerHTML = (rangeslider.value * 0.005).toFixed(3)
-    }
+	rangeslider.oninput = () => {
+		output.innerHTML = (rangeslider.value * 0.005).toFixed(3);
+	};
+	function type_selected() {
+		var graphType = document.getElementById("graph-type");
+		var typeSelected = graphType.options[graphType.selectedIndex].value;
+		if (typeSelected == "relative_abundance") {
+			document
+				.getElementById("species-select-dropdown")
+				.setAttribute("class", "d-none");
+			document
+				.getElementById("abund-slider")
+				.setAttribute("class", "d-inline-block");
+			document
+				.getElementById("abund-value")
+				.setAttribute("class", "d-inline-block");
+			document
+				.getElementById("slider-label")
+				.setAttribute("class", "d-inline-block");
+		} else if (typeSelected == "species_abundance_trend") {
+			document
+				.getElementById("species-select-dropdown")
+				.setAttribute("class", "d-inline-block");
+			document.getElementById("abund-slider").setAttribute("class", "d-none");
+			document.getElementById("slider-label").setAttribute("class", "d-none");
+			document.getElementById("abund-value").setAttribute("class", "d-none");
+		}
+	}
+	window.addEventListener("onload", type_selected());
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
 {% endblock %}
