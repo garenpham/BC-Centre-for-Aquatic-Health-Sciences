@@ -22,7 +22,7 @@ jobs:
    # - name: Analyze .js files
    #   run: |
    #     npx eslint "**/*.js"
-    - name: Analyze .css files
-      uses: actions-hub/stylelint@master
-      env:
-        PATTERN: "**/*.css"
+   # - name: Analyze .css files
+   #   uses: actions-hub/stylelint@master
+   #   env:
+   #     PATTERN: "**/*.css"
