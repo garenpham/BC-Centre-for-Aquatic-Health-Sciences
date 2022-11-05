@@ -19,9 +19,9 @@ jobs:
    # - name: Analyze .py files
    #   run: |
    #     pylint $(git ls-files '*.py')
-    - name: Analyze .js files
-      run: |
-        npx eslint "**/*.js"
+   # - name: Analyze .js files
+   #   run: |
+   #     npx eslint "**/*.js"
     - name: Analyze .css files
       uses: actions-hub/stylelint@master
       env:
