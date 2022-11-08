@@ -6,9 +6,11 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    background: url(../../static/img/login.jpeg) no-repeat center center fixed;
-    background-size: cover;
-    background-position: center 75%;
+    /* background: url(../../static/img/login.jpeg) no-repeat center center fixed;   */
+    /* background-size: cover; */
+    /* background-position: center 75%; */
+    /*  ^ image of salmon background */
+    background-color: black;
     width: 100%;
     font-family: sans-serif;
   }
@@ -24,7 +26,7 @@
     width: 500px;
     height: 400px;
     border-radius: 8px;
-    background-color: rgba(225, 240, 186, 0.7);
+    background-color: rgba(246, 251, 255, 0.9);
     border: 1px black;
     text-align: center;
   }
@@ -48,7 +50,7 @@
   }
 
   input:focus {
-    border: 1px solid #aedff0;
+    border: 1px solid #000000;
   }
 
   p {
@@ -72,10 +74,16 @@
     padding-left: 10px;
   }
 
+  button:hover{
+    opacity: 10;
+    padding: 10px;
+    display: inline-block;
+  }
+
   .registerbtn {
     background-color: white;
     color: black;
-    border: 2px solid #aedff0;
+    border: 2px solid #000000;
     text-decoration: none;
     margin: 10px;
   }
@@ -83,17 +91,16 @@
   .cancelbtn {
     background-color: white;
     color: black;
-    border: 2px solid #aedff0;
+    border: 2px solid #000000;
     text-decoration: none;
     margin: 10px;
   }
 
-  .submitbutton:hover,
+  /* .submitbutton:hover,
   .registerbtn:hover {
-    background-color: #aedff0;
     color: white;
     text-decoration: none;
-  }
+  } */
 
   a {
     text-decoration: none;
@@ -101,9 +108,9 @@
   }
 
   .submitbutton {
-    padding: 1px 12px;
+    padding: 1px 8px;
     color: black;
-    border: 1px solid #dcf1f8;
+    border: 2px solid #000000;
     text-decoration: none;
     margin: 10px;
   }
