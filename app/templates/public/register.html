@@ -1,5 +1,6 @@
 <style>
   @import url('https://fonts.googleapis.com/css?family=Montserrat:600|Noto+Sans|Open+Sans:400,700&display=swap');
+ 
   .container{
     height:100vh;
     align-items: center;
@@ -8,6 +9,7 @@
     background: url(../../static/img/salmon.jpg) no-repeat center center fixed;
     background-size: cover;
     background-position: center;
+    background-color: rgb(0, 0, 0);
     width: 100%;
     font-family: sans-serif;
   } 
@@ -21,13 +23,13 @@
     width: 500px;
     height: 430px;
     border-radius: 8px;
-    background-color: rgba(225, 240, 186, 0.7);
+    background-color: rgba(246, 251, 255, 0.9);
     border: 1px black;
     text-align: center;
   }
 
   h1{
-    margin-bottom: 30px;
+    margin-bottom: 30px;  
   }
   .holder{
     margin: 25px;
@@ -41,16 +43,17 @@
     font-size: 19px;
     border: 1px;
   }
+
  
   input:focus{
     border: 1px solid #aedff0;
   }
   p {
     text-align: center;
-    padding: 5px;
+    padding: 1px;
     
   }
-  button {
+  button{
     transition-duration: 0.4s;
     padding: 6px 10px;
     cursor: pointer;
@@ -58,6 +61,12 @@
     text-decoration: none;
     border-radius: 12px;
     }
+  
+  button:hover{
+    opacity: 10;
+    padding: 10px;
+    display: inline-block;
+  }
 
     .login input{
       padding-left: 10px;
@@ -66,26 +75,27 @@
       padding-left: 10px;
     }
   .registerbtn{
+    display: block;
     background-color: white;
     color: black;
-    border: 2px solid #aedff0;
+    border: 2px solid #000000;
     text-decoration: none;
     margin: 10px;
   }
   .linkbtn{
     background-color: white;
     color: black;
-    border: 2px solid #aedff0;
+    border: 2px solid #000000;
     text-decoration: none;
     margin: 10px;
   }
   .cancelbtn:hover {
-      background-color: #aedff0;
+      background-color: #c0ced3;
       color: white;
       text-decoration: none;
   }
   .registerbtn:hover {
-    background-color: #aedff0;
+    background-color: #0c0c0c;
     color: white;
     text-decoration: none;
   }
@@ -97,9 +107,9 @@
     color: red;
   }
   .submitbutton{
-    padding: 1px 3px;
+    padding: 1px 1px;
     color: black;
-    border: 2px solid #aedff0;
+    border: 2px solid #010101;
     text-decoration: none;
   }
 </style>
