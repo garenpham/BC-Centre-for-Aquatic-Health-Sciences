@@ -276,6 +276,8 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
                     submission_data.date_collected
                     FROM submission_data) t4
                     ON t3.submission_id = t4.submission_id
+                    WHERE date_collected BETWEEN %(start_date)s AND %(end_date)s
+                    AND fraction_total_reads > abundance
                     GROUP BY name, date_collected;
                             """, {
                 "abundance": abundance,
@@ -327,6 +329,8 @@ def get_trend_data(start_date, end_date, sample_type, abundance, species_array):
                     submission_data.date_collected
                     FROM submission_data) t4
                     ON t3.submission_id = t4.submission_id
+                    WHERE date_collected BETWEEN %(start_date)s AND %(end_date)s
+                    AND fraction_total_reads > abundance
                     GROUP BY name, date_collected;
                             """, {
                 "abundance": abundance,
