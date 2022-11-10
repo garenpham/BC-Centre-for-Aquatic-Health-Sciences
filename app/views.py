@@ -13,23 +13,60 @@ from zipfile import ZipFile
 import pandas as pd
 import matplotlib.pyplot as plt
 from werkzeug.utils import secure_filename
-from flask import make_response, request, abort, flash, render_template, session, url_for, \
-    redirect, send_from_directory, jsonify
+from flask import (
+    make_response,
+    request,
+    abort,
+    flash,
+    render_template,
+    session,
+    url_for,
+    redirect,
+    send_from_directory,
+    jsonify,
+)
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, \
-    current_user
+from flask_login import (
+    UserMixin,
+    login_user,
+    LoginManager,
+    login_required,
+    logout_user,
+    current_user,
+)
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 
 from app import app
-from .functions import generate_csv, sanitize_form_data, sanitize_abund_form_data, create_species_list
-from .database_push import upload_database, update_sample_info, update_submission_data, \
-    update_location_data, delete_location_data, delete_sample_data_data, delete_submission_data
-from .database_pull import show_sample_data, show_hatchery_data, show_environmental_data, \
-    get_all_sample_data, get_hatcheries, get_sample_by_sample_id, \
-    get_submission_by_submission_no, get_abund_data, get_trend_data, filter_by_date
+from .functions import (
+    generate_csv,
+    sanitize_form_data,
+    sanitize_abund_form_data,
+    create_species_list,
+)
+from .database_push import (
+    upload_database,
+    update_sample_info,
+    update_submission_data,
+    update_location_data,
+    delete_location_data,
+    delete_sample_data_data,
+    delete_submission_data,
+)
+from .database_pull import (
+    show_sample_data,
+    show_hatchery_data,
+    show_environmental_data,
+    get_all_sample_data,
+    get_hatcheries,
+    get_sample_by_sample_id,
+    get_submission_by_submission_no,
+    get_abund_data,
+    get_trend_data,
+    filter_by_date,
+)
 from .file_metadata import locate_file_metadata, read_file_metadata, write_file_metadata
 from .constants import END_OF_TIME, START_OF_TIME, VIEWS_WHITELIST
 
@@ -46,14 +83,15 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = 'secretkey'  # os.environ['SECRET_KEY']
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SECRET_KEY"] = "secretkey"  # os.environ['SECRET_KEY']
 app.config["ALLOWED_FILE_EXTENSION"] = ["CSV", "HTML", "TXT"]
 app.config["MAX_FILESIZE"] = 100 * 1024 * 1024
 app.config["FILE_UPLOADS"] = os.path.join(cwd, "..", "file_uploads")
 app.config["CLIENT_DOWNLOADS"] = os.path.join(
-    cwd, "..", "file_uploads", "download_folder")
+    cwd, "..", "file_uploads", "download_folder"
+)
 
 
 def is_admin(func):
@@ -63,7 +101,7 @@ def is_admin(func):
 
     @wraps(func)
     def admin_decorator(*args, **kwargs):
-        if not current_user or current_user.role != 'admin':
+        if not current_user or current_user.role != "admin":
             abort(403)
         return func(*args, **kwargs)
 
@@ -90,7 +128,7 @@ class User(db.Model, UserMixin):
 
     # pylint: disable=no-member
     id = db.Column(db.Integer, primary_key=True)
-    
+
     name = db.Column(db.String(20), unique=True, nullable=False)
 
     # pylint: disable=no-member
@@ -101,7 +139,7 @@ class User(db.Model, UserMixin):
 
     # pylint: disable=no-member
     role = db.Column(db.String(20), nullable=True)
-    
+
     date = db.Column(db.String(20), nullable=True)
 
 
@@ -109,27 +147,30 @@ class RegisterForm(FlaskForm):
     """
     A Flask form for handling registration.
     """
-    
-    name = StringField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "name"})
-    
-    username = StringField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "Username"})
 
-    password = PasswordField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "Password"})
+    name = StringField(
+        validators=[InputRequired(), Length(min=4, max=20)],
+        render_kw={"placeholder": "name"},
+    )
+
+    username = StringField(
+        validators=[InputRequired(), Length(min=4, max=20)],
+        render_kw={"placeholder": "Username"},
+    )
+
+    password = PasswordField(
+        validators=[InputRequired(), Length(min=4, max=20)],
+        render_kw={"placeholder": "Password"},
+    )
 
     submit = SubmitField("Register")
 
     @staticmethod
     def validation_username(username):
         """Checks to see if there are existing username"""
-        existing_user_username = User.query.filter_by(
-            username=username.data).first()
+        existing_user_username = User.query.filter_by(username=username.data).first()
         if existing_user_username:
-            raise ValidationError(
-                "Username is already taken. Re-Enter a new username"
-            )
+            raise ValidationError("Username is already taken. Re-Enter a new username")
 
 
 class LoginForm(FlaskForm):
@@ -137,11 +178,15 @@ class LoginForm(FlaskForm):
     A Flask form for handling login.
     """
 
-    username = StringField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "Username"})
+    username = StringField(
+        validators=[InputRequired(), Length(min=4, max=20)],
+        render_kw={"placeholder": "Username"},
+    )
 
-    password = PasswordField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "Password"})
+    password = PasswordField(
+        validators=[InputRequired(), Length(min=4, max=20)],
+        render_kw={"placeholder": "Password"},
+    )
 
     submit = SubmitField("Login")
 
@@ -181,10 +226,10 @@ def login():
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
-                return redirect(request.args.get('/') or url_for("about"))
-            flash('Invalid Username/Password. Please Try again.')
+                return redirect(request.args.get("/") or url_for("about"))
+            flash("Invalid Username/Password. Please Try again.")
         else:
-            flash('User not found.')
+            flash("User not found.")
 
     return render_template("public/login.html", form=form)
 
@@ -208,17 +253,22 @@ def register():
     """
 
     form = RegisterForm()
-    pin = 'CAHS2022'
+    pin = "CAHS2022"
 
     if form.validate_on_submit():
-        text = request.form['text']
+        text = request.form["text"]
         if text.upper() == pin.upper():
             hash_pwd = bcrypt.generate_password_hash(form.password.data)
-            
+
             date = datetime.now()
-            date = date.strftime('%d/%m/%y')
-            
-            new_user = User(name=form.name.data, username=form.username.data, password=hash_pwd, date=date)
+            date = date.strftime("%d/%m/%y")
+
+            new_user = User(
+                name=form.name.data,
+                username=form.username.data,
+                password=hash_pwd,
+                date=date,
+            )
 
             # pylint: disable=no-member
             db.session.add(new_user)
@@ -226,15 +276,16 @@ def register():
             # pylint: disable=no-member
             db.session.commit()
 
-            return redirect(url_for('login'))
+            return redirect(url_for("login"))
 
-        flash('Incorrect PIN, please re-enter')
+        flash("Incorrect PIN, please re-enter")
 
     return render_template("public/register.html", form=form)
 
 
 @app.route("/view_users", methods=["GET", "POST"])
 @login_required
+@is_admin
 def view_users():
     """
     Let the admin see all the users
@@ -250,9 +301,9 @@ def data():
     """
 
     try:
-        csv_data = pd.read_csv(r'app/static/samples/V0190_Barcode24_Abundances.csv',
-                               sep=',',
-                               nrows=10)
+        csv_data = pd.read_csv(
+            r"app/static/samples/V0190_Barcode24_Abundances.csv", sep=",", nrows=10
+        )
     except FileNotFoundError:
         abort(404)
     data_frame = pd.DataFrame(csv_data)
@@ -260,7 +311,9 @@ def data():
     # chart = data_frame.groupby(['Relative abundance (%)', 'Genera']).size().unstack()
     # chart = pd.crosstab(index=data_frame['Relative abundance (%)'], columns=data_frame['Genera'])
     # chart.plot.bar(stacked=True)
-    for genera, abundance in zip(data_frame['Genera'], data_frame['Relative abundance (%)']):
+    for genera, abundance in zip(
+        data_frame["Genera"], data_frame["Relative abundance (%)"]
+    ):
         plt.barh(genera, abundance, 0.75)
     show = plt.show()
 
@@ -299,7 +352,7 @@ def zip_this(directory):
     """
     file = "zipped_filename.zip"  # filename for compressed output
 
-    with ZipFile(file, 'w') as archive:
+    with ZipFile(file, "w") as archive:
         for path, _, files in os.walk(directory):
             for file in files:
                 file_name = os.path.join(path, file)
@@ -307,7 +360,7 @@ def zip_this(directory):
 
     # dont really need this, just to see what we compressed
     print("Contents of the zip file:")
-    with ZipFile(file, 'r') as archive:
+    with ZipFile(file, "r") as archive:
         archive.printdir()
 
 
@@ -330,7 +383,9 @@ def upload_file():
             return redirect(request.url)
 
         if not allow_filesize(request.form["file_size"]):
-            flash("Failed to upload file: File size greater than global limit.", "danger")
+            flash(
+                "Failed to upload file: File size greater than global limit.", "danger"
+            )
             return redirect(request.url)
 
         file = request.files["file"]
@@ -347,7 +402,9 @@ def upload_file():
             sample_id = request.form["sample_id"]
             if not sample_id:
                 flash(
-                    f"Missing Sample ID. Unable to write to directory '{sample_id}'", "danger")
+                    f"Missing Sample ID. Unable to write to directory '{sample_id}'",
+                    "danger",
+                )
                 return redirect(request.url)
 
             file_name = secure_filename(file.filename)
@@ -384,22 +441,25 @@ def upload_file():
             file.save(file_path)
             flash("File saved.", "info")
 
-        write_file_metadata(file_path,
-                            title=request.form.get("document_title"),
-                            description=request.form.get("document_description"))
+        write_file_metadata(
+            file_path,
+            title=request.form.get("document_title"),
+            description=request.form.get("document_description"),
+        )
 
         return redirect(request.url)
 
     list_files = []
     for folder in os.listdir(app.config["FILE_UPLOADS"]):
-        files_contained = os.listdir(os.path.join(
-            app.config["FILE_UPLOADS"], folder))
+        files_contained = os.listdir(os.path.join(app.config["FILE_UPLOADS"], folder))
         list_files.append([folder, files_contained])
 
-    return render_template("public/upload_file.html",
-                           headers=["Sample ID's", "Files"],
-                           data=list_files,
-                           user_role=current_user.role)
+    return render_template(
+        "public/upload_file.html",
+        headers=["Sample ID's", "Files"],
+        data=list_files,
+        user_role=current_user.role,
+    )
 
 
 # class ListStarted():
@@ -432,11 +492,17 @@ def update_environmental_data():
     API endpoint for updating environmental data
     """
     return_message, alert_type = update_submission_data(
-        **sanitize_form_data(request.form))
-    return make_response(jsonify({
-        "message": return_message,
-        "category": alert_type,
-    }), 200)
+        **sanitize_form_data(request.form)
+    )
+    return make_response(
+        jsonify(
+            {
+                "message": return_message,
+                "category": alert_type,
+            }
+        ),
+        200,
+    )
 
 
 @app.route("/update_sample_data", methods=["POST"])
@@ -446,12 +512,16 @@ def update_sample_data():
     """
     API endpoint for updating sample data
     """
-    return_message, alert_type = update_sample_info(
-        **sanitize_form_data(request.form))
-    return make_response(jsonify({
-        "message": return_message,
-        "category": alert_type,
-    }), 200)
+    return_message, alert_type = update_sample_info(**sanitize_form_data(request.form))
+    return make_response(
+        jsonify(
+            {
+                "message": return_message,
+                "category": alert_type,
+            }
+        ),
+        200,
+    )
 
 
 @app.route("/update_hatchery_data", methods=["POST"])
@@ -462,10 +532,15 @@ def update_hatchery_data():
     API endpoint for updating hatchery data
     """
     return_message, alert_type = update_location_data(**request.form)
-    return make_response(jsonify({
-        "message": return_message,
-        "category": alert_type,
-    }), 200)
+    return make_response(
+        jsonify(
+            {
+                "message": return_message,
+                "category": alert_type,
+            }
+        ),
+        200,
+    )
 
 
 @app.route("/sample_data/<sample_id>")
@@ -479,18 +554,23 @@ def get_sample_data(sample_id):
     if not sample_data:
         return make_response(f"No sample data found for '{sample_id}'", 404)
 
-    sample_data = dict(zip([
-        "sampleId",
-        "submissionNo",
-        "sampleType",
-        "sampleLocation",
-        "fishWeight",
-        "fishLength",
-        "biofilmMaterial",
-        "waterDateFiltered",
-        "waterVolFiltered",
-        "waterTimeToFilter",
-    ], sample_data[0]))
+    sample_data = dict(
+        zip(
+            [
+                "sampleId",
+                "submissionNo",
+                "sampleType",
+                "sampleLocation",
+                "fishWeight",
+                "fishLength",
+                "biofilmMaterial",
+                "waterDateFiltered",
+                "waterVolFiltered",
+                "waterTimeToFilter",
+            ],
+            sample_data[0],
+        )
+    )
     return make_response(jsonify(sample_data), 200)
 
 
@@ -505,19 +585,24 @@ def get_environmental_data(submission_no):
     if not sample_data:
         return make_response(f"No environmental data found for '{submission_no}'", 404)
 
-    sample_data = dict(zip([
-        "submissionNo",
-        "samplers",
-        "waterTemperature",
-        "oxygen",
-        "saturation",
-        "fishSwabs",
-        "biofilmSwabs",
-        "waterSamples",
-        "waterVolPerSample",
-        "hatcheryId",
-        "dateCollected",
-    ], sample_data[0]))
+    sample_data = dict(
+        zip(
+            [
+                "submissionNo",
+                "samplers",
+                "waterTemperature",
+                "oxygen",
+                "saturation",
+                "fishSwabs",
+                "biofilmSwabs",
+                "waterSamples",
+                "waterVolPerSample",
+                "hatcheryId",
+                "dateCollected",
+            ],
+            sample_data[0],
+        )
+    )
     return make_response(jsonify(sample_data), 200)
 
 
@@ -539,136 +624,168 @@ def show_metadata():
         session["data_view"] = "master_sample_data_view"
         # print(header_data, database_data)
         # database_data, header_data = show_location_data()
-        return render_template("public/show_data.html",
-                               headers=header_data,
-                               data=database_data,
-                               user_role=role)
+        return render_template(
+            "public/show_data.html",
+            headers=header_data,
+            data=database_data,
+            user_role=role,
+        )
 
     if request.method == "POST":
         # for the different tabs
-        
+
         database_data, header_data = get_all_sample_data()
         session["database_data"] = database_data
         session["database_headers"] = header_data
         session["data_view"] = "master_sample_data_view"
-        
-        if request.form.get('submit_button') == "all_data":
+
+        if request.form.get("submit_button") == "all_data":
             database_data, header_data = get_all_sample_data()
             session["database_data"] = database_data
             session["database_headers"] = header_data
-            return render_template("public/show_data.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role)
-        if request.form.get('submit_button') == "sample_data":
+            return render_template(
+                "public/show_data.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+            )
+        if request.form.get("submit_button") == "sample_data":
             database_data, header_data = show_sample_data()
             session["database_data"] = database_data
             session["database_headers"] = header_data
-            return render_template("public/show_data_sample.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role)
-        if request.form.get('submit_button') == "environmental_data":
+            return render_template(
+                "public/show_data_sample.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+            )
+        if request.form.get("submit_button") == "environmental_data":
             database_data, header_data = show_environmental_data()
             session["database_data"] = database_data
             session["database_headers"] = header_data
-            return render_template("public/show_data_environmental.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role)
-        if request.form.get('submit_button') == "hatchery_data":
+            return render_template(
+                "public/show_data_environmental.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+            )
+        if request.form.get("submit_button") == "hatchery_data":
             database_data, header_data = show_hatchery_data()
             session["database_data"] = database_data
             session["database_headers"] = header_data
-            return render_template("public/show_data_hatchery.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role)
+            return render_template(
+                "public/show_data_hatchery.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+            )
 
         # Below is for the delete button
         # location data
-        if (request.form.get('submit_button') == "submit_delete_location"
-                and current_user.role == "admin"):
-            primary_key = request.form.get('location_id')
+        if (
+            request.form.get("submit_button") == "submit_delete_location"
+            and current_user.role == "admin"
+        ):
+            primary_key = request.form.get("location_id")
             return_message, alert_type = delete_location_data(primary_key)
             flash(return_message, alert_type)
             database_data, header_data = show_hatchery_data()
-            return render_template("public/show_data_hatchery.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role)
+            return render_template(
+                "public/show_data_hatchery.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+            )
         # submission data
-        if (request.form.get('submit_button') == "submit_delete_submission_data"
-                and current_user.role == "admin"):
-            print('delete triggered')
-            primary_key = request.form.get('sample_id')
+        if (
+            request.form.get("submit_button") == "submit_delete_submission_data"
+            and current_user.role == "admin"
+        ):
+            print("delete triggered")
+            primary_key = request.form.get("sample_id")
             return_message, alert_type = delete_submission_data(primary_key)
             flash(return_message, alert_type)
             database_data, header_data = show_environmental_data()
-            return render_template("public/show_data_environmental.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role)
+            return render_template(
+                "public/show_data_environmental.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+            )
         # sample data
-        if (request.form.get('submit_button') == "submit_delete_sample_data"
-                and current_user.role == "admin"):
-            print('delete triggered')
-            primary_key = request.form.get('sample_id')
+        if (
+            request.form.get("submit_button") == "submit_delete_sample_data"
+            and current_user.role == "admin"
+        ):
+            print("delete triggered")
+            primary_key = request.form.get("sample_id")
             return_message, alert_type = delete_sample_data_data(primary_key)
             # This removes the folder as well on delete
             try:
-                file_name_joined = os.path.join(
-                    app.config['FILE_UPLOADS'], primary_key)
+                file_name_joined = os.path.join(app.config["FILE_UPLOADS"], primary_key)
                 shutil.rmtree(file_name_joined)
                 print(f"{primary_key} removed successfully")
-                return redirect(url_for('downloads'))
+                return redirect(url_for("downloads"))
             except OSError as error:
                 print(error)
                 print("File path can not be removed")
             flash(return_message, alert_type)
             database_data, header_data = show_sample_data()
-            return render_template("public/show_data_sample.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role)
+            return render_template(
+                "public/show_data_sample.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+            )
 
         # Download current selection
-        if request.form.get('submit_button') == "submit_download":
-            return app.response_class(generate_csv(session["database_data"],
-                                                   session["database_headers"]),
-                                      mimetype='text/csv')
+        if request.form.get("submit_button") == "submit_download":
+            return app.response_class(
+                generate_csv(session["database_data"], session["database_headers"]),
+                mimetype="text/csv",
+            )
         # Download single row of data
-        if request.form.get('submit_button') == "submit_downloadSample ID":
-            download_data, download_header_data = get_all_sample_data(
-                primary_key)
-            return app.response_class(generate_csv(download_data, download_header_data),
-                                      mimetype='text/csv')
+        if request.form.get("submit_button") == "submit_downloadSample ID":
+            download_data, download_header_data = get_all_sample_data(primary_key)
+            return app.response_class(
+                generate_csv(download_data, download_header_data), mimetype="text/csv"
+            )
         # Filter Selection
-        if request.form.get('submit_button') == "submit_filter":
-            print('filtering')
+        if request.form.get("submit_button") == "submit_filter":
+            print("filtering")
             if session["data_view"] not in VIEWS_WHITELIST:
-                flash(
-                    f"The view '{session['data_view']}' was not found.", "danger")
+                flash(f"The view '{session['data_view']}' was not found.", "danger")
                 database_data, header_data = get_all_sample_data()
                 session["database_data"] = database_data
                 session["database_headers"] = header_data
-                return render_template("public/show_data.html",
-                                       headers=header_data,
-                                       data=database_data,
-                                       user_role=role)
+                return render_template(
+                    "public/show_data.html",
+                    headers=header_data,
+                    data=database_data,
+                    user_role=role,
+                )
 
-            start_date = request.form.get('start-date') if request.form.get('start-date') \
+            start_date = (
+                request.form.get("start-date")
+                if request.form.get("start-date")
                 else START_OF_TIME
-            end_date = request.form.get('end-date') if request.form.get('end-date') \
+            )
+            end_date = (
+                request.form.get("end-date")
+                if request.form.get("end-date")
                 else END_OF_TIME
-            database_data, header_data = filter_by_date(session["data_view"],
-                                                        start_date, end_date)
+            )
+            database_data, header_data = filter_by_date(
+                session["data_view"], start_date, end_date
+            )
             session["database_data"] = database_data
-            return render_template("public/show_data.html",
-                                   headers=header_data,
-                                   data=database_data,
-                                   user_role=role,
-                                   filter=f"{start_date} to {end_date}")
+            return render_template(
+                "public/show_data.html",
+                headers=header_data,
+                data=database_data,
+                user_role=role,
+                filter=f"{start_date} to {end_date}",
+            )
     return None
 
 
@@ -683,9 +800,11 @@ def downloads():
     if request.method == "POST":
         file_name = request.form.get("file_name")
         file_path = os.path.join(app.config["CLIENT_DOWNLOADS"], file_name)
-        write_file_metadata(file_path,
-                            title=request.form.get("document_title"),
-                            description=request.form.get("document_description"))
+        write_file_metadata(
+            file_path,
+            title=request.form.get("document_title"),
+            description=request.form.get("document_description"),
+        )
         flash(f"The file '{file_name}' was updated successfully.", "info")
         return redirect(request.url)
 
@@ -709,9 +828,8 @@ def download_file(file_name):
 
     try:
         return send_from_directory(
-            directory=app.config["CLIENT_DOWNLOADS"],
-            path=file_name,
-            as_attachment=True)
+            directory=app.config["CLIENT_DOWNLOADS"], path=file_name, as_attachment=True
+        )
     except FileNotFoundError:
         abort(404)
         return None
@@ -727,7 +845,7 @@ def delete_file(file_name):
     original downloads route.
     """
     try:
-        file_path = os.path.join(app.config['CLIENT_DOWNLOADS'], file_name)
+        file_path = os.path.join(app.config["CLIENT_DOWNLOADS"], file_name)
         os.remove(file_path)
 
         meta_path = locate_file_metadata(file_path)
@@ -740,7 +858,6 @@ def delete_file(file_name):
         return redirect(url_for("downloads"))
 
 
-
 @app.route("/visualization", methods=["GET"])
 @login_required
 def visualization_page():
@@ -748,8 +865,11 @@ def visualization_page():
     Displays the data visualization page.
     """
     species_name_list = create_species_list()
-    return render_template("public/visualization.html", species_array=species_name_list, species_array_length = len(species_name_list))
-
+    return render_template(
+        "public/visualization.html",
+        species_array=species_name_list,
+        species_array_length=len(species_name_list),
+    )
 
 
 @app.route("/abund-graph", methods=["POST"])
@@ -760,22 +880,21 @@ def show_abund_graph():
     """
     current_working_dir = os.getcwd()
     form_data = sanitize_abund_form_data(request.form)
-    start_date = form_data['start-date']
-    end_date = form_data['end-date']
-    sample_type = form_data['sample-type']
-    abundance = int(form_data['abund-slider']) * 0.005
-    graph_type = form_data['graph-type']
+    start_date = form_data["start-date"]
+    end_date = form_data["end-date"]
+    sample_type = form_data["sample-type"]
+    abundance = int(form_data["abund-slider"]) * 0.005
+    graph_type = form_data["graph-type"]
     print(graph_type, form_data)
-    if graph_type == 'species_abundance_trend':
+    if graph_type == "species_abundance_trend":
         try:
-            species_array = form_data['species-select']
+            species_array = form_data["species-select"]
         except:
             species_array = []
 
-    if graph_type == 'relative_abundance':
-        abund_data_result = get_abund_data(
-            start_date, end_date, sample_type, abundance)
-        #print(abund_data_result)
+    if graph_type == "relative_abundance":
+        abund_data_result = get_abund_data(start_date, end_date, sample_type, abundance)
+        # print(abund_data_result)
         if not abund_data_result:
             return make_response(jsonify({"message": "Empty"}), 200)
         with open("app/r/rel_abund_long.csv", encoding="utf-8", mode="w") as csv_file:
@@ -783,27 +902,37 @@ def show_abund_graph():
             csv_writer.writerow(["sample_ID", "genus", "value", "date"])
             csv_writer.writerows(abund_data_result)
         try:
-            print("================================Running r script.================================")
-            subprocess.run(["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"],
-                        check=True)
+            print(
+                "================================Running r script.================================"
+            )
+            subprocess.run(
+                ["Rscript", f"{current_working_dir}/app/r/abund_graphs.R"], check=True
+            )
         except subprocess.CalledProcessError:
             print("R script error.")
             return make_response(jsonify({"message": "Error"}), 500)
 
-        return make_response(jsonify({
-            "message": "OK",
-            "type": "relative_abundance",
-            "viz1": "data_abund_separate.png",
-            "viz2": "data_abund_grouped.png"
-        }), 200)
-    elif graph_type == 'species_abundance_trend':
+        return make_response(
+            jsonify(
+                {
+                    "message": "OK",
+                    "type": "relative_abundance",
+                    "viz1": "data_abund_separate.png",
+                    "viz2": "data_abund_grouped.png",
+                }
+            ),
+            200,
+        )
+    elif graph_type == "species_abundance_trend":
         if isinstance(species_array, str):
             species_array = [species_array]
         if not len(species_array) > 0:
             species_array == []
-        #print('Species Array:', species_array)
-        trend_data_result = get_trend_data(start_date, end_date, sample_type, abundance, species_array)
-        #for species in trend_data_result:
+        # print('Species Array:', species_array)
+        trend_data_result = get_trend_data(
+            start_date, end_date, sample_type, abundance, species_array
+        )
+        # for species in trend_data_result:
         #    print(species)
         if not trend_data_result:
             return make_response(jsonify({"message": "Empty"}), 200)
@@ -813,15 +942,23 @@ def show_abund_graph():
             csv_writer.writerows(trend_data_result)
 
         try:
-            print("================================Running R script.================================")
-            subprocess.run(["Rscript", f"{current_working_dir}/app/r/trend_graphs.R"],
-                        check=True)
+            print(
+                "================================Running R script.================================"
+            )
+            subprocess.run(
+                ["Rscript", f"{current_working_dir}/app/r/trend_graphs.R"], check=True
+            )
         except subprocess.CalledProcessError:
             return make_response(jsonify({"message": "Error"}), 500)
 
-        return make_response(jsonify({
-            "message": "OK",
-            "type": "species_abundance_trend",
-            "viz1": "trend_data.png",
-            "viz2": "trend_data.png"
-        }), 200)
+        return make_response(
+            jsonify(
+                {
+                    "message": "OK",
+                    "type": "species_abundance_trend",
+                    "viz1": "trend_data.png",
+                    "viz2": "trend_data.png",
+                }
+            ),
+            200,
+        )

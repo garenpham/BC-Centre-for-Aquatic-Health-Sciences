@@ -38,10 +38,10 @@
 				<div>
 					<label for="start-date">Start Date</label>
 					<input type="date" id="start-date" name="start-date" />
-
+					<br class="d-lg-none d-block" />
 					<label for="end-date">End Date</label>
 					<input type="date" id="end-date" name="end-date" />
-
+					<br />
 					<label for="sample-type">Select sample type</label>
 					<select name="sample-type" id="sample-type">
 						<option value="All">All</option>
@@ -49,9 +49,10 @@
 						<option value="ish">Fish</option>
 						<option value="ater">Water</option>
 					</select>
+					<br class="d-lg-none d-block" />
+					<label for="graph-type">Select graph type</label>
 
-					<label for="graph-type">Select sample type</label>
-					<select name="graph-type" id="graph-type">
+					<select name="graph-type" id="graph-type" onchange="type_selected()">
 						<option value="relative_abundance">
 							Relative Abundance of Samples
 						</option>
@@ -59,8 +60,10 @@
 							Abundance Trend over Time for Species
 						</option>
 					</select>
-
-					<label for="abund-slider">Minimum relative abundance threshold</label>
+					<br />
+					<label id="slider-label" for="abund-slider"
+						>Minimum relative abundance threshold</label
+					>
 					<input
 						name="abund-slider"
 						id="abund-slider"
@@ -71,7 +74,10 @@
 						class="slider"
 					/>
 					<span id="abund-value"></span>
-					<div style="margin-top: 3px; margin-bottom: 3px">
+					<div
+						id="species-select-dropdown"
+						style="display: none; margin-top: 3px; margin-bottom: 3px"
+					>
 						<label for="species-select" class="form-label"
 							>Select Species (Trend)</label
 						>
@@ -133,6 +139,32 @@
 	rangeslider.oninput = () => {
 		output.innerHTML = (rangeslider.value * 0.005).toFixed(3);
 	};
+	function type_selected() {
+		var graphType = document.getElementById("graph-type");
+		var typeSelected = graphType.options[graphType.selectedIndex].value;
+		if (typeSelected == "relative_abundance") {
+			document
+				.getElementById("species-select-dropdown")
+				.setAttribute("class", "d-none");
+			document
+				.getElementById("abund-slider")
+				.setAttribute("class", "d-inline-block");
+			document
+				.getElementById("abund-value")
+				.setAttribute("class", "d-inline-block");
+			document
+				.getElementById("slider-label")
+				.setAttribute("class", "d-inline-block");
+		} else if (typeSelected == "species_abundance_trend") {
+			document
+				.getElementById("species-select-dropdown")
+				.setAttribute("class", "d-inline-block");
+			document.getElementById("abund-slider").setAttribute("class", "d-none");
+			document.getElementById("slider-label").setAttribute("class", "d-none");
+			document.getElementById("abund-value").setAttribute("class", "d-none");
+		}
+	}
+	window.addEventListener("onload", type_selected());
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>

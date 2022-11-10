@@ -62,10 +62,13 @@ def write_file_metadata(file_path, title, description):
     :param description: a string denoting the file description
     """
 
-    meta_buffer = json.dumps({
-        "title": title,
-        "description": description,
-    }, separators=(",", ":"))
+    meta_buffer = json.dumps(
+        {
+            "title": title,
+            "description": description,
+        },
+        separators=(",", ":"),
+    )
 
     meta_path = locate_file_metadata(file_path)
     with open(meta_path, mode="w", encoding="utf-8") as meta_file:
