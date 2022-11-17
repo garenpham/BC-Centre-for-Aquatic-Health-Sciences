@@ -37,7 +37,11 @@ jobs:
         script_stop: true
         script: |
           cd dist
-          ./setup.sh
+          
+          # This perl command will convert the file to Unix (LF) from Windows (CRLF)
+          perl -pe 's/\r$//g' < setup.sh > setup.sh
+          
+          sudo bash ./setup.sh          
           sudo Rscript app/r/setup.R
           sudo systemctl restart app
           systemctl status app
