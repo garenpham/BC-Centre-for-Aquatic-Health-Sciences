@@ -1,31 +1,67 @@
 <style>
-	table,
-	th,
-	td {
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
+    table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+    th {
+        background-color: #1a98c6;
+        color: #ffffff;
+        text-align: left;
+        column-width: 200px;
+    }
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 12px 15px;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    tbody tr:nth-of-type(even) {
+        background-color: #8fbdcc;
+    }
+
+    tbody tr:last-of-type {
+        border-bottom: 2px solid #000000;
+    }
+
 </style>
 
-{% extends "public/templates/public_template.html" %} {% block title %} View
-Users {% endblock %} {% block main %}
-<body>
-	<table>
-		<tr>
-			<th>id</th>
-			<th>username</th>
-			<th>name</th>
-			<th>date</th>
-		</tr>
+{% extends "public/templates/public_template.html" %}
+{% block main %}
+<html>
+    <title>
+        View Users
+    </title>
 
-		{%for user in users%}
-		<tr>
-			<td>{{user.id}}</td>
-			<td>{{user.username}}</td>
-			<td>{{user.name}}</td>
-			<td>{{user.date}}</td>
-		</tr>
-		{%endfor%}
-	</table>
-</body>
+    <body>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>role</th>
+                <th>date</th>
+            </tr>
+
+                {%for user in users%}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.role}}</td>
+                    <td>{{user.date}}</td>
+                </tr>
+                {%endfor%}
+
+        </table>
+    </body>
+
+</html>
 {% endblock %}
