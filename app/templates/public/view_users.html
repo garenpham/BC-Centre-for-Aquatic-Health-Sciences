@@ -36,18 +36,14 @@
 </style>
 
 {% extends "public/templates/public_template.html" %}
+{% block title %} View Users {% endblock %} 
 {% block main %}
-<html>
-    <title>
-        View Users
-    </title>
-
     <body>
         <table>
             <tr>
                 <th>id</th>
+                <th>username</th>
                 <th>name</th>
-                <th>role</th>
                 <th>date</th>
             </tr>
 
@@ -55,13 +51,12 @@
                 <tr>
                     <td>{{user.id}}</td>
                     <td>{{user.username}}</td>
-                    <td>{{user.role}}</td>
-                    <td>{{user.date}}</td>
+			        <td>{{user.name}}</td>
+			        <td>{{user.date}}</td>
                 </tr>
                 {%endfor%}
 
         </table>
     </body>
 
-</html>
 {% endblock %}
