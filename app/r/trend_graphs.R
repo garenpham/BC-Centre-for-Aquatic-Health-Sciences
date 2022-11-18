@@ -15,7 +15,7 @@ specify_decimal <- function(x, k) trimws(format(round(x, k), nsmall = k))
 png(filename = "app/static/img/trend_data.png",
   width = 1280, height = 720, units = "px")
 data %>%
-  tail(100) %>%
+  tail(10000) %>%
   ggplot(aes(x = date_collected, y = fraction_total_reads, color = name)) +
   xlab(str_glue("Daterange \n {data$date_collected[1]} to {data$date_collected[nrow(data)]}")) + ylab("Relative Abundance") +
     geom_line() +
