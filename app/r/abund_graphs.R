@@ -36,9 +36,10 @@ ggplot(rel_abund_long, aes(x = sample_ID, y = value, fill = genus)) +
         legend.title = element_blank(),
         legend.key.size = unit(10, "pt"),
         axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  ggtitle("Relative Abundance of Separate Samples") +
   scale_fill_manual(values = colors)
 
-ggsave(filename="data_abund_separate.png", path="app/static/img/", device="png", width=9, height=4)
+ggsave(filename="data_abund_separate.png", path="app/static/img/", device="png", width=13.33, height=7.5)
 
 #Abundance graph grouped (NOTE = colors won't work unless < 46 samples)
 ggplot(rel_abund_long, aes(x = sample_ID, y = value, fill = genus)) + 
@@ -57,6 +58,7 @@ ggplot(rel_abund_long, aes(x = sample_ID, y = value, fill = genus)) +
         strip.background = element_blank(),
         strip.text.x = element_text(angle = 80),
         strip.placement = "outside") +
+  ggtitle("Relative Abundance of Grouped Samples") +
   scale_fill_manual(values = colors)
 
-ggsave(filename="data_abund_grouped.png", path="app/static/img/", device="png", width=6, height=4)
+ggsave(filename="data_abund_grouped.png", path="app/static/img/", device="png", width=13.33, height=7.5)
