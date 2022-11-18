@@ -22,7 +22,7 @@ data %>%
     geom_point() +
     geom_text(
     data = . %>% filter(fraction_total_reads %in% data$fraction_total_reads),
-    aes(label = sprintf("%0.3f%%", fraction_total_reads * 100)),
+    aes(label = sprintf("%0.7f%%", fraction_total_reads * 100)),
     vjust = "inward", hjust = "inward",
     show.legend = FALSE) +
     ggtitle("Relative Abundance Graph (Species/Date range)")
