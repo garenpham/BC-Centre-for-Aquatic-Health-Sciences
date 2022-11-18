@@ -22,8 +22,8 @@ def upload_database(file_name, sample_id):
         # constraint: sample_data rows must have corresponding entries in sample_info table
         cursor.execute(
             """
-            SELECT `Sample ID` FROM sample_info
-            WHERE `Sample ID` LIKE %(sample_id)s;
+            SELECT `sample_id` FROM sample_info
+            WHERE `sample_id` LIKE %(sample_id)s;
         """,
             {"sample_id": sample_id},
         )
@@ -36,8 +36,8 @@ def upload_database(file_name, sample_id):
         # delete preexisting bracken report data
         cursor.execute(
             """
-            SELECT `Sample ID` FROM sample_data
-            WHERE `Sample ID` LIKE %(sample_id)s;
+            SELECT `sample_id` FROM sample_data
+            WHERE `sample_id` LIKE %(sample_id)s;
         """,
             {"sample_id": sample_id},
         )
@@ -45,7 +45,7 @@ def upload_database(file_name, sample_id):
             cursor.execute(
                 """
                 DELETE FROM sample_data
-                WHERE `Sample ID` LIKE %(sample_id)s;
+                WHERE `sample_id` LIKE %(sample_id)s;
             """,
                 {"sample_id": sample_id},
             )
@@ -59,7 +59,7 @@ def upload_database(file_name, sample_id):
             IGNORE 1 LINES (
                 `name`, `taxonomy_id`, `taxonomy_lvl`, `kraken_assigned_reads`,
                 `added_reads`, `new_est_reads`, `fraction_total_reads`
-            ) SET `Sample ID` = %(sample_id)s;
+            ) SET `sample_id` = %(sample_id)s;
         """,
             {
                 "file_path": file_path,
@@ -105,16 +105,16 @@ def update_sample_info(
     )
     try:
         cursor.execute(
-            "SELECT `Sample ID` FROM sample_info WHERE `Sample ID` LIKE %(sample_id)s;",
+            "SELECT `sample_id` FROM sample_info WHERE `sample_id` LIKE %(sample_id)s;",
             {"sample_id": sample_id},
         )
         number_rows = cursor.rowcount
         if number_rows == 0:
             sample_info = (
-                "INSERT INTO sample_info (`Sample ID`, `CAHS Submission Number`, `Sample Type`, "
-                "`Sample location`, `Fish Weight (g)`, `Fish Length (mm)`, "
-                "`Material Swabbed for Biofilm`, `Date Filtered`, `Volume Filtered (mL)`, "
-                "`Time to Filter (h:mm:ss)`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                "INSERT INTO sample_info (`sample_id`, `submission_id`, `sample_type`, "
+                "`sample_location`, `fish_weight_g`, `fish_length_mm`, "
+                "`biofilm_swab_mat`, `date_filtered`, `volume_filtered_ml`, "
+                "`fiter_time`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             )
             cursor.execute(
                 sample_info,
@@ -136,11 +136,11 @@ def update_sample_info(
             alert_type = "success"
         else:
             update_query = (
-                "UPDATE sample_info SET `CAHS Submission Number` = %s, `Sample Type` = %s, "
-                "`Sample location` = %s, `Fish Weight (g)` = %s, `Fish Length (mm)` = %s, "
-                "`Material Swabbed for Biofilm` = %s, `Date Filtered` = %s, "
-                "`Volume Filtered (mL)` = %s, `Time to Filter (h:mm:ss)` = %s "
-                "WHERE `Sample ID` = %s "
+                "UPDATE sample_info SET `submission_id` = %s, `sample_type` = %s, "
+                "`sample_location` = %s, `fish_weight_g` = %s, `fish_length_mm` = %s, "
+                "`biofilm_swab_mat` = %s, `date_filtered` = %s, "
+                "`volume_filtered_ml` = %s, `fiter_time` = %s "
+                "WHERE `sample_id` = %s "
             )
             print(update_query)
             cursor.execute(
@@ -187,17 +187,17 @@ def update_submission_data(
     database, cursor = initialize_database_cursor()
     try:
         cursor.execute(
-            "SELECT `CAHS Submission Number` FROM submission_data WHERE `CAHS Submission Number` "
+            "SELECT `submission_id` FROM submission_data WHERE `CAHS Submission Number` "
             "LIKE %(CAHS_Submission_Number)s;",
             {"CAHS_Submission_Number": CAHS_Submission_Number_submission_data},
         )
         number_rows = cursor.rowcount
         if number_rows == 0:
             submission_info = (
-                "INSERT INTO submission_data (`CAHS Submission Number`, `Samplers`, "
-                "`Water Temperature (c)`, `Oxygen (mg/L)`, `Saturation (%)`, `# Fish Swabs`, "
-                "`# Biofilm Swabs`, `# Water Samples Collected`, `Vol Water collected (mL)`, "
-                "`location_id`, `Date Collected`) "
+                "INSERT INTO submission_data (`submission_id`, `samplers`, "
+                "`water_temp_c`, `oxygen`, `saturation_percent`, `num_fish_swabs`, "
+                "`num_biofilm_swabs`, `num_water_samples`, `volume_collected_ml`, "
+                "`location_id`, `date_collected`) "
                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             )
             cursor.execute(
@@ -223,11 +223,11 @@ def update_submission_data(
             alert_type = "success"
         else:
             update_submission_info = (
-                "UPDATE submission_data SET `CAHS Submission Number` = %s, `Samplers` = %s, "
-                "`Water Temperature (c)` = %s, `Oxygen (mg/L)` = %s, `Saturation (%)` = %s, "
-                "`# Fish Swabs` = %s, `# Biofilm Swabs` = %s, `# Water Samples Collected` = %s, "
-                "`Vol Water collected (mL)` = %s, `location_id` = %s, "
-                "`Date Collected` = %s WHERE `CAHS Submission Number` = %s "
+                "UPDATE submission_data SET `submission_id` = %s, `samplers` = %s, "
+                "`water_temp_c` = %s, `oxygen` = %s, `saturation_percent` = %s, "
+                "`num_fish_swabs` = %s, `num_biofilm_swabs` = %s, `num_water_samples` = %s, "
+                "`volume_collected_ml` = %s, `location_id` = %s, "
+                "`date_collected` = %s WHERE `submission_id` = %s "
             )
             cursor.execute(
                 update_submission_info,
@@ -345,11 +345,11 @@ def delete_sample_data_data(sample_id):
     database, cursor = initialize_database_cursor()
     try:
         cursor.execute(
-            "DELETE FROM sample_data WHERE `Sample ID` = %(sample_id)s;",
+            "DELETE FROM sample_data WHERE `sample_id` = %(sample_id)s;",
             {"sample_id": sample_id},
         )
         cursor.execute(
-            "DELETE FROM sample_info WHERE `Sample ID` = %(sample_id)s;",
+            "DELETE FROM sample_info WHERE `sample_id` = %(sample_id)s;",
             {"sample_id": sample_id},
         )
         database.commit()
@@ -368,13 +368,14 @@ def delete_submission_data(CAHS_Submission_Number):
     try:
         cursor.execute(
             "DELETE FROM sample_info "
-            "WHERE `CAHS Submission Number` = %(CAHS_Submission_Number)s;",
+            "WHERE `submission_id` = %(CAHS_Submission_Number)s;",
             {"CAHS_Submission_Number": CAHS_Submission_Number},
         )
         cursor.execute(
             "DELETE FROM submission_data "
-            "WHERE `CAHS Submission Number` = %(CAHS_Submission_Number)s;",
+            "WHERE `submission_id` = %(CAHS_Submission_Number)s;",
             {"CAHS_Submission_Number": CAHS_Submission_Number},
+            
         )
         database.commit()
         database_error = f"Deleted CAHS Submission Number: {CAHS_Submission_Number}"
