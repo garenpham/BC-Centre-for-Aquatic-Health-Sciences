@@ -43,10 +43,10 @@ filtersForm.onsubmit = event => {
                 } else {
                     vizImg1.setAttribute('src', '../static/img/' + data.viz1 + '?' + new Date().valueOf())
                     vizImg2.setAttribute('src', '../static/img/' + data.viz2 + '?' + new Date().valueOf())
-                    vizImg1.style.width = '480px';
-                    vizImg2.style.width = '480px';
-                    vizImg1.style.height = '480px';
-                    vizImg2.style.height = '480px';
+                    vizImg1.style.width = '1280px';
+                    vizImg2.style.width = '1280px';
+                    vizImg1.style.height = '720px';
+                    vizImg2.style.height = '720px';
                     if (data['type'] == "species_abundance_trend") {
                         vizImg1.style.width = '1280px';
                         vizImg2.style.width = '0px';
@@ -54,6 +54,11 @@ filtersForm.onsubmit = event => {
                         vizImg2.style.height = '0px';
 
                     }
+                    else {
+                        vizImg2.style.border = "solid black 1px"
+
+                    }
+                    vizImg1.style.border = "solid black 1px"
                     datavizContainer.hidden = false
                 }
             })
